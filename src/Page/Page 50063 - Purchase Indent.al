@@ -31,7 +31,7 @@ page 50063
             field(Purpose; Rec.Purpose)
             {
                 ApplicationArea = all;
-                OptionCaption = '" ,Project,Maintenance,Production,Quality Control,Research and Devolopment,Electrical,Instrument,Civil,Stationary,Upgradation"';
+                // OptionCaption = '" ,Project,Maintenance,Production,Quality Control,Research and Devolopment,Electrical,Instrument,Civil,Stationary,Upgradation"';
             }
             field("Material category"; Rec."Material category")
             {
@@ -55,6 +55,10 @@ page 50063
             field("Job Maintenance No."; Rec."Job Maintenance No.")
             {
                 ApplicationArea = all;
+            }
+            field("Type of Indent"; Rec."Type of Indent")
+            {
+                ApplicationArea = All;
             }
             field(Status; Rec.Status)
             {

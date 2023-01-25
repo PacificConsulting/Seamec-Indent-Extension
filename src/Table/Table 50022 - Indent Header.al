@@ -72,10 +72,15 @@ table 50022 "Indent Header"
             OptionCaption = '" ,Engineering,Raw Materials,Lab Equipment,Lab Chemicals,Packing Material,Safety,Production,Information Technology,Bldg. No1,Bldg No.2,Bldg No.3,QA,Warehouse,SRP,ETP & MEE,Utility,Formulation,Stationary,API block,Warehouse Block,Administration,QC & QA,UG water Storage Tank,UG solvent storage Tank farm,Intermediate Block,Hydrogenation Block,Utility Block-1,Utility Block-2,Distillation block,Road drainages & compound wall,EHS,Transformer yard,Security Cabin"';
             OptionMembers = " ",Engineering,"Raw Materials","Lab Equipment","Lab Chemicals","Packing Material",Safety,Production,"Information Technology","Bldg. No1","Bldg No.2","Bldg No.3",QA,Warehouse,SRP,"ETP & MEE",Utility,Formulation,Stationary,"API block","Warehouse Block",Administration,"QC & QA","UG water Storage Tank","UG solvent storage Tank farm","Intermediate Block","Hydrogenation Block","Utility Block-1","Utility Block-2","Distillation block","Road drainages & compound wall",EHS,"Transformer yard","Security Cabin";
         }
-        field(50113; Purpose; Option)
+        // field(50113; Purpose; Option) //Indent Header Purpose Master
+        // {
+        //     OptionCaption = '" ,Project,Maintenance,Production,Quality Control,Research and Devolopment,Electrical,Instrument,Civil,Upgradation"';
+        //     OptionMembers = " ",Project,Maintenance,Production,"Quality Control","Research and Devolopment",Electrical,Instrument,Civil,Upgradation;
+        // }
+        field(50113; Purpose; Text[100])
         {
-            OptionCaption = '" ,Project,Maintenance,Production,Quality Control,Research and Devolopment,Electrical,Instrument,Civil,Upgradation"';
-            OptionMembers = " ",Project,Maintenance,Production,"Quality Control","Research and Devolopment",Electrical,Instrument,Civil,Upgradation;
+            DataClassification = ToBeClassified;
+            TableRelation = "Indent Header Purpose Master".Name;
         }
         field(50114; Status; Option)
         {
@@ -129,6 +134,12 @@ table 50022 "Indent Header"
         field(50122; "Job Task No."; Code[10])
         {
             Description = 'PCPL-JOB0001';
+        }
+        field(50123; "Type of Indent"; Option)
+        {
+            OptionMembers = " ",Emergency,Routine;
+            OptionCaption = ' ,Emergency,Routine';
+            Description = 'PCPL-0070';
         }
     }
 

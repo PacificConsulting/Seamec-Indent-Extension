@@ -65,7 +65,7 @@ page 50065 "Indent Header-List"
                 field(Purpose; Rec.Purpose)
                 {
                     ApplicationArea = all;
-                    OptionCaption = '" ,Project,Maintenance,Production,Quality Control,Research and Devolopment,Electrical,Instrument,Civil>"';
+                    //  OptionCaption = '" ,Project,Maintenance,Production,Quality Control,Research and Devolopment,Electrical,Instrument,Civil>"';
                 }
                 field(Status; Rec.Status)
                 {

@@ -6,10 +6,15 @@ tableextension 50131 Job_Ext extends Job
     {
 
 
-        field(50101; Purpose; Option)
+        // field(50101; Purpose; Option)
+        // {
+        //     OptionCaption = '" ,Project,Maintenance,Production,Quality Control,Research and Devolopment,Electrical,Instrument,Civil,Upgradation"';
+        //     OptionMembers = " ",Project,Maintenance,Production,"Quality Control","Research and Devolopment",Electrical,Instrument,Civil,Upgradation;
+        // }
+        field(50101; Purpose; Text[100])
         {
-            OptionCaption = '" ,Project,Maintenance,Production,Quality Control,Research and Devolopment,Electrical,Instrument,Civil,Upgradation"';
-            OptionMembers = " ",Project,Maintenance,Production,"Quality Control","Research and Devolopment",Electrical,Instrument,Civil,Upgradation;
+            DataClassification = ToBeClassified;
+            TableRelation = "Indent Header Purpose Master".Name;
         }
     }
 
