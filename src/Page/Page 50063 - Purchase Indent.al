@@ -283,6 +283,24 @@ page 50063
 
                 end;
             }
+            action("Send For Approval")
+            {
+                Image = SendApprovalRequest;
+                Promoted = true;
+                PromotedCategory = Process;
+                ApplicationArea = All;
+                Description = 'PCPL-0070';
+                trigger OnAction()
+                var
+                    UserSetup: Record 91;
+                begin
+                    UserSetup.Get(UserId);
+                    Rec.Status := Rec.Status::"Pending For Approval";
+                    Rec."First Approver" := CurrentDateTime;
+                    Rec."Approver ID" := UserSetup."User ID";
+                    Rec.Modify();
+                end;
+            }
         }
     }
 
@@ -320,6 +338,12 @@ page 50063
 
         //VK001 -END
     end;
+
+    trigger OnModifyRecord(): Boolean
+    Begin
+        if Rec.Status <> Rec.Status::Open then
+            Error('You can not modify this document');
+    End;
 
 
 

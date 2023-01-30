@@ -84,8 +84,9 @@ table 50022 "Indent Header"
         }
         field(50114; Status; Option)
         {
-            OptionCaption = 'Open,Released,Closed';
-            OptionMembers = Open,Released,Closed;
+            OptionMembers = Open,Released,Closed,"Pending For Approval","First Approval";//,Approved;
+            OptionCaption = 'Open,Released,Closed,Pending For Approval,First Approval';//,Approved';
+
         }
         field(50115; "Release User ID"; Code[50])
         {
@@ -139,6 +140,19 @@ table 50022 "Indent Header"
         {
             OptionMembers = " ",Emergency,Routine;
             OptionCaption = ' ,Emergency,Routine';
+            Description = 'PCPL-0070';
+        }
+        field(50124; "First Approver"; DateTime)
+        {
+            Description = 'PCPL-0070';
+        }
+        field(50125; "Second Approver"; DateTime)
+        {
+            Description = 'PCPL-0070';
+        }
+        field(50126; "Approver ID"; code[50])
+        {
+            Editable = false;
             Description = 'PCPL-0070';
         }
     }

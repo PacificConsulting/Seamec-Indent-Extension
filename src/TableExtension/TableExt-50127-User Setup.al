@@ -14,6 +14,15 @@ tableextension 50127 User_setup_ext extends "User Setup"
         field(50103; "Indent Releaser"; Boolean)
         {
         }
+        field(50104; "First Indent Approver"; Code[50])
+        {
+            TableRelation = "User Setup"."User ID";
+            Description = 'PCPL-0070';
+        }
+        field(50105; "Second Indent Approver"; Boolean)
+        {
+            Description = 'PCPL-0070';
+        }
 
     }
 

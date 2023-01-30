@@ -25,6 +25,14 @@ pageextension 50125 User_Setup_Indent extends "User Setup" //OriginalId
             {
                 ApplicationArea = all;
             }
+            field("First Indent Approver"; Rec."First Indent Approver")
+            {
+                ApplicationArea = All;
+            }
+            field("Second Indent Approver"; Rec."Second Indent Approver")
+            {
+                ApplicationArea = All;
+            }
         }
     }
 

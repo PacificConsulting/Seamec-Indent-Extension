@@ -146,10 +146,12 @@ page 50064 "Indent Sub Form"
                 field(Approved; Rec.Approved)
                 {
                     ApplicationArea = all;
+                    Visible = false;
                 }
                 field(Close; Rec.Close)
                 {
                     ApplicationArea = all;
+                    Visible = false;
 
                     trigger OnValidate();
                     begin
