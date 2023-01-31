@@ -93,9 +93,11 @@ page 50087 "Final Indent for Approvals"
     trigger OnOpenPage()
     begin
         UserSetup.GET(UserId);
-        UserSetup.SetRange("Second Indent Approver", true);
+        If UserSetup."Second Indent Approver" = false then
+            Error('You do not have permission,Please contact your adminstrator');
     end;
 
     var
         UserSetup: Record "User Setup";
+        ShowBoo: Boolean;
 }

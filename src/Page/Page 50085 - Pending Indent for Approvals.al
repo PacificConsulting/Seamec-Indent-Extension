@@ -91,10 +91,11 @@ page 50085 "Pending Indent for Approvals"
     }
     trigger OnOpenPage()
     begin
-        UserSetup.Reset();
-        UserSetup.SetRange("First Indent Approver", UserId);
-        if UserSetup.FindFirst() then
-            Rec.SetRange("Approver ID", UserSetup."User ID");
+        UserSetup.GET;
+        UserSetup.SetRange("User ID", Rec."Approver ID");
+        if UserSetup.FindFirst() then;
+        if UserId <> UserSetup."User ID" then
+            Error('You do not have permission,Please contact your adminstrator');
     end;
 
     var
