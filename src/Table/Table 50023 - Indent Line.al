@@ -55,7 +55,7 @@ table 50023 "Indent Line"
                     "Location Code" := indentheader."Location Code";
 
                 CompanyInformation.GET;
-                "Indent Closing Date" := CALCDATE(CompanyInformation."Indent Closing Period", indentheader.Date);//pcpl002430oct
+                //"Indent Closing Date" := CALCDATE(CompanyInformation."Indent Closing Period", indentheader.Date);//pcpl002430oct  //PCPL-064 02072023
 
 
                 CASE Type OF
@@ -81,8 +81,8 @@ table 50023 "Indent Line"
                             Item.TESTFIELD(Blocked, FALSE);
                             IF Item."Blocked Type" = Item."Blocked Type"::Indent THEN
                                 ERROR('Blocked Type must not be Indent for this Item');
-
-                            Item.TESTFIELD("Inventory Posting Group");
+                            if Item.Type <> Item.Type::Service then
+                                Item.TESTFIELD("Inventory Posting Group");
                             Item.TESTFIELD("Gen. Prod. Posting Group");
                             Description := Item.Description;
                             "Description 2" := Item."Description 2";
@@ -382,10 +382,10 @@ table 50023 "Indent Line"
         field(50154; "Quotation Qty"; Decimal)
         {
         }
-        field(50155; "Indent Closing Date"; Date)
-        {
-            Description = 'pcpl002430oct';
-        }
+        // field(50155; "Indent Closing Date"; Date) PCPL-064 feb072023
+        // {
+        //     Description = 'pcpl002430oct';
+        // }
         field(50156; "Gen. Prod. Posting Group"; Code[10])
         {
             Description = 'PCPL BRB';
@@ -435,6 +435,23 @@ table 50023 "Indent Line"
         {
             Description = 'PCPL-JOB0001';
         }
+        field(50164; Inventory; Decimal)
+        {
+            //DataClassification = ToBeClassified;
+            Caption = 'ROB';
+            FieldClass = FlowField;
+            CalcFormula = sum("Item Ledger Entry".Quantity where("Item No." = field("No."),
+                                                                  "Location Code" = field("Location Code")));
+
+        }
+        field(50165; "Last Direct Cost"; Decimal)
+        {
+            //DataClassification = ToBeClassified;
+            FieldClass = FlowField;
+            CalcFormula = sum(Item."Last Direct Cost" where("No." = field("No.")));
+        }
+
+
     }
 
     keys
@@ -485,6 +502,11 @@ table 50023 "Indent Line"
         Rec.Date := indentheader.Date;
         "Location Code" := indentheader."Location Code";
         "USER ID" := USERID;
+        //
+
+        //rec."Indent Closing Date" := CalcDate('6M', Today); pcl-064 7feb2023
+
+        //Rec.Modify();
     end;
 
     trigger OnModify();
@@ -516,6 +538,7 @@ table 50023 "Indent Line"
         CompanyInformation: Record 79;
         recuserset: Record 91;
         APPtatustpcpl: Integer;
+        DateFor: DateFormula;
 
     procedure ValidateShortcutDimCode(FieldNumber: Integer; var ShortcutDimCode: Code[20]);
     var

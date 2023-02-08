@@ -90,6 +90,7 @@ page 50088 "Final Indent for Approval"
                     begin
                         Rec.Status := Rec.Status::Released;
                         //Rec."Second Approver" := CurrentDateTime;
+                        Rec."Release User ID" := UserId;
                         Rec.Modify();
                     end;
                 }

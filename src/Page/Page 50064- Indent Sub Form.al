@@ -38,6 +38,7 @@ page 50064 "Indent Sub Form"
                 field("Requisition Batch Name"; Rec."Requisition Batch Name")
                 {
                     ApplicationArea = all;
+                    Visible = false;
                 }
                 field("No."; Rec."No.")
                 {
@@ -76,6 +77,7 @@ page 50064 "Indent Sub Form"
                 field("Requirement Date"; Rec."Requirement Date")
                 {
                     ApplicationArea = all;
+                    Visible = false;
                 }
                 field("FA Component Category"; Rec."FA Component Category")
                 {
@@ -180,10 +182,10 @@ page 50064 "Indent Sub Form"
                 {
                     ApplicationArea = all;
                 }
-                field("Indent Closing Date"; Rec."Indent Closing Date")
-                {
-                    ApplicationArea = all;
-                }
+                // field("Indent Closing Date"; Rec."Indent Closing Date")  //PCPL-064 02072023
+                // {
+                //     ApplicationArea = all;
+                // }
                 field("Main Category"; Rec."Main Category")
                 {
                     ApplicationArea = all;
@@ -201,6 +203,14 @@ page 50064 "Indent Sub Form"
                     ApplicationArea = all;
                 }
                 field("Job Planning Line No."; Rec."Job Planning Line No.")
+                {
+                    ApplicationArea = all;
+                }
+                field(Inventory; Rec.Inventory)
+                {
+                    ApplicationArea = all;
+                }
+                field("Last Direct Cost"; Rec."Last Direct Cost")
                 {
                     ApplicationArea = all;
                 }
@@ -267,6 +277,7 @@ page 50064 "Indent Sub Form"
             }
         }
     }
+
 
     var
         PurchHeader: Record 38;

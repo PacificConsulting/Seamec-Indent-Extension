@@ -28,6 +28,7 @@ page 50065 "Indent Header-List"
                 {
                     ApplicationArea = all;
                 }
+
                 field("Created By"; Rec."Created By")
                 {
                     ApplicationArea = all;

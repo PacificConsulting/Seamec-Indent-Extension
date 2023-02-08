@@ -36,6 +36,7 @@ page 50063
             field("Material category"; Rec."Material category")
             {
                 ApplicationArea = all;
+                Visible = False;
             }
             field("Location Code"; Rec."Location Code")
             {
@@ -51,6 +52,10 @@ page 50063
             {
                 ApplicationArea = all;
                 Editable = true;
+            }
+            field("Indent Due Date"; Rec."Indent Due Date")
+            {
+                ApplicationArea = all;
             }
             field("Job Maintenance No."; Rec."Job Maintenance No.")
             {

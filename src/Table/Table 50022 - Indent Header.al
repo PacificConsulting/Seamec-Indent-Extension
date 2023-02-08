@@ -31,6 +31,12 @@ table 50022 "Indent Header"
         }
         field(50103; Date; Date)
         {
+            trigger OnValidate()
+            begin
+                Rec."Indent Due Date" := CalcDate('6M', Date);
+                Rec.Modify();
+            end;
+
         }
         field(50104; "Created By"; Code[50])
         {
@@ -155,6 +161,10 @@ table 50022 "Indent Header"
             Editable = false;
             Description = 'PCPL-0070';
         }
+        field(50127; "Indent Due Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
@@ -200,8 +210,11 @@ table 50022 "Indent Header"
         //
         Date := WORKDATE;
         "Entry Type" := "Entry Type"::Indent;
-    end;
 
+
+
+
+    end;
 
     local procedure TestNoSeries(): Boolean;
     begin
