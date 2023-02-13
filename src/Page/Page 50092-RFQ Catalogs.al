@@ -10,7 +10,7 @@ page 50092 "RFQ Catalogs"
     {
         area(Content)
         {
-            group(GroupName)
+            repeater(Group)
             {
                 field("Document No."; Rec."Document No.")
                 {

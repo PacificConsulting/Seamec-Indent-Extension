@@ -77,7 +77,9 @@ page 50090 "RFQ Subform"
                     LineNo: Integer;
                 begin
                     if RFQCatalog.FindLast() then
-                        LineNo := RFQCatalog."Line No." + 10000;
+                        LineNo := RFQCatalog."Line No." + 10000
+                    else
+                        LineNo := 10000;
 
                     ItemVend.Reset();
                     ItemVend.SetRange("Item No.", Rec."No.");
@@ -89,7 +91,9 @@ page 50090 "RFQ Subform"
                             RFQCatalog.Validate("Vendor No.", ItemVend."Vendor No.");
                             RFQCatalog.Validate("Item No.", ItemVend."Vendor Item No.");
                             RFQCatalog.Insert();
+                            LineNo += 10000;
                         until ItemVend.Next() = 0;
+                    page.Run(50092);
                 end;
             }
         }
