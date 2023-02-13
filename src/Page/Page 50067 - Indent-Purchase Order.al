@@ -1,11 +1,12 @@
 page 50067 "Indent-Purchase Order"
 {
     // version RSPL/INDENT/V3/001
-
+    Caption = 'Indent Purchase Action';
     PageType = List;
     SourceTable = 50023;
     ApplicationArea = all;
     UsageCategory = Lists;
+    SourceTableView = where("Header Status" = filter('Released'));
 
 
     layout
@@ -21,6 +22,10 @@ page 50067 "Indent-Purchase Order"
                 field(Date; Rec.Date)
                 {
                     ApplicationArea = all;
+                }
+                field(Select; Rec.Select)
+                {
+                    ApplicationArea = All;
                 }
                 field(Type; Rec.Type)
                 {
@@ -120,6 +125,66 @@ page 50067 "Indent-Purchase Order"
 
     actions
     {
+        area(Processing)
+        {
+            action(CreateRFQ)
+            {
+                Caption = 'Create RFQ';
+                Promoted = true;
+                PromotedCategory = Process;
+                Image = Open;
+                //RunObject = page 50089;
+
+                trigger OnAction()
+                var
+                    IndentLine: Record 50023;
+                    RFQHdr: Record "RFQ Header";
+                    RFQLine: Record "RFQ Line";
+                    LineNo: Integer;
+                begin
+                    if Rec.Select = true then begin
+                        IndentLine.Reset();
+                        IndentLine.SetRange("Document No.", Rec."Document No.");
+                        IndentLine.SetRange(Select, true);
+                        if IndentLine.FindFirst() then begin
+                            RFQHdr.Init();
+                            RFQHdr.Validate("Document No.", Rec."Document No.");
+                            RFQHdr.Validate(Date, Rec.Date);
+                            RFQHdr.Validate("Location Code", Rec."Location Code");
+                            RFQHdr.Validate("USER ID", Rec."USER ID");
+                            RFQHdr.Insert();
+                            Message('RFQ Hdr %1 has been created', RFQHdr."Document No.");
+                        End;
+                        IndentLine.Reset();
+                        IndentLine.SetRange("Document No.", RFQHdr."Document No.");
+                        IndentLine.SetRange(Select, true);
+                        if IndentLine.FindSet() then begin
+                            LineNo := 10000;
+                            repeat
+                                RFQLine.Init();
+                                RFQLine.Validate("Document No.", RFQHdr."Document No.");
+                                RFQLine.Validate("Line No.", LineNo);
+                                RFQLine.Validate("No.", Rec."No.");
+                                RFQLine.Validate(Type, Rec.Type);
+                                RFQLine.Validate("Unit of Measure Code", Rec."Unit of Measure Code");
+                                RFQLine.Validate(Quantity, Rec.Quantity);
+                                RFQLine.Validate("PO Qty", Rec."PO Qty");
+                                RFQLine.Validate(Description, Rec.Description);
+                                RFQLine.Validate("Description 2", Rec."Description 2");
+                                RFQLine.Validate("Description 3", Rec."Description 3");
+                                RFQLine.Validate(Remark, Rec.Remark);
+                                LineNo += 10000;
+                                RFQLine.Insert();
+                                Message('RFQ Lines Created');
+                            until IndentLine.Next() = 0;
+                        end;
+                        Page.Run(50089);
+                    end else
+                        Page.Run(50089);
+                End;
+
+            }
+        }
     }
 
     trigger OnOpenPage();

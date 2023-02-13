@@ -7,7 +7,7 @@ page 50064 "Indent Sub Form"
     // //IsFirstDocLine
     // //CreateIndentLines
     // //SetPurchHeaderIndent
-
+    Caption = 'Requisition Purchase Line';
     AutoSplitKey = true;
     DelayedInsert = true;
     DeleteAllowed = true;

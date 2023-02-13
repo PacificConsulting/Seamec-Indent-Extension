@@ -1,7 +1,7 @@
 page 50065 "Indent Header-List"
 {
     // version RSPL/INDENT/V3/001
-
+    Caption = 'Requisition List';
     CardPageID = "Purchase Indent";
     PageType = List;
     SourceTable = 50022;

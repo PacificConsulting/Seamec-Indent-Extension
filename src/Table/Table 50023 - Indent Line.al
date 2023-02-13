@@ -450,7 +450,18 @@ table 50023 "Indent Line"
             FieldClass = FlowField;
             CalcFormula = sum(Item."Last Direct Cost" where("No." = field("No.")));
         }
-
+        field(50166; Select; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Description = 'PCPL-0070';
+        }
+        field(50167; "Header Status"; Option)
+        {
+            OptionMembers = Open,Released,Closed,"Pending For Approval","First Approval";//,Approved;
+            OptionCaption = 'Open,Released,Closed,Pending For Approval,First Approval';//,Approved';
+            FieldClass = FlowField;
+            CalcFormula = lookup("Indent Header".Status where("No." = field("Document No."), "Entry Type" = field("Entry Type")));
+        }
 
     }
 

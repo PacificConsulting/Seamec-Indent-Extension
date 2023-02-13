@@ -5,7 +5,7 @@ page 50063
 
     // Name        Code        Description
     // Venkatesh   VK001       Introduce Release and Reopen Option
-
+    Caption = 'Requisition Purchase Header';
     Editable = true;
     PageType = Card;
     SourceTable = 50022;
