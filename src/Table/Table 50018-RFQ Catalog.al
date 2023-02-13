@@ -1,6 +1,5 @@
-table 50020 "RFQ Header"
+table 50018 "RFQ Catalog"
 {
-    //--PCPL/0070/13Feb2023
     DataClassification = ToBeClassified;
 
     fields
@@ -9,25 +8,31 @@ table 50020 "RFQ Header"
         {
             DataClassification = ToBeClassified;
         }
-        field(2; Date; Date)
+        field(2; "Item No."; Code[20])
         {
             DataClassification = ToBeClassified;
         }
-        field(3; "Location Code"; Code[20])
+        field(3; "Line No."; Integer)
         {
             DataClassification = ToBeClassified;
-            TableRelation = Location.Code;
         }
-        field(4; "USER ID"; Text[30])
+        field(4; "Vendor No."; Code[20])
         {
             DataClassification = ToBeClassified;
-            Editable = false;
+        }
+        field(5; Price; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(6; Quantity; Decimal)
+        {
+            DataClassification = ToBeClassified;
         }
     }
 
     keys
     {
-        key(Key1; "Document No.")
+        key(Key1; "Document No.", "Line No.")
         {
             Clustered = true;
         }

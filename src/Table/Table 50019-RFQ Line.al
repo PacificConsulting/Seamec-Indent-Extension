@@ -1,5 +1,6 @@
 table 50019 "RFQ Line"
 {
+    //--PCPL/0070/13Feb2023
     DataClassification = ToBeClassified;
 
     fields

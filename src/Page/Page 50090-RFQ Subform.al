@@ -1,5 +1,6 @@
 page 50090 "RFQ Subform"
 {
+    //--PCPL/0070/13Feb2023
     AutoSplitKey = true;
     DelayedInsert = true;
     DeleteAllowed = true;
@@ -64,13 +65,31 @@ page 50090 "RFQ Subform"
     {
         area(Processing)
         {
-            action(ActionName)
+            action(QuotationList)
             {
                 ApplicationArea = All;
-
+                Caption = 'Quotation List';
+                Image = Quote;
                 trigger OnAction()
+                var
+                    ItemVend: Record "Item Vendor";
+                    RFQCatalog: Record "RFQ Catalog";
+                    LineNo: Integer;
                 begin
+                    if RFQCatalog.FindLast() then
+                        LineNo := RFQCatalog."Line No." + 10000;
 
+                    ItemVend.Reset();
+                    ItemVend.SetRange("Item No.", Rec."No.");
+                    if ItemVend.FindSet() then
+                        repeat
+                            RFQCatalog.Init();
+                            RFQCatalog.Validate("Document No.", Rec."Document No.");
+                            RFQCatalog.Validate("Line No.", LineNo);
+                            RFQCatalog.Validate("Vendor No.", ItemVend."Vendor No.");
+                            RFQCatalog.Validate("Item No.", ItemVend."Vendor Item No.");
+                            RFQCatalog.Insert();
+                        until ItemVend.Next() = 0;
                 end;
             }
         }

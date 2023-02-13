@@ -1,40 +1,41 @@
-page 50091 "RFQ Card"
+page 50092 "RFQ Catalogs"
 {
-    //--PCPL/0070/13Feb2023
-    PageType = Card;
+    PageType = List;
     ApplicationArea = All;
-    UsageCategory = Administration;
-    SourceTable = "RFQ Header";
+    UsageCategory = Lists;
+    SourceTable = "RFQ Catalog";
     Editable = true;
-
 
     layout
     {
         area(Content)
         {
-            group(General)
+            group(GroupName)
             {
                 field("Document No."; Rec."Document No.")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
-                field("Location Code"; Rec."Location Code")
+                field("Item No."; Rec."Item No.")
+                {
+                    ApplicationArea = All;
+                    Editable = false;
+                }
+                field("Vendor No."; Rec."Vendor No.")
+                {
+                    ApplicationArea = All;
+                    Editable = false;
+                }
+                field(Quantity; Rec.Quantity)
+                {
+                    ApplicationArea = All;
+                    Editable = false;
+                }
+                field(Price; Rec.Price)
                 {
                     ApplicationArea = All;
                 }
-                field(Date; Rec.Date)
-                {
-                    ApplicationArea = All;
-                }
-                field("USER ID"; Rec."USER ID")
-                {
-                    ApplicationArea = All;
-                }
-            }
-            part(RFQLines; 50090)
-            {
-                ApplicationArea = All;
-                SubPageLink = "Document No." = FIELD("Document No.");
             }
         }
     }
@@ -56,5 +57,5 @@ page 50091 "RFQ Card"
     }
 
     var
-        myInt: Integer;
+    //myInt: Record 37;
 }

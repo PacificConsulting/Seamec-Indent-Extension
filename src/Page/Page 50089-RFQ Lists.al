@@ -1,5 +1,6 @@
 page 50089 "RFQ List"
 {
+    //--PCPL/0070/13Feb2023
     PageType = List;
     Caption = 'RFQ Lists';
     ApplicationArea = All;

@@ -7,7 +7,7 @@ page 50067 "Indent-Purchase Order"
     ApplicationArea = all;
     UsageCategory = Lists;
     SourceTableView = where("Header Status" = filter('Released'));
-
+    Editable = true;
 
     layout
     {
@@ -18,106 +18,132 @@ page 50067 "Indent-Purchase Order"
                 field("Document No."; Rec."Document No.")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field(Date; Rec.Date)
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field(Select; Rec.Select)
                 {
                     ApplicationArea = All;
+                    Editable = true;
                 }
                 field(Type; Rec.Type)
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("No."; Rec."No.")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("Location Code"; Rec."Location Code")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field(Quantity; Rec.Quantity)
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("PO Qty"; Rec."PO Qty")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field(Approved; Rec.Approved)
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("Approved Date"; Rec."Approved Date")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field(Description; Rec.Description)
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("Description 2"; Rec."Description 2")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("Unit of Measure Code"; Rec."Unit of Measure Code")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field(Category; Rec.Category)
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("Requisition Line No."; Rec."Requisition Line No.")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("Requisition Templet Name"; Rec."Requisition Templet Name")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("Requisition Batch Name"; Rec."Requisition Batch Name")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("Outstanding True"; Rec."Outstanding True")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field(Close; Rec.Close)
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("Description 3"; Rec."Description 3")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("Material Requisitioned"; Rec."Material Requisitioned")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field(Remark; Rec.Remark)
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("USER ID"; Rec."USER ID")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("FA Component Category"; Rec."FA Component Category")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("Requirement Date"; Rec."Requirement Date")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field("Product Group Code"; Rec."Product Group Code")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
             }
         }
@@ -153,7 +179,7 @@ page 50067 "Indent-Purchase Order"
                             RFQHdr.Validate("Location Code", Rec."Location Code");
                             RFQHdr.Validate("USER ID", Rec."USER ID");
                             RFQHdr.Insert();
-                            Message('RFQ Hdr %1 has been created', RFQHdr."Document No.");
+                            //Message('RFQ Hdr %1 has been created', RFQHdr."Document No.");
                         End;
                         IndentLine.Reset();
                         IndentLine.SetRange("Document No.", RFQHdr."Document No.");
@@ -175,7 +201,7 @@ page 50067 "Indent-Purchase Order"
                                 RFQLine.Validate(Remark, Rec.Remark);
                                 LineNo += 10000;
                                 RFQLine.Insert();
-                                Message('RFQ Lines Created');
+                                Message('RFQ Order %1 has been Created', RFQHdr."Document No.");
                             until IndentLine.Next() = 0;
                         end;
                         Page.Run(50089);
@@ -213,6 +239,7 @@ page 50067 "Indent-Purchase Order"
         //FILTERGROUP(0);
         //END;
         //PCPL0017
+        CurrPage.Editable(true);
     end;
 }
 
