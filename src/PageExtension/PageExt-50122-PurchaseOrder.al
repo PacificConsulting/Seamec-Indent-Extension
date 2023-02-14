@@ -28,8 +28,26 @@ pageextension 50122 Purchase_order_Indent extends "Purchase Order"
             }
 
         }
+        addafter("&Print")
+        {
+            action("Purchase Order")
+            {
+                Promoted = true;
+                Image = Report;
+                ApplicationArea = all;
+                trigger OnAction()
+
+                begin
+                    PH.Reset();
+                    PH.SetRange("No.", PH."No.");
+                    Report.RunModal(50097, true, false, PH);
+                end;
+
+            }
+        }
     }
 
     var
         PHEader: Record 38;
+        PH: Record "Purchase Header";
 }

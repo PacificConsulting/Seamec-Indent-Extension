@@ -125,12 +125,6 @@ report 50097 "Purchase Order"
                 if DGLE.FindSet() then
                     GSTBaseAmt := DGLE."GST Base Amount";
 
-
-
-
-
-
-
             end;
 
         }

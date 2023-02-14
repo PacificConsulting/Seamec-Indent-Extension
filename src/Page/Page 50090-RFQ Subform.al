@@ -49,7 +49,19 @@ page 50090 "RFQ Subform"
                 {
                     ApplicationArea = All;
                 }
+                field("Vendor No."; Rec."Vendor No.")
+                {
+                    ApplicationArea = All;
+                }
                 field("Unit of Measure Code"; Rec."Unit of Measure Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Unit Cost"; Rec."Unit Cost")
+                {
+                    ApplicationArea = All;
+                }
+                field("Line Amount"; Rec."Line Amount")
                 {
                     ApplicationArea = All;
                 }
@@ -72,33 +84,70 @@ page 50090 "RFQ Subform"
                 Image = Quote;
                 trigger OnAction()
                 var
+                    RFQ_C: Record "RFQ Catalog";
+                begin
+                    RFQ_C.SetRange("Document No.", Rec."Document No.");
+                    RFQ_C.SetRange("Item No.", Rec."No.");
+                    if RFQ_C.FindSet() then;
+                    if Page.RunModal(50092, RFQ_C) = Action::LookupOK then begin
+                        if RFQ_C.Select = true then begin
+                            Rec."Vendor No." := RFQ_C."Vendor No.";
+                            Rec."Unit Cost" := RFQ_C.Price;
+                            Rec."Line Amount" := Rec.Quantity * rec."Unit Cost";
+                            Rec."Vendor No." := RFQ_C."Vendor No.";
+                            Rec.Modify();
+                            CurrPage.Update();
+                        end Else begin
+                            if RFQ_C.Select = false then begin
+                                RFQ_C.SetCurrentKey(Price);
+                                if RFQ_C.FindFirst() then begin
+                                    Rec."Vendor No." := RFQ_C."Vendor No.";
+                                    Rec."Unit Cost" := RFQ_C.Price;
+                                    Rec."Line Amount" := Rec.Quantity * rec."Unit Cost";
+                                    Rec."Vendor No." := RFQ_C."Vendor No.";
+                                    Rec.Modify();
+                                    CurrPage.Update();
+                                end;
+                            end;
+
+
+                        end;
+                    end;
+                end;
+            }
+            action(Insert)
+            {
+                ApplicationArea = All;
+                Caption = 'Insert Quotation';
+                Image = Insert;
+                trigger OnAction()
+                var
                     ItemVend: Record "Item Vendor";
                     RFQCatalog: Record "RFQ Catalog";
                     LineNo: Integer;
-                begin
-                    if RFQCatalog.FindLast() then
-                        LineNo := RFQCatalog."Line No." + 10000
-                    else
-                        LineNo := 10000;
-
+                Begin
                     ItemVend.Reset();
                     ItemVend.SetRange("Item No.", Rec."No.");
                     if ItemVend.FindSet() then
                         repeat
-                            RFQCatalog.Init();
-                            RFQCatalog.Validate("Document No.", Rec."Document No.");
-                            RFQCatalog.Validate("Line No.", LineNo);
-                            RFQCatalog.Validate("Vendor No.", ItemVend."Vendor No.");
-                            RFQCatalog.Validate("Item No.", ItemVend."Vendor Item No.");
-                            RFQCatalog.Insert();
-                            LineNo += 10000;
+                            RFQCatalog.Reset();
+                            RFQCatalog.SetRange("Document No.", Rec."Document No.");
+                            RFQCatalog.SetRange("Vendor No.", ItemVend."Vendor No.");
+                            if not RFQCatalog.FindFirst() then begin
+                                RFQCatalog.Init();
+                                RFQCatalog.Validate("Document No.", Rec."Document No.");
+                                RFQCatalog.Validate("Line No.", Rec."Line No.");
+                                RFQCatalog.Validate("Vendor No.", ItemVend."Vendor No.");
+                                RFQCatalog.Validate("Item No.", ItemVend."Vendor Item No.");
+                                RFQCatalog.Validate(Quantity, Rec.Quantity);
+                                RFQCatalog.Insert();
+                            End;
                         until ItemVend.Next() = 0;
-                    page.Run(50092);
-                end;
+                End;
             }
         }
     }
 
     var
-        myInt: Integer;
+        myInt: Record 38;
 }

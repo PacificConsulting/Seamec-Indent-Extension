@@ -73,6 +73,10 @@ page 50063
             {
                 ApplicationArea = all;
             }
+            field(Comments; Rec.Comments)
+            {
+                ApplicationArea = all;
+            }
             part(IndentLines; 50064)
             {
                 ApplicationArea = all;

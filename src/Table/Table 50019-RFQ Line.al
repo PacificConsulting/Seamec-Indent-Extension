@@ -59,6 +59,19 @@ table 50019 "RFQ Line"
         {
             DataClassification = ToBeClassified;
         }
+        field(13; "Line Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(14; "Unit Cost"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
+        field(15; "Vendor No."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

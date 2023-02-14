@@ -64,6 +64,9 @@ End Function
   <DataSets>
     <DataSet Name="DataSet_Result">
       <Fields>
+        <Field Name="No_">
+          <DataField>No_</DataField>
+        </Field>
         <Field Name="Status">
           <DataField>Status</DataField>
         </Field>
@@ -79,8 +82,17 @@ End Function
         <Field Name="Release_User_ID">
           <DataField>Release_User_ID</DataField>
         </Field>
-        <Field Name="Cominfo">
-          <DataField>Cominfo</DataField>
+        <Field Name="Cominfo_Picture">
+          <DataField>Cominfo_Picture</DataField>
+        </Field>
+        <Field Name="Second_Approver">
+          <DataField>Second_Approver</DataField>
+        </Field>
+        <Field Name="Date">
+          <DataField>Date</DataField>
+        </Field>
+        <Field Name="Requisition_Comments">
+          <DataField>Requisition_Comments</DataField>
         </Field>
         <Field Name="Line_No_">
           <DataField>Line_No_</DataField>
@@ -100,14 +112,17 @@ End Function
         <Field Name="Approved_Date">
           <DataField>Approved_Date</DataField>
         </Field>
-        <Field Name="Comment">
-          <DataField>Comment</DataField>
+        <Field Name="Line_Comment">
+          <DataField>Line_Comment</DataField>
         </Field>
         <Field Name="Inventory_ROB">
           <DataField>Inventory_ROB</DataField>
         </Field>
         <Field Name="Inventory_ROBFormat">
           <DataField>Inventory_ROBFormat</DataField>
+        </Field>
+        <Field Name="Releaser_User_ID">
+          <DataField>Releaser_User_ID</DataField>
         </Field>
       </Fields>
       <Query>

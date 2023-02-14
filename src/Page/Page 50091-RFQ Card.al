@@ -39,22 +39,6 @@ page 50091 "RFQ Card"
         }
     }
 
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-
-                end;
-            }
-        }
-    }
-
     var
         myInt: Integer;
 }

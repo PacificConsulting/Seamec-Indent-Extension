@@ -28,13 +28,21 @@ table 50018 "RFQ Catalog"
         {
             DataClassification = ToBeClassified;
         }
+        field(7; Select; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
     {
-        key(Key1; "Document No.", "Line No.")
+        key(Key1; "Document No.", "Item No.", "Vendor No.")
         {
             Clustered = true;
+        }
+        key(Key2; Price)
+        {
+            // Clustered=
         }
     }
 

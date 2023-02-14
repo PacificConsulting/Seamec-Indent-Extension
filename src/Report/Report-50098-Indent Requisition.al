@@ -1,7 +1,7 @@
 report 50098 "Indent Requisition"
 {
     DefaultLayout = RDLC;
-    RDLCLayout = './Src/ReportLayout/Indent Requisition .rdl';
+    RDLCLayout = './Src/ReportLayout/Indent Requisition -2.rdl';
     ApplicationArea = all;
     UsageCategory = ReportsAndAnalysis;
 
@@ -9,6 +9,11 @@ report 50098 "Indent Requisition"
     {
         dataitem("Indent Header"; "Indent Header")
         {
+            RequestFilterFields = "No.";
+            column(No_; "No.")
+            {
+
+            }
             column(Status; Status)
             {
             }
@@ -27,7 +32,19 @@ report 50098 "Indent Requisition"
             {
 
             }
-            column(Cominfo; Cominfo.Picture)
+            column(Cominfo_Picture; Cominfo.Picture)
+            {
+
+            }
+            column(Second_Approver; "Second Approver")
+            {
+
+            }
+            column(Date; Date)
+            {
+
+            }
+            column(Requisition_Comments; Comments)
             {
 
             }
@@ -55,7 +72,7 @@ report 50098 "Indent Requisition"
                 {
 
                 }
-                column(Comment; Comment)
+                column(Line_Comment; Comment)
                 {
 
                 }
@@ -63,13 +80,19 @@ report 50098 "Indent Requisition"
                 {
 
                 }
+                column(Releaser_User_ID; "Releaser User ID")
+                {
+
+                }
+
             }
-            trigger OnPreDataItem()  //IH
+            trigger OnPreDataItem()  //PH
             begin
                 Cominfo.get();
                 Cominfo.CalcFields(Picture);
             end;
         }
+
     }
 
     requestpage

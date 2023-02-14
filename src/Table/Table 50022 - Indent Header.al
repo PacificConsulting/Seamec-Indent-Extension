@@ -163,7 +163,12 @@ table 50022 "Indent Header"
         }
         field(50127; "Indent Due Date"; Date)
         {
-            DataClassification = ToBeClassified;
+
+            Description = 'PCPL-0064';
+        }
+        field(50128; Comments; Text[100])
+        {
+            Description = 'PCPL-0064';
         }
     }
 
