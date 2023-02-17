@@ -2,8 +2,8 @@ page 50091 "RFQ Card"
 {
     //--PCPL/0070/13Feb2023
     PageType = Card;
-    ApplicationArea = All;
-    UsageCategory = Administration;
+    // ApplicationArea = All;
+    // UsageCategory = Administration;
     SourceTable = "RFQ Header";
     Editable = true;
 
@@ -30,6 +30,10 @@ page 50091 "RFQ Card"
                 {
                     ApplicationArea = All;
                 }
+                field("Total Amount"; Rec."Total Amount")
+                {
+                    ApplicationArea = All;
+                }
             }
             part(RFQLines; 50090)
             {
@@ -38,7 +42,6 @@ page 50091 "RFQ Card"
             }
         }
     }
-
     var
         myInt: Integer;
 }

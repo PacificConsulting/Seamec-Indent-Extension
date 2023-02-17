@@ -1,7 +1,7 @@
 report 50098 "Indent Requisition"
 {
     DefaultLayout = RDLC;
-    RDLCLayout = './Src/ReportLayout/Indent Requisition -2.rdl';
+    RDLCLayout = './Src/ReportLayout/Indent Requisition -1.rdl';
     ApplicationArea = all;
     UsageCategory = ReportsAndAnalysis;
 
@@ -9,9 +9,11 @@ report 50098 "Indent Requisition"
     {
         dataitem("Indent Header"; "Indent Header")
         {
+            DataItemTableView = SORTING("No.");
             RequestFilterFields = "No.";
             column(No_; "No.")
             {
+
 
             }
             column(Status; Status)
@@ -51,6 +53,7 @@ report 50098 "Indent Requisition"
             dataitem("Indent Line"; "Indent Line")
             {
                 DataItemLink = "Document No." = field("No.");
+                DataItemLinkReference = "Indent Header";
                 column(Line_No_; "Line No.")
                 {
 

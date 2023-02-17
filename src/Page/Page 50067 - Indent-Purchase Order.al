@@ -29,11 +29,29 @@ page 50067 "Indent-Purchase Order"
                 {
                     ApplicationArea = All;
                     Editable = true;
+                    trigger OnValidate()
+                    begin
+                        if Rec.Generate = true then
+                            Error('RFQ already generated');
+                    end;
+                }
+                field(Generate; Rec.Generate)
+                {
+                    ApplicationArea = All;
+                    Caption = 'RFQ Generated';
                 }
                 field(Type; Rec.Type)
                 {
                     ApplicationArea = all;
                     Editable = false;
+                }
+                field("Vendor No."; Rec."Vendor No.")
+                {
+                    ApplicationArea = All;
+                }
+                field("Vendor Name"; Rec."Vendor Name")
+                {
+                    ApplicationArea = All;
                 }
                 field("No."; Rec."No.")
                 {
@@ -160,7 +178,7 @@ page 50067 "Indent-Purchase Order"
                 PromotedCategory = Process;
                 Image = Open;
                 //RunObject = page 50089;
-
+                //PCPL/0070 15Feb2023 <<
                 trigger OnAction()
                 var
                     IndentLine: Record 50023;
@@ -182,33 +200,35 @@ page 50067 "Indent-Purchase Order"
                             //Message('RFQ Hdr %1 has been created', RFQHdr."Document No.");
                         End;
                         IndentLine.Reset();
-                        IndentLine.SetRange("Document No.", RFQHdr."Document No.");
-                        IndentLine.SetRange(Select, true);
+                        IndentLine.SetRange("Document No.", Rec."Document No.");
+                        //IndentLine.SetRange(Select, true);
                         if IndentLine.FindSet() then begin
                             LineNo := 10000;
                             repeat
                                 RFQLine.Init();
                                 RFQLine.Validate("Document No.", RFQHdr."Document No.");
                                 RFQLine.Validate("Line No.", LineNo);
-                                RFQLine.Validate("No.", Rec."No.");
-                                RFQLine.Validate(Type, Rec.Type);
-                                RFQLine.Validate("Unit of Measure Code", Rec."Unit of Measure Code");
-                                RFQLine.Validate(Quantity, Rec.Quantity);
-                                RFQLine.Validate("PO Qty", Rec."PO Qty");
-                                RFQLine.Validate(Description, Rec.Description);
-                                RFQLine.Validate("Description 2", Rec."Description 2");
-                                RFQLine.Validate("Description 3", Rec."Description 3");
-                                RFQLine.Validate(Remark, Rec.Remark);
+                                RFQLine.Validate("No.", IndentLine."No.");
+                                RFQLine.Validate(Type, IndentLine.Type);
+                                RFQLine.Validate("Unit of Measure Code", IndentLine."Unit of Measure Code");
+                                RFQLine.Validate(Quantity, IndentLine.Quantity);
+                                RFQLine.Validate("PO Qty", IndentLine."PO Qty");
+                                RFQLine.Validate(Description, IndentLine.Description);
+                                RFQLine.Validate("Description 2", IndentLine."Description 2");
+                                RFQLine.Validate("Description 3", IndentLine."Description 3");
+                                RFQLine.Validate(Remark, IndentLine.Remark);
                                 LineNo += 10000;
                                 RFQLine.Insert();
-                                Message('RFQ Order %1 has been Created', RFQHdr."Document No.");
+                                IndentLine.Generate := true;
+                                IndentLine.Modify();
                             until IndentLine.Next() = 0;
+                            Message('RFQ Order %1 has been Created', RFQHdr."Document No.");
                         end;
                         Page.Run(50089);
                     end else
                         Page.Run(50089);
                 End;
-
+                //PCPL/0070 15Feb2023 >>
             }
         }
     }

@@ -462,6 +462,11 @@ table 50023 "Indent Line"
             FieldClass = FlowField;
             CalcFormula = lookup("Indent Header".Status where("No." = field("Document No."), "Entry Type" = field("Entry Type")));
         }
+        field(50168; Generate; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
 
     }
 

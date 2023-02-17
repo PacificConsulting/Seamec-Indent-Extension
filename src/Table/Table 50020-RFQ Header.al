@@ -23,6 +23,13 @@ table 50020 "RFQ Header"
             DataClassification = ToBeClassified;
             Editable = false;
         }
+        field(5; "Total Amount"; Decimal)
+        {
+            //DataClassification = ToBeClassified;
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = sum("RFQ Line"."Line Amount" where("Document No." = field("Document No.")));
+        }
     }
 
     keys
@@ -34,7 +41,7 @@ table 50020 "RFQ Header"
     }
 
     var
-        myInt: Integer;
+        myInt: Record 18;
 
     trigger OnInsert()
     begin

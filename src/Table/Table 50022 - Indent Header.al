@@ -31,12 +31,11 @@ table 50022 "Indent Header"
         }
         field(50103; Date; Date)
         {
-            trigger OnValidate()
-            begin
-                Rec."Indent Due Date" := CalcDate('6M', Date);
-                Rec.Modify();
-            end;
-
+            // trigger OnValidate()
+            // begin
+            //     Rec."Indent Due Date" := CalcDate('6M', Date);
+            //     Rec.Modify();
+            // end;
         }
         field(50104; "Created By"; Code[50])
         {
@@ -92,7 +91,7 @@ table 50022 "Indent Header"
         {
             OptionMembers = Open,Released,Closed,"Pending For Approval","First Approval";//,Approved;
             OptionCaption = 'Open,Released,Closed,Pending For Approval,First Approval';//,Approved';
-
+            Editable = false;
         }
         field(50115; "Release User ID"; Code[50])
         {
@@ -165,6 +164,7 @@ table 50022 "Indent Header"
         {
 
             Description = 'PCPL-0064';
+
         }
         field(50128; Comments; Text[100])
         {
@@ -216,7 +216,9 @@ table 50022 "Indent Header"
         Date := WORKDATE;
         "Entry Type" := "Entry Type"::Indent;
 
+        Rec."Indent Due Date" := CalcDate('6M', Date); //PCPL-0064
 
+        // Message('Inserted');
 
 
     end;

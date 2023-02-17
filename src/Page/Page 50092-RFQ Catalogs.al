@@ -1,5 +1,6 @@
 page 50092 "RFQ Catalogs"
 {
+    //PCPL/0070 14Feb2023 
     Caption = 'Quotation Received';
     PageType = List;
     ApplicationArea = All;
@@ -31,7 +32,8 @@ page 50092 "RFQ Catalogs"
                 field("Vendor No."; Rec."Vendor No.")
                 {
                     ApplicationArea = All;
-                    Editable = false;
+                    // Editable = false;
+                    TableRelation = Vendor;
                 }
                 field(Quantity; Rec.Quantity)
                 {
@@ -41,6 +43,10 @@ page 50092 "RFQ Catalogs"
                 field(Price; Rec.Price)
                 {
                     ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        Rec.TestField("Vendor No.");
+                    end;
                 }
             }
         }
@@ -77,5 +83,5 @@ page 50092 "RFQ Catalogs"
     End;
 
     var
-    //myInt: Record 37;
+    //myInt: Record 37; 
 }

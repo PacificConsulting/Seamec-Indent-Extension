@@ -96,6 +96,7 @@ page 50063
                 action("Re&open")
                 {
                     Caption = 'Re&open';
+                    Visible = false;
                     Image = ReOpen;
                     ApplicationArea = all;
 
@@ -126,6 +127,7 @@ page 50063
                 action("&Release")
                 {
                     Caption = '&Release';
+                    Visible = false;
                     Image = ReleaseDoc;
                     ShortCutKey = 'Ctrl+F9';
                     ApplicationArea = all;
@@ -189,6 +191,7 @@ page 50063
             action("<Action1000000015>")
             {
                 Caption = 'Closed';
+                Visible = false;
                 ApplicationArea = all;
 
                 trigger OnAction();
@@ -308,6 +311,7 @@ page 50063
                     Rec."First Approver" := CurrentDateTime;
                     Rec."Approver ID" := UserSetup."User ID";
                     Rec.Modify();
+                    Message('Your request has been send');
                 end;
             }
         }
@@ -354,7 +358,24 @@ page 50063
             Error('You can not modify this document');
     End;
 
-
+    //PCPL/0070 16Feb2023 <<
+    trigger OnQueryClosePage(CloseAction: Action): Boolean
+    var
+        IndentLine: Record "Indent Line";
+    Begin
+        Rec.TestField(Purpose);
+        Rec.TestField("Location Code");
+        Rec.TestField("Type of Indent");
+        Rec.TestField(Category);
+        IndentLine.Reset();
+        IndentLine.SetRange("Document No.", Rec."No.");
+        if IndentLine.FindSet() then
+            repeat
+                IndentLine.TestField("No.");
+                IndentLine.TestField(Quantity);
+            until IndentLine.Next() = 0;
+    End;
+    //PCPL/0070 16Feb2023 >>
 
     var
         IndentLine: Record 50023;

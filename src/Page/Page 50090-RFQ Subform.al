@@ -11,8 +11,8 @@ page 50090 "RFQ Subform"
     MultipleNewLines = true;
     SaveValues = true;
     PageType = ListPart;
-    ApplicationArea = All;
-    UsageCategory = Administration;
+    // ApplicationArea = All;
+    // UsageCategory = Administration;
     SourceTable = "RFQ Line";
 
     layout
@@ -88,37 +88,37 @@ page 50090 "RFQ Subform"
                 begin
                     RFQ_C.SetRange("Document No.", Rec."Document No.");
                     RFQ_C.SetRange("Item No.", Rec."No.");
-                    if RFQ_C.FindSet() then;
-                    if Page.RunModal(50092, RFQ_C) = Action::LookupOK then begin
-                        if RFQ_C.Select = true then begin
-                            Rec."Vendor No." := RFQ_C."Vendor No.";
-                            Rec."Unit Cost" := RFQ_C.Price;
-                            Rec."Line Amount" := Rec.Quantity * rec."Unit Cost";
-                            Rec."Vendor No." := RFQ_C."Vendor No.";
-                            Rec.Modify();
-                            CurrPage.Update();
-                        end Else begin
-                            if RFQ_C.Select = false then begin
-                                RFQ_C.SetCurrentKey(Price);
-                                if RFQ_C.FindFirst() then begin
-                                    Rec."Vendor No." := RFQ_C."Vendor No.";
-                                    Rec."Unit Cost" := RFQ_C.Price;
-                                    Rec."Line Amount" := Rec.Quantity * rec."Unit Cost";
-                                    Rec."Vendor No." := RFQ_C."Vendor No.";
-                                    Rec.Modify();
-                                    CurrPage.Update();
+                    if RFQ_C.FindSet() then begin
+                        if Page.RunModal(50092, RFQ_C) = Action::LookupOK then begin
+                            if RFQ_C.Select = true then begin
+                                Rec."Vendor No." := RFQ_C."Vendor No.";
+                                Rec."Unit Cost" := RFQ_C.Price;
+                                Rec."Line Amount" := Rec.Quantity * rec."Unit Cost";
+                                Rec."Vendor No." := RFQ_C."Vendor No.";
+                                Rec.Modify();
+                                CurrPage.Update();
+                            end Else begin
+                                if RFQ_C.Select = false then begin
+                                    RFQ_C.SetCurrentKey(Price);
+                                    if RFQ_C.FindFirst() then begin
+                                        Rec."Vendor No." := RFQ_C."Vendor No.";
+                                        Rec."Unit Cost" := RFQ_C.Price;
+                                        Rec."Line Amount" := Rec.Quantity * rec."Unit Cost";
+                                        Rec."Vendor No." := RFQ_C."Vendor No.";
+                                        Rec.Modify();
+                                        CurrPage.Update();
+                                    end;
                                 end;
                             end;
-
-
                         end;
-                    end;
+                    End Else
+                        Error('Please Insert Record in Quotation Receive Page')
                 end;
             }
             action(Insert)
             {
                 ApplicationArea = All;
-                Caption = 'Insert Quotation';
+                Caption = 'Insert Vendor Catlog';
                 Image = Insert;
                 trigger OnAction()
                 var
@@ -128,7 +128,7 @@ page 50090 "RFQ Subform"
                 Begin
                     ItemVend.Reset();
                     ItemVend.SetRange("Item No.", Rec."No.");
-                    if ItemVend.FindSet() then
+                    if ItemVend.FindSet() then begin
                         repeat
                             RFQCatalog.Reset();
                             RFQCatalog.SetRange("Document No.", Rec."Document No.");
@@ -143,6 +143,8 @@ page 50090 "RFQ Subform"
                                 RFQCatalog.Insert();
                             End;
                         until ItemVend.Next() = 0;
+                    End;
+                    Error('Vendor catalog does not exist');
                 End;
             }
         }
