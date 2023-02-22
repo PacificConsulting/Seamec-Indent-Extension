@@ -11,10 +11,11 @@ tableextension 50128 Purchase_Header_ext extends "Purchase Header"
         {
             Description = 'pcpl002410oct2018';
         }
-        // field(50016; "Closed PO"; Boolean)
-        // {
-        //     Description = '//PCPL 38';
-        // }
+        field(50102; Clauses; Option)
+        {
+            OptionMembers = " ","Clause 1","Clause 2";
+            OptionCaption = ' ,Clause 1,Clause 2';
+        }
     }
     procedure UpdateIndent()
     var

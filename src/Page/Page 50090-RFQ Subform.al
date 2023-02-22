@@ -143,8 +143,8 @@ page 50090 "RFQ Subform"
                                 RFQCatalog.Insert();
                             End;
                         until ItemVend.Next() = 0;
-                    End;
-                    Error('Vendor catalog does not exist');
+                    End Else
+                        Error('Vendor catalog does not exist');
                 End;
             }
         }

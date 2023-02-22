@@ -176,10 +176,10 @@ table 50023 "Indent Line"
                     "Approved Date" := WORKDATE;
             end;
         }
-        field(50112; Description; Text[50])
+        field(50112; Description; Text[60])
         {
         }
-        field(50113; "Description 2"; Text[50])
+        field(50113; "Description 2"; Text[60])
         {
         }
         field(50114; "Unit of Measure Code"; Code[10])

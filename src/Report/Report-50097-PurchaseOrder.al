@@ -48,6 +48,10 @@ report 50097 "Purchase Order"
             {
 
             }
+            column(Clauses; Clauses)
+            {
+
+            }
 
             dataitem("Purchase Line"; "Purchase Line")
             {
@@ -99,10 +103,6 @@ report 50097 "Purchase Order"
                     RecPurchCom.Setrange("No.", "Document No.");
                     if RecPurchCom.FindFirst() then
                         Comm := RecPurchCom.Comment;
-
-
-
-
                 end;
 
             }
@@ -124,7 +124,6 @@ report 50097 "Purchase Order"
                 DGLE.SetRange("Document No.", "No.");
                 if DGLE.FindSet() then
                     GSTBaseAmt := DGLE."GST Base Amount";
-
             end;
 
         }
@@ -173,6 +172,4 @@ report 50097 "Purchase Order"
         TotalAmt: Decimal;
         RecPurchCom: Record "Purch. Comment Line";
         Comm: Text[80];
-
-
 }

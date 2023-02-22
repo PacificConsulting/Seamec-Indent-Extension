@@ -28,6 +28,10 @@ page 50063
                         CurrPage.UPDATE;
                 end;
             }
+            field("Indent Description"; Rec."Indent Description")
+            {
+                ApplicationArea = all;
+            }
             field(Purpose; Rec.Purpose)
             {
                 ApplicationArea = all;

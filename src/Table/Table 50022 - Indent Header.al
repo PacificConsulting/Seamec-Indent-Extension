@@ -170,6 +170,11 @@ table 50022 "Indent Header"
         {
             Description = 'PCPL-0064';
         }
+        field(50129; "Indent Description"; text[80])
+        {
+
+            Description = 'PCPL-0064';
+        }
     }
 
     keys

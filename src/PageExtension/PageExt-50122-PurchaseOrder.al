@@ -2,7 +2,13 @@ pageextension 50122 Purchase_order_Indent extends "Purchase Order"
 {
     layout
     {
-        // Add changes to page layout here
+        addafter("Buy-from City")
+        {
+            field(Clauses; Rec.Clauses)
+            {
+                ApplicationArea = All;
+            }
+        }
     }
 
     actions
@@ -38,9 +44,11 @@ pageextension 50122 Purchase_order_Indent extends "Purchase Order"
                 trigger OnAction()
 
                 begin
+                    Rec.TestField(Clauses);
                     PH.Reset();
-                    PH.SetRange("No.", PH."No.");
-                    Report.RunModal(50097, true, false, PH);
+                    PH.SetRange("No.", Rec."No.");
+                    if PH.FindFirst() then
+                        Report.RunModal(50097, true, false, PH);
                 end;
 
             }
