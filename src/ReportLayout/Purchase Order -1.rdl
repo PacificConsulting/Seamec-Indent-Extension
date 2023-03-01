@@ -11,6 +11,82 @@
       <rd:DataSourceID>52de1828-f9f1-4184-b845-7d7823206883</rd:DataSourceID>
     </DataSource>
   </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+      <Fields>
+        <Field Name="No_">
+          <DataField>No_</DataField>
+        </Field>
+        <Field Name="Cominfo_Picture">
+          <DataField>Cominfo_Picture</DataField>
+        </Field>
+        <Field Name="Order_Date_PH">
+          <DataField>Order_Date_PH</DataField>
+        </Field>
+        <Field Name="PurchaseOrderDue_Date_PH">
+          <DataField>PurchaseOrderDue_Date_PH</DataField>
+        </Field>
+        <Field Name="Ship_to_Address_PH">
+          <DataField>Ship_to_Address_PH</DataField>
+        </Field>
+        <Field Name="Telephone_vend_contact_PH">
+          <DataField>Telephone_vend_contact_PH</DataField>
+        </Field>
+        <Field Name="vend_GSTNO_PH">
+          <DataField>vend_GSTNO_PH</DataField>
+        </Field>
+        <Field Name="Currency_Code">
+          <DataField>Currency_Code</DataField>
+        </Field>
+        <Field Name="Payment_Terms_Code">
+          <DataField>Payment_Terms_Code</DataField>
+        </Field>
+        <Field Name="Clauses">
+          <DataField>Clauses</DataField>
+        </Field>
+        <Field Name="Line_No_">
+          <DataField>Line_No_</DataField>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+        </Field>
+        <Field Name="Quantity">
+          <DataField>Quantity</DataField>
+        </Field>
+        <Field Name="QuantityFormat">
+          <DataField>QuantityFormat</DataField>
+        </Field>
+        <Field Name="Unit_of_Measure">
+          <DataField>Unit_of_Measure</DataField>
+        </Field>
+        <Field Name="Unit_Price">
+          <DataField>Unit_Price</DataField>
+        </Field>
+        <Field Name="Unit_PriceFormat">
+          <DataField>Unit_PriceFormat</DataField>
+        </Field>
+        <Field Name="GSTBaseAmt">
+          <DataField>GSTBaseAmt</DataField>
+        </Field>
+        <Field Name="GSTBaseAmtFormat">
+          <DataField>GSTBaseAmtFormat</DataField>
+        </Field>
+        <Field Name="TotalAmt">
+          <DataField>TotalAmt</DataField>
+        </Field>
+        <Field Name="TotalAmtFormat">
+          <DataField>TotalAmtFormat</DataField>
+        </Field>
+        <Field Name="Comm">
+          <DataField>Comm</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -67,9 +143,28 @@
                           <rd:DefaultName>Textbox17</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
                             <BackgroundColor>LightGrey</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -102,9 +197,28 @@
                           <rd:DefaultName>Textbox19</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
                             <BackgroundColor>LightGrey</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -137,9 +251,28 @@
                           <rd:DefaultName>Textbox21</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
                             <BackgroundColor>LightGrey</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -158,7 +291,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>UOMs</Value>
+                                  <Value>UOM</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -172,9 +305,28 @@
                           <rd:DefaultName>Textbox23</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
                             <BackgroundColor>LightGrey</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -207,9 +359,28 @@
                           <rd:DefaultName>Textbox25</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
                             <BackgroundColor>LightGrey</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -242,9 +413,28 @@
                           <rd:DefaultName>Textbox27</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
                             <BackgroundColor>LightGrey</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -277,9 +467,28 @@
                           <rd:DefaultName>Textbox29</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
                             <BackgroundColor>LightGrey</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -1888,7 +2097,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Supplier Address</Value>
+                        <Value>Supplier Address:</Value>
                         <Style>
                           <FontSize>8pt</FontSize>
                           <FontWeight>Bold</FontWeight>
@@ -1900,7 +2109,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox10</rd:DefaultName>
                 <Top>0.23865in</Top>
-                <Left>0.20833in</Left>
+                <Left>0.05676in</Left>
                 <Height>0.15625in</Height>
                 <Width>1.11458in</Width>
                 <Style>
@@ -1929,7 +2138,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox11</rd:DefaultName>
                 <Top>0.23865in</Top>
-                <Left>1.32291in</Left>
+                <Left>1.17134in</Left>
                 <Height>0.15625in</Height>
                 <Width>2.01041in</Width>
                 <ZIndex>1</ZIndex>
@@ -1950,7 +2159,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Telephone</Value>
+                        <Value>Telephone:</Value>
                         <Style>
                           <FontSize>8pt</FontSize>
                           <FontWeight>Bold</FontWeight>
@@ -1962,7 +2171,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox12</rd:DefaultName>
                 <Top>0.3949in</Top>
-                <Left>0.20833in</Left>
+                <Left>0.05676in</Left>
                 <Height>0.18056in</Height>
                 <Width>1.11458in</Width>
                 <ZIndex>2</ZIndex>
@@ -1992,7 +2201,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox13</rd:DefaultName>
                 <Top>0.42268in</Top>
-                <Left>1.32291in</Left>
+                <Left>1.17134in</Left>
                 <Height>0.15278in</Height>
                 <Width>2.01041in</Width>
                 <ZIndex>3</ZIndex>
@@ -2013,7 +2222,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Fax No.</Value>
+                        <Value>Fax No.:</Value>
                         <Style>
                           <FontSize>8pt</FontSize>
                           <FontWeight>Bold</FontWeight>
@@ -2025,7 +2234,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox14</rd:DefaultName>
                 <Top>0.58935in</Top>
-                <Left>0.20833in</Left>
+                <Left>0.05676in</Left>
                 <Height>0.20486in</Height>
                 <Width>1.11458in</Width>
                 <ZIndex>4</ZIndex>
@@ -2046,7 +2255,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>GST Number</Value>
+                        <Value>GST Number:</Value>
                         <Style>
                           <FontSize>8pt</FontSize>
                           <FontWeight>Bold</FontWeight>
@@ -2058,7 +2267,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox15</rd:DefaultName>
                 <Top>0.79421in</Top>
-                <Left>0.20833in</Left>
+                <Left>0.05676in</Left>
                 <Height>0.17361in</Height>
                 <Width>1.11458in</Width>
                 <ZIndex>5</ZIndex>
@@ -2088,7 +2297,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox16</rd:DefaultName>
                 <Top>0.79421in</Top>
-                <Left>1.32291in</Left>
+                <Left>1.17134in</Left>
                 <Height>0.17361in</Height>
                 <Width>2.01041in</Width>
                 <ZIndex>6</ZIndex>
@@ -2105,9 +2314,9 @@
             </ReportItems>
             <KeepTogether>true</KeepTogether>
             <Top>2.38657cm</Top>
-            <Left>10.37401cm</Left>
+            <Left>10.75901cm</Left>
             <Height>2.90806cm</Height>
-            <Width>8.62541cm</Width>
+            <Width>8.24041cm</Width>
             <ZIndex>10</ZIndex>
             <Style>
               <Border>
@@ -2129,7 +2338,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Purchase Order</Value>
+                        <Value>Purchase Order:</Value>
                         <Style>
                           <FontSize>8pt</FontSize>
                           <FontWeight>Bold</FontWeight>
@@ -2142,7 +2351,7 @@
                 <rd:DefaultName>Textbox2</rd:DefaultName>
                 <Top>0.04942in</Top>
                 <Height>0.15625in</Height>
-                <Width>1.51042in</Width>
+                <Width>1.56598in</Width>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -2160,7 +2369,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Project Code</Value>
+                        <Value>Project Code:</Value>
                         <Style>
                           <FontSize>8pt</FontSize>
                           <FontWeight>Bold</FontWeight>
@@ -2173,7 +2382,7 @@
                 <rd:DefaultName>Textbox3</rd:DefaultName>
                 <Top>0.20567in</Top>
                 <Height>0.18056in</Height>
-                <Width>1.51042in</Width>
+                <Width>1.56598in</Width>
                 <ZIndex>1</ZIndex>
                 <Style>
                   <Border>
@@ -2192,7 +2401,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Requistion Code</Value>
+                        <Value>Requistion Code:</Value>
                         <Style>
                           <FontSize>8pt</FontSize>
                           <FontWeight>Bold</FontWeight>
@@ -2205,7 +2414,7 @@
                 <rd:DefaultName>Textbox4</rd:DefaultName>
                 <Top>0.39665in</Top>
                 <Height>0.1493in</Height>
-                <Width>1.51042in</Width>
+                <Width>1.56598in</Width>
                 <ZIndex>2</ZIndex>
                 <Style>
                   <Border>
@@ -2224,7 +2433,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Order Date</Value>
+                        <Value>Order Date:</Value>
                         <Style>
                           <FontSize>8pt</FontSize>
                           <FontWeight>Bold</FontWeight>
@@ -2237,7 +2446,7 @@
                 <rd:DefaultName>Textbox6</rd:DefaultName>
                 <Top>0.55984in</Top>
                 <Height>0.15625in</Height>
-                <Width>1.51042in</Width>
+                <Width>1.57986in</Width>
                 <ZIndex>3</ZIndex>
                 <Style>
                   <Border>
@@ -2256,7 +2465,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Purchase Order Due Date</Value>
+                        <Value>Purchase Order Due Date:</Value>
                         <Style>
                           <FontSize>8pt</FontSize>
                           <FontWeight>Bold</FontWeight>
@@ -2269,7 +2478,7 @@
                 <rd:DefaultName>Textbox7</rd:DefaultName>
                 <Top>0.73692in</Top>
                 <Height>0.19792in</Height>
-                <Width>1.49653in</Width>
+                <Width>1.56598in</Width>
                 <ZIndex>4</ZIndex>
                 <Style>
                   <Border>
@@ -2299,9 +2508,9 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox8</rd:DefaultName>
                 <Top>0.56331in</Top>
-                <Left>1.51042in</Left>
+                <Left>1.57986in</Left>
                 <Height>0.15625in</Height>
-                <Width>1.20763in</Width>
+                <Width>1.24235in</Width>
                 <ZIndex>5</ZIndex>
                 <Style>
                   <Border>
@@ -2331,9 +2540,9 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox9</rd:DefaultName>
                 <Top>0.76123in</Top>
-                <Left>1.49653in</Left>
+                <Left>1.56598in</Left>
                 <Height>0.15625in</Height>
-                <Width>1.22152in</Width>
+                <Width>1.25624in</Width>
                 <ZIndex>6</ZIndex>
                 <Style>
                   <Border>
@@ -2361,9 +2570,9 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox62</rd:DefaultName>
                 <Top>0.06331in</Top>
-                <Left>1.46582in</Left>
+                <Left>1.56598in</Left>
                 <Height>0.14236in</Height>
-                <Width>1.12031in</Width>
+                <Width>1.0896in</Width>
                 <ZIndex>7</ZIndex>
                 <Style>
                   <Border>
@@ -2392,9 +2601,9 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox63</rd:DefaultName>
                 <Top>0.06331in</Top>
-                <Left>2.58613in</Left>
+                <Left>2.65557in</Left>
                 <Height>0.14236in</Height>
-                <Width>1.48076in</Width>
+                <Width>1.58025in</Width>
                 <ZIndex>8</ZIndex>
                 <Style>
                   <Border>
@@ -2412,7 +2621,7 @@
             <Top>2.38657cm</Top>
             <Left>0.00001cm</Left>
             <Height>2.90806cm</Height>
-            <Width>10.37399cm</Width>
+            <Width>10.759cm</Width>
             <ZIndex>11</ZIndex>
             <Style>
               <Border>
@@ -2624,6 +2833,12 @@ NOTE: PRIOR TO COMMENCEMENT OF WORK, YOUR TECHNICIAN / ENGINEER SHALL PROVIDE CO
       </Page>
     </ReportSection>
   </ReportSections>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -2663,80 +2878,4 @@ End Function
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Fields>
-        <Field Name="No_">
-          <DataField>No_</DataField>
-        </Field>
-        <Field Name="Cominfo_Picture">
-          <DataField>Cominfo_Picture</DataField>
-        </Field>
-        <Field Name="Order_Date_PH">
-          <DataField>Order_Date_PH</DataField>
-        </Field>
-        <Field Name="PurchaseOrderDue_Date_PH">
-          <DataField>PurchaseOrderDue_Date_PH</DataField>
-        </Field>
-        <Field Name="Ship_to_Address_PH">
-          <DataField>Ship_to_Address_PH</DataField>
-        </Field>
-        <Field Name="Telephone_vend_contact_PH">
-          <DataField>Telephone_vend_contact_PH</DataField>
-        </Field>
-        <Field Name="vend_GSTNO_PH">
-          <DataField>vend_GSTNO_PH</DataField>
-        </Field>
-        <Field Name="Currency_Code">
-          <DataField>Currency_Code</DataField>
-        </Field>
-        <Field Name="Payment_Terms_Code">
-          <DataField>Payment_Terms_Code</DataField>
-        </Field>
-        <Field Name="Clauses">
-          <DataField>Clauses</DataField>
-        </Field>
-        <Field Name="Line_No_">
-          <DataField>Line_No_</DataField>
-        </Field>
-        <Field Name="Description">
-          <DataField>Description</DataField>
-        </Field>
-        <Field Name="Quantity">
-          <DataField>Quantity</DataField>
-        </Field>
-        <Field Name="QuantityFormat">
-          <DataField>QuantityFormat</DataField>
-        </Field>
-        <Field Name="Unit_of_Measure">
-          <DataField>Unit_of_Measure</DataField>
-        </Field>
-        <Field Name="Unit_Price">
-          <DataField>Unit_Price</DataField>
-        </Field>
-        <Field Name="Unit_PriceFormat">
-          <DataField>Unit_PriceFormat</DataField>
-        </Field>
-        <Field Name="GSTBaseAmt">
-          <DataField>GSTBaseAmt</DataField>
-        </Field>
-        <Field Name="GSTBaseAmtFormat">
-          <DataField>GSTBaseAmtFormat</DataField>
-        </Field>
-        <Field Name="TotalAmt">
-          <DataField>TotalAmt</DataField>
-        </Field>
-        <Field Name="TotalAmtFormat">
-          <DataField>TotalAmtFormat</DataField>
-        </Field>
-        <Field Name="Comm">
-          <DataField>Comm</DataField>
-        </Field>
-      </Fields>
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-    </DataSet>
-  </DataSets>
 </Report>

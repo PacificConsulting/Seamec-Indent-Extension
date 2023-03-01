@@ -2,7 +2,7 @@ report 50097 "Purchase Order"
 {
 
     DefaultLayout = RDLC;
-    RDLCLayout = './Src/ReportLayout/Purchase Order -1.rdl';
+    RDLCLayout = './Src/ReportLayout/Purchase Order -4.rdl';
     ApplicationArea = all;
     UsageCategory = ReportsAndAnalysis;
 
@@ -11,6 +11,7 @@ report 50097 "Purchase Order"
     {
         dataitem("Purchase Header"; "Purchase Header")
         {
+            DataItemTableView = sorting("No.");
             RequestFilterFields = "No.", "Buy-from Vendor No.", "Posting Date";
             column(No_; "No.")
             {

@@ -280,6 +280,20 @@ page 50063
                     REPORT.RUNMODAL(50096, TRUE, TRUE, IndentLine);
                 end;
             }
+            action("Indent Requisition")
+            {
+                Image = Report;
+                ApplicationArea = all;
+                trigger OnAction();
+                var
+                    RecIndentHeader: record "Indent Header";
+                begin
+                    RecIndentHeader.Reset();
+                    RecIndentHeader.SetRange("No.", rec."No.");
+                    Report.RunModal(50098, true, true, RecIndentHeader);
+                end;
+
+            }
             action("&Schedule Detail")
             {
                 Caption = '&Schedule Detail';
@@ -318,6 +332,7 @@ page 50063
                     Message('Your request has been send');
                 end;
             }
+
         }
     }
 

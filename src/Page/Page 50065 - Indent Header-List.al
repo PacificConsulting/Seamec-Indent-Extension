@@ -24,6 +24,10 @@ page 50065 "Indent Header-List"
                 {
                     ApplicationArea = all;
                 }
+                field("Indent Description"; Rec."Indent Description")
+                {
+                    ApplicationArea = All;
+                }
                 field(Date; Rec.Date)
                 {
                     ApplicationArea = all;

@@ -30,6 +30,11 @@ table 50020 "RFQ Header"
             FieldClass = FlowField;
             CalcFormula = sum("RFQ Line"."Line Amount" where("Document No." = field("Document No.")));
         }
+        field(6; Status; Option)
+        {
+            OptionCaption = 'Open,Pending Approval,Released';
+            OptionMembers = Open,"Pending Approval",Released;
+        }
     }
 
     keys

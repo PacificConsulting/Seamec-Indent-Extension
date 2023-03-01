@@ -34,6 +34,11 @@ page 50091 "RFQ Card"
                 {
                     ApplicationArea = All;
                 }
+                field(Status; Rec.Status)
+                {
+                    Editable = false;
+                    ApplicationArea = All;
+                }
             }
             part(RFQLines; 50090)
             {
@@ -42,6 +47,201 @@ page 50091 "RFQ Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action("Send for Quoatation")
+            {
+                Caption = 'Send for Quotation';
+                ApplicationArea = All;
+                Image = Insert;
+                Description = 'PCPL-0070 24Feb2023';
+                trigger OnAction()
+                var
+                    RFQLine: Record "RFQ Line";
+                    ItemVend: Record "Item Vendor";
+                    RFQCatalog: Record "RFQ Catalog";
+                    LineNo: Integer;
+                    VendorNo: Code[20];
+                Begin
+                    RFQLine.Reset();
+                    RFQLine.SetRange("Document No.", Rec."Document No.");
+                    if RFQLine.FindSet() then
+                        repeat
+                            ItemVend.Reset();
+                            ItemVend.SetRange("Item No.", RFQLine."No.");
+                            if ItemVend.FindSet() then begin
+                                repeat
+                                    RFQCatalog.Reset();
+                                    RFQCatalog.SetRange("Document No.", Rec."Document No.");
+                                    RFQCatalog.SetRange("Vendor No.", ItemVend."Vendor No.");
+                                    if not RFQCatalog.FindFirst() then begin
+                                        RFQCatalog.Init();
+                                        RFQCatalog.Validate("Document No.", RFQLine."Document No.");
+                                        RFQCatalog.Validate("Line No.", RFQLine."Line No.");
+                                        RFQCatalog.Validate("Vendor No.", ItemVend."Vendor No.");
+                                        RFQCatalog.Validate("Item No.", ItemVend."Vendor Item No.");
+                                        RFQCatalog.Validate(Quantity, RFQLine.Quantity);
+                                        RFQCatalog.Insert();
+                                    End;
+                                until ItemVend.Next() = 0;
+                                Message('Quotation Insert Successfully');
+                            End Else
+                                Error('Vendor catalog does not exist');
+                        until RFQLine.Next() = 0
+                    else
+                        Error('Lines Does not Exist in %1 order', Rec."Document No.");
+
+                    RFQCatalog.Reset();
+                    RFQCatalog.SetRange("Document No.", Rec."Document No.");
+                    if RFQCatalog.FindSet() then
+                        repeat
+                            SendMailForVendor(RFQCatalog);
+                        until RFQCatalog.Next() = 0;
+                    Message('E-mail sent successfully');
+                End;
+            }
+            action(CreatePO_)
+            {
+                Caption = 'Create PO';
+                ApplicationArea = All;
+                Image = Create;
+                Description = 'PCPL-0070 28Feb2023';
+                trigger OnAction()
+                begin
+                    CreatePO();
+                end;
+            }
+        }
+    }
+    procedure SendMailForVendor(RFQ_Catalog: Record "RFQ Catalog")
     var
-        myInt: Integer;
+        RecVendor: Record Vendor;
+        RecItem: Record Item;
+        RFQHdr: Record "RFQ Header";
+        RFQLine: Record "RFQ Line";
+    Begin
+        Clear(bodytext1);
+        if RecVendor.GET(RFQ_Catalog."Vendor No.") then begin
+            RecItem.Get(RFQ_Catalog."Item No.");
+            CompanyInfo.GET;
+            RFQHdr.GET(RFQ_Catalog."Document No.");
+            RFQLine.GET(RFQ_Catalog."Document No.", RFQ_Catalog."Line No.");
+
+            bodytext1 += ('Dear Sir/Madam');
+            bodytext1 += ('<br><Br>');
+            bodytext1 += ('We request you to submit your quote for our following requirement. For details click on Web Link.');
+            bodytext1 += ('<td style="text-align:center" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
+            bodytext1 += ('<br><Br>');
+            BodyText1 += '</tr>';
+            BodyText1 += '</table>';
+            BodyText1 += '<table border ="1">';
+            bodytext1 += ('<th> Date </th>');
+            BodyText1 += '<th> Document No. </th>';
+            BodyText1 += '<th> Item No. </th>';
+            BodyText1 += '<th> Description </th>';
+            BodyText1 += '<th> Vendor No. </th>';
+            BodyText1 += '<th> Quantity </th>';
+            BodyText1 += '<th> UOM </th>';
+            bodytext1 += ('<th> Web Link </th>');
+            BodyText1 += '</tr>';
+            /// bodytext1 += ('<tr style="background-color:#EFF3FB; color:black">');
+            BodyText1 += '<tr>';
+            BodyText1 += ('<td>' + FORMAT(RFQHdr.Date) + '</td>');
+            BodyText1 += ('<td>' + FORMAT(RFQ_Catalog."Document No.") + '</td>');
+            BodyText1 += ('<td>' + FORMAT(RFQ_Catalog."Item No.") + '</td>');
+            BodyText1 += ('<td>' + RecItem.Description + '</td>');
+            BodyText1 += ('<td>' + Format(RFQ_Catalog."Vendor No.") + '</td>');
+            BodyText1 += ('<td>' + FORMAT(RFQ_Catalog.Quantity) + '</td>');
+            BodyText1 += ('<td>' + FORMAT(RFQLine."Unit of Measure Code") + '</td>');
+            BodyText1 += ('<td>' + '' + '</td>');
+            BodyText1 += '</tr>';
+            BodyText1 += '</table>';
+            bodytext1 += ('<br><Br>');
+            bodytext1 += ('<th> Vendor Name : ' + RecVendor.Name + '</th>');
+            bodytext1 += ('<br><Br>');
+            bodytext1 += ('<th style="text-align:left"> Vendor User ID : ' + RecVendor."No." + '</th>');
+            bodytext1 += ('<br><Br>');
+            bodytext1 += ('<th style="text-align:left"> Vendor Password : ' + RecVendor.Password + '</th>');
+            bodytext1 += ('<br><Br>');
+            bodytext1 += ('<br><Br>');
+            BodyText1 += ('<td style="text-align:left" colspan=8><b>' + 'Thanks & Regards' + '</b></td>');
+            BodyText1 += '<br><br>';
+            BodyText1 += ('<td style="text-align:left" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
+            BodyText1 += '<br><br>';
+            VarRecipaints.Add('deepak.rajauria@pacificconsulting.in');
+            VarRecipaints.Add('nirmal.wagh@pacificconsulting.in');
+            EmailMessage.Create(VarRecipaints, 'Request For Quote : ' + RecItem.Description, bodytext1, true);
+            Email.Send(EmailMessage, Enum::"Email Scenario"::Default);
+            // Message('E-mail sent successfully');
+        End;
+        //Clear(bodytext1);
+    End;
+
+    procedure CreatePO()
+    var
+        PH: Record "Purchase Header";
+        PL: Record "Purchase Line";
+        NoSeriesMgt: Codeunit NoSeriesManagement;
+        PurchSetup: Record "Purchases & Payables Setup";
+        RFQLine: Record "RFQ Line";
+        PH_No: Code[20];
+        LineNo: Integer;
+        LastVendorNo: code[20];
+    Begin
+        PurchSetup.GET;
+
+        RFQLine.reset;
+        RFQLine.SetRange("Document No.", Rec."Document No.");
+        if RFQLine.FindSet() then
+            LineNo := 10000;
+        repeat
+            if LastVendorNo <> RFQLine."Vendor No." then begin
+                PH.Init();
+                PH_No := NoSeriesMgt.GetNextNo(PurchSetup."Order Nos.", Today, true);
+                PH.Validate("No.", PH_No);
+                PH.Validate("Buy-from Vendor No.", RFQLine."Vendor No.");
+                PH.Validate("Document Type", PH."Document Type"::Order);
+                PH.Validate("Posting Date", Today);
+                PH.Insert(true);
+
+                PL.init;
+                PL.Validate("Document No.", PH."No.");
+                PL.Validate("Document Type", PH."Document Type");
+                PL."Line No." := LineNo;
+                PL.Validate("No.", RFQLine."No.");
+                PL.Validate("Location Code", RFQLine."Location Code");
+                PL.Validate(Quantity, RFQLine.Quantity);
+                PL.Validate("Unit of Measure Code", RFQLine."Unit of Measure Code");
+                PL.Validate("Unit Cost", RFQLine."Unit Cost");
+                PL.Validate("Line Amount", RFQLine."Line Amount");
+                PL.insert(True);
+                LastVendorNo := PH."Buy-from Vendor No.";
+                LineNo := LineNo + 10000;
+            end ELse begin
+                PL.init;
+                PL.Validate("Document No.", PH."No.");
+                PL.Validate("Document Type", PH."Document Type");
+                PL."Line No." := LineNo;
+                PL.Validate("No.", RFQLine."No.");
+                PL.Validate("Location Code", RFQLine."Location Code");
+                PL.Validate(Quantity, RFQLine.Quantity);
+                PL.Validate("Unit of Measure Code", RFQLine."Unit of Measure Code");
+                PL.Validate("Unit Cost", RFQLine."Unit Cost");
+                PL.Validate("Line Amount", RFQLine."Line Amount");
+                PL.insert(True);
+                LineNo := LineNo + 10000;
+            end;
+        until RFQLine.Next() = 0;
+    End;
+
+    var
+        //myInt: Interface "Email Connector"
+        Email: Codeunit Email;
+        EmailMessage: codeunit "Email Message";
+        bodytext1: Text;
+        CompanyInfo: Record "Company Information";
+        VarRecipaints: List of [text];
+
 }

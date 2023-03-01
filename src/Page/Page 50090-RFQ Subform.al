@@ -120,6 +120,7 @@ page 50090 "RFQ Subform"
                 ApplicationArea = All;
                 Caption = 'Insert Vendor Catlog';
                 Image = Insert;
+                Visible = false;
                 trigger OnAction()
                 var
                     ItemVend: Record "Item Vendor";
