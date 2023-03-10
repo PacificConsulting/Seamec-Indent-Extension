@@ -2,6 +2,8 @@ table 50019 "RFQ Line"
 {
     //--PCPL/0070/13Feb2023
     DataClassification = ToBeClassified;
+    Access = Public;
+    Permissions = tabledata "RFQ Line" = RIMD;
 
     fields
     {

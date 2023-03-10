@@ -5,7 +5,7 @@ table 50020 "RFQ Header"
 
     fields
     {
-        field(1; "Document No."; Code[20])
+        field(1; "No."; Code[20])
         {
             DataClassification = ToBeClassified;
         }
@@ -25,21 +25,27 @@ table 50020 "RFQ Header"
         }
         field(5; "Total Amount"; Decimal)
         {
-            //DataClassification = ToBeClassified;
+
             Editable = false;
             FieldClass = FlowField;
-            CalcFormula = sum("RFQ Line"."Line Amount" where("Document No." = field("Document No.")));
+            CalcFormula = sum("RFQ Line"."Line Amount" where("Document No." = field("No.")));
         }
         field(6; Status; Option)
         {
+            OptionCaption = 'Open,Released';
+            OptionMembers = Open,Released;
+        }
+        field(7; "Approval Status"; Option)
+        {
             OptionCaption = 'Open,Pending Approval,Released';
             OptionMembers = Open,"Pending Approval",Released;
+            Caption = 'Approval Status';
         }
     }
 
     keys
     {
-        key(Key1; "Document No.")
+        key(Key1; "No.")
         {
             Clustered = true;
         }

@@ -8,12 +8,11 @@ page 50066 "Indent Line List"
     // //CreateIndentLines
     // //SetPurchHeaderIndent
 
-    AutoSplitKey = false;
-    DelayedInsert = false;
-    DeleteAllowed = false;
+
     Editable = true;
     InsertAllowed = false;
     ModifyAllowed = false;
+    DeleteAllowed = false;
     PageType = List;
     RefreshOnActivate = true;
     SaveValues = false;

@@ -6,7 +6,7 @@ codeunit 50021 "RFQ-Send for Quotation"
 
     end;
 
-    procedure SendForQuotation(DocNo: Code[20])
+    procedure SendForQuotation(docno: Text): Text
     var
         RFQLine: Record "RFQ Line";
         ItemVend: Record "Item Vendor";
@@ -14,9 +14,10 @@ codeunit 50021 "RFQ-Send for Quotation"
         LineNo: Integer;
         Rec: Record "RFQ Header";
     Begin
+
         if Rec.GET(DocNo) then begin
             RFQLine.Reset();
-            RFQLine.SetRange("Document No.", Rec."Document No.");
+            RFQLine.SetRange("Document No.", Rec."No.");
             if RFQLine.FindSet() then
                 repeat
                     ItemVend.Reset();
@@ -24,7 +25,7 @@ codeunit 50021 "RFQ-Send for Quotation"
                     if ItemVend.FindSet() then begin
                         repeat
                             RFQCatalog.Reset();
-                            RFQCatalog.SetRange("Document No.", Rec."Document No.");
+                            RFQCatalog.SetRange("Document No.", Rec."No.");
                             RFQCatalog.SetRange("Vendor No.", ItemVend."Vendor No.");
                             if not RFQCatalog.FindFirst() then begin
                                 RFQCatalog.Init();
@@ -40,16 +41,20 @@ codeunit 50021 "RFQ-Send for Quotation"
                         Error('Vendor catalog does not exist');
                 until RFQLine.Next() = 0
             else
-                Error('Lines Does not Exist in %1 order', Rec."Document No.");
+                Error('Lines Does not Exist in %1 order', Rec."No.");
             Message('Quotation Insert Successfully');
             RFQCatalog.Reset();
-            RFQCatalog.SetRange("Document No.", Rec."Document No.");
+            RFQCatalog.SetRange("Document No.", Rec."No.");
             if RFQCatalog.FindSet() then
                 repeat
                     SendMailForVendor(RFQCatalog);
                 until RFQCatalog.Next() = 0;
-        End Else
+        End Else begin
             Error('Document No Found with %1', DocNo);
+            exit('Failed ' + docno);
+        end;
+
+        exit('Success ' + docno);
     end;
 
     procedure SendMailForVendor(RFQ_Catalog: Record "RFQ Catalog")
@@ -58,6 +63,8 @@ codeunit 50021 "RFQ-Send for Quotation"
         RecItem: Record Item;
         RFQHdr: Record "RFQ Header";
         RFQLine: Record "RFQ Line";
+        CC: List of [Text];
+        BCC: List of [Text];
     Begin
         RecVendor.GET(RFQ_Catalog."Vendor No.");
         RecItem.Get(RFQ_Catalog."Item No.");
@@ -102,11 +109,28 @@ codeunit 50021 "RFQ-Send for Quotation"
         BodyText1 += 'Warm Regards,';
         BodyText1 += ('<td style="text-align:left" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
         BodyText1 += '<br><br>';
-        VarRecipaints := 'deepak.rajauria@pacificconsulting.in';
+        VarRecipaints := 'kamalkant@pacificconsulting.in';
         EmailMessage.Create(VarRecipaints, 'Request For Quote : ' + RecItem.Description, bodytext1, true);
         Email.Send(EmailMessage, Enum::"Email Scenario"::Default);
         Message('E-mail sent successfully');
+
     End;
+
+    procedure UpdateRFQLine(documentNo: Text; lineNo: Integer; remarks: Text[100]): text
+    var
+        RFQLine: Record "RFQ Line";
+    begin
+        RFQLine.Reset();
+        RFQLine.SetRange("Document No.", documentNo);
+        RFQLine.SetRange("Line No.", lineNo);
+        IF RFQLine.FindFirst() then begin
+            RFQLine.Remark := remarks;
+            RFQLine.Modify();
+            exit('Success');
+        end;
+    end;
+
+
 
     var
         myInt: Integer;

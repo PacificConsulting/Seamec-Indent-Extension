@@ -17,6 +17,10 @@ report 50097 "Purchase Order"
             {
 
             }
+            column(RFQ_Indent_No_; "RFQ Indent No.")
+            {
+
+            }
             column(Cominfo_Picture; Cominfo.Picture)
             {
 
@@ -53,12 +57,37 @@ report 50097 "Purchase Order"
             {
 
             }
+            column(Project_Code; "Shortcut Dimension 2 Code")
+            {
+
+            }
+            column(Buy_from_Vendor_No_Supplier; "Buy-from Vendor No.")
+            {
+
+            }
+            column(Buy_from_Vendor_Name; "Buy-from Vendor Name")
+            {
+
+            }
+            column(Buy_from_Address; "Buy-from Address" + '' + "Buy-from Address 2")
+
+            {
+
+            }
+            column(Buy_from_Contact; "Buy-from Contact" + ',' + "Buy-from Contact No.")
+            {
+
+            }
 
             dataitem("Purchase Line"; "Purchase Line")
             {
                 DataItemLink = "Document No." = field("No.");
 
                 column(Line_No_; "Line No.")
+                {
+
+                }
+                column(Item_No_; "No.")
                 {
 
                 }
@@ -86,10 +115,47 @@ report 50097 "Purchase Order"
                 {
 
                 }
-                column(Comm; Comm)
+                column(TotalPoValues; TotalPoValues)
                 {
 
                 }
+                // column(Comm; Comm)
+                // {
+
+                // }
+                dataitem("Purch. Comment Line"; "Purch. Comment Line")
+                {
+                    DataItemLink = "Document Line No." = field("Line No.");
+                    column(Comment; Comment)
+                    {
+
+                    }
+                    column(Line_No_comments; "Line No.")
+                    {
+
+                    }
+
+                    column(Document_Line_No_; "Document Line No.")
+                    {
+
+                    }
+                    column(iscomment; iscomment)
+                    {
+
+                    }
+                    trigger OnAfterGetRecord() //PCL
+                    begin
+                        if "Document Line No." <> lineno then begin
+                            iscomment := false;
+                            lineno := "Document Line No."
+
+                        end
+                        else
+                            iscomment := true;
+
+                    end;
+                }
+
 
 
 
@@ -98,12 +164,19 @@ report 50097 "Purchase Order"
                 begin
                     Clear(TotalAmt);
                     TotalAmt += "Purchase Line".Quantity * "Purchase Line"."Direct Unit Cost";
+                    //TotalPoValues += TotalAmt + DGLE."GST Base Amount";
+                    //Message(format(TotalPoValues));
 
-                    RecPurchCom.Reset();
-                    RecPurchCom.SetRange("Document Type", "Document Type");
-                    RecPurchCom.Setrange("No.", "Document No.");
-                    if RecPurchCom.FindFirst() then
-                        Comm := RecPurchCom.Comment;
+                    // RecPurchCom.Reset();
+                    // RecPurchCom.SetRange("Document Type", "Purchase Line"."Document Type"::Order);
+                    // RecPurchCom.SetRange("Document Line No.", "Purchase Line"."Line No.");
+                    // RecPurchCom.Setrange("No.", "Purchase Line"."Document No.");
+                    // if RecPurchCom.FindFirst() then
+                    //     repeat
+                    //         Comm := RecPurchCom.Comment;
+                    //     until RecPurchCom.Next = 0;
+
+
                 end;
 
             }
@@ -119,12 +192,18 @@ report 50097 "Purchase Order"
                 if Recvendor.get("Buy-from Vendor No.") then
                     vend_contact := Recvendor."Phone No.";
                 vend_GSTNO := Recvendor."GST Registration No.";
+                //Projectcode := Recvendor."Global Dimension 1 Code";
 
 
                 DGLE.Reset();
                 DGLE.SetRange("Document No.", "No.");
                 if DGLE.FindSet() then
                     GSTBaseAmt := DGLE."GST Base Amount";
+
+
+
+
+
             end;
 
         }
@@ -173,4 +252,10 @@ report 50097 "Purchase Order"
         TotalAmt: Decimal;
         RecPurchCom: Record "Purch. Comment Line";
         Comm: Text[80];
+        lineno: Integer;
+        iscomment: Boolean;
+        TotalPoValues: Decimal;
+        RecIndent: Record "Indent Header";
+        IndentNo: Code[20];
+
 }

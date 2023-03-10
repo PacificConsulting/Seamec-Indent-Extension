@@ -4,9 +4,6 @@ tableextension 50128 Purchase_Header_ext extends "Purchase Header"
 
     fields
     {
-
-
-
         field(50101; "PO Created"; Boolean)
         {
             Description = 'pcpl002410oct2018';
@@ -15,6 +12,17 @@ tableextension 50128 Purchase_Header_ext extends "Purchase Header"
         {
             OptionMembers = " ","Clause 1","Clause 2";
             OptionCaption = ' ,Clause 1,Clause 2';
+        }
+        field(50103; "RFQ Indent No."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Description = 'PCPL-0070 03Mar2023';
+            Editable = false;
+        }
+        field(50104; "Create PO by Indent"; Boolean)
+        {
+            Description = 'PCPL-0070 03Mar2023';
+            Editable = false;
         }
     }
     procedure UpdateIndent()

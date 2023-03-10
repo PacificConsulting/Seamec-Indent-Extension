@@ -16,6 +16,10 @@ report 50098 "Indent Requisition"
 
 
             }
+            column(Indent_Description; "Indent Description")
+            {
+
+            }
             column(Status; Status)
             {
             }
@@ -58,6 +62,10 @@ report 50098 "Indent Requisition"
                 {
 
                 }
+                column(Item_No_; "No.")
+                {
+
+                }
                 column(Description; Description)
                 {
 
@@ -71,6 +79,7 @@ report 50098 "Indent Requisition"
                 {
 
                 }
+
                 column(Approved_Date; "Approved Date")
                 {
 
@@ -83,10 +92,7 @@ report 50098 "Indent Requisition"
                 {
 
                 }
-                column(Releaser_User_ID; "Releaser User ID")
-                {
 
-                }
 
             }
             trigger OnPreDataItem()  //PH

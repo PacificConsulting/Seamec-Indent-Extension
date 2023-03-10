@@ -3,9 +3,11 @@ page 50091 "RFQ Card"
     //--PCPL/0070/13Feb2023
     PageType = Card;
     // ApplicationArea = All;
-    // UsageCategory = Administration;
+    //UsageCategory = Administration;
     SourceTable = "RFQ Header";
     Editable = true;
+    Permissions = tabledata "RFQ Header" = RIMD;
+
 
 
     layout
@@ -14,7 +16,7 @@ page 50091 "RFQ Card"
         {
             group(General)
             {
-                field("Document No."; Rec."Document No.")
+                field("No."; Rec."No.")
                 {
                     ApplicationArea = All;
                 }
@@ -34,7 +36,8 @@ page 50091 "RFQ Card"
                 {
                     ApplicationArea = All;
                 }
-                field(Status; Rec.Status)
+
+                field("Approval Status"; Rec."Approval Status")
                 {
                     Editable = false;
                     ApplicationArea = All;
@@ -43,7 +46,7 @@ page 50091 "RFQ Card"
             part(RFQLines; 50090)
             {
                 ApplicationArea = All;
-                SubPageLink = "Document No." = FIELD("Document No.");
+                SubPageLink = "Document No." = FIELD("No.");
             }
         }
     }
@@ -66,7 +69,7 @@ page 50091 "RFQ Card"
                     VendorNo: Code[20];
                 Begin
                     RFQLine.Reset();
-                    RFQLine.SetRange("Document No.", Rec."Document No.");
+                    RFQLine.SetRange("Document No.", Rec."No.");
                     if RFQLine.FindSet() then
                         repeat
                             ItemVend.Reset();
@@ -74,7 +77,7 @@ page 50091 "RFQ Card"
                             if ItemVend.FindSet() then begin
                                 repeat
                                     RFQCatalog.Reset();
-                                    RFQCatalog.SetRange("Document No.", Rec."Document No.");
+                                    RFQCatalog.SetRange("Document No.", Rec."No.");
                                     RFQCatalog.SetRange("Vendor No.", ItemVend."Vendor No.");
                                     if not RFQCatalog.FindFirst() then begin
                                         RFQCatalog.Init();
@@ -91,10 +94,10 @@ page 50091 "RFQ Card"
                                 Error('Vendor catalog does not exist');
                         until RFQLine.Next() = 0
                     else
-                        Error('Lines Does not Exist in %1 order', Rec."Document No.");
+                        Error('Lines Does not Exist in %1 order', Rec."No.");
 
                     RFQCatalog.Reset();
-                    RFQCatalog.SetRange("Document No.", Rec."Document No.");
+                    RFQCatalog.SetRange("Document No.", Rec."No.");
                     if RFQCatalog.FindSet() then
                         repeat
                             SendMailForVendor(RFQCatalog);
@@ -189,51 +192,91 @@ page 50091 "RFQ Card"
         PH_No: Code[20];
         LineNo: Integer;
         LastVendorNo: code[20];
+        PurchHdr: Record "Purchase Header";
     Begin
         PurchSetup.GET;
 
         RFQLine.reset;
-        RFQLine.SetRange("Document No.", Rec."Document No.");
+        RFQLine.SetRange("Document No.", Rec."No.");
         if RFQLine.FindSet() then
             LineNo := 10000;
         repeat
-            if LastVendorNo <> RFQLine."Vendor No." then begin
-                PH.Init();
-                PH_No := NoSeriesMgt.GetNextNo(PurchSetup."Order Nos.", Today, true);
-                PH.Validate("No.", PH_No);
-                PH.Validate("Buy-from Vendor No.", RFQLine."Vendor No.");
-                PH.Validate("Document Type", PH."Document Type"::Order);
-                PH.Validate("Posting Date", Today);
-                PH.Insert(true);
-
-                PL.init;
-                PL.Validate("Document No.", PH."No.");
-                PL.Validate("Document Type", PH."Document Type");
-                PL."Line No." := LineNo;
-                PL.Validate("No.", RFQLine."No.");
-                PL.Validate("Location Code", RFQLine."Location Code");
-                PL.Validate(Quantity, RFQLine.Quantity);
-                PL.Validate("Unit of Measure Code", RFQLine."Unit of Measure Code");
-                PL.Validate("Unit Cost", RFQLine."Unit Cost");
-                PL.Validate("Line Amount", RFQLine."Line Amount");
-                PL.insert(True);
-                LastVendorNo := PH."Buy-from Vendor No.";
-                LineNo := LineNo + 10000;
-            end ELse begin
-                PL.init;
-                PL.Validate("Document No.", PH."No.");
-                PL.Validate("Document Type", PH."Document Type");
-                PL."Line No." := LineNo;
-                PL.Validate("No.", RFQLine."No.");
-                PL.Validate("Location Code", RFQLine."Location Code");
-                PL.Validate(Quantity, RFQLine.Quantity);
-                PL.Validate("Unit of Measure Code", RFQLine."Unit of Measure Code");
-                PL.Validate("Unit Cost", RFQLine."Unit Cost");
-                PL.Validate("Line Amount", RFQLine."Line Amount");
-                PL.insert(True);
-                LineNo := LineNo + 10000;
+            PurchHdr.Reset();
+            PurchHdr.SetRange("RFQ Indent No.", Rec."No.");
+            PurchHdr.SetRange("Create PO by Indent", false);
+            if not PurchHdr.FindFirst() then begin
+                if RFQLine."Vendor No." <> '' then begin
+                    if LastVendorNo <> RFQLine."Vendor No." then begin
+                        PH.Init();
+                        PH_No := NoSeriesMgt.GetNextNo(PurchSetup."Order Nos.", Today, true);
+                        PH.Validate("No.", PH_No);
+                        PH.Validate("Buy-from Vendor No.", RFQLine."Vendor No.");
+                        PH.Validate("Document Type", PH."Document Type"::Order);
+                        PH.Validate("Posting Date", Today);
+                        PH."Create PO by Indent" := true;
+                        PH."RFQ Indent No." := Rec."No.";
+                        PH.Insert(true);
+                        // Message('Purchase Order %1 has been created', PH."No.");
+                        PL.init;
+                        PL."Document No." := PH."No.";
+                        PL."Document Type" := PH."Document Type";
+                        PL."Line No." := LineNo;
+                        /*
+                        PL.Validate(Type, PL.Type::Item);
+                        PL.Validate("No.", RFQLine."No.");
+                        PL.Validate("Location Code", RFQLine."Location Code");
+                        PL.Validate(Quantity, RFQLine.Quantity);
+                        PL.Validate("Unit of Measure Code", RFQLine."Unit of Measure Code");
+                        PL.Validate("Unit Cost", RFQLine."Unit Cost");
+                        PL.Validate("Line Amount", RFQLine."Line Amount");
+                        PL.insert(True);
+                        */
+                        PL.Type := PL.Type::Item;
+                        PL."No." := RFQLine."No.";
+                        if Item_Rec.GET(PL."No.") then;
+                        PL.Description := Item_Rec.Description;
+                        PL."Description 2" := Item_Rec."Description 2";
+                        PL."Location Code" := RFQLine."Location Code";
+                        PL.Quantity := RFQLine.Quantity;
+                        PL."Unit of Measure Code" := RFQLine."Unit of Measure Code";
+                        PL."Unit Cost" := RFQLine."Unit Cost";
+                        PL."Line Amount" := RFQLine."Line Amount";
+                        PL.Insert();
+                        LastVendorNo := PH."Buy-from Vendor No.";
+                        LineNo := LineNo + 10000;
+                    end ELse begin
+                        PL.init;
+                        PL.Validate("Document No.", PH."No.");
+                        PL.Validate("Document Type", PH."Document Type");
+                        PL."Line No." := LineNo;
+                        /*
+                        PL.Validate(Type, PL.Type::Item);
+                        PL.Validate("No.", RFQLine."No.");
+                        PL.Validate("Location Code", RFQLine."Location Code");
+                        PL.Validate(Quantity, RFQLine.Quantity);
+                        PL.Validate("Unit of Measure Code", RFQLine."Unit of Measure Code");
+                        PL.Validate("Unit Cost", RFQLine."Unit Cost");
+                        PL.Validate("Line Amount", RFQLine."Line Amount");
+                        PL.insert(True);
+                        */
+                        PL.Type := PL.Type::Item;
+                        PL."No." := RFQLine."No.";
+                        if Item_Rec.GET(PL."No.") then;
+                        PL.Description := Item_Rec.Description;
+                        PL."Description 2" := Item_Rec."Description 2";
+                        PL."Location Code" := RFQLine."Location Code";
+                        PL.Quantity := RFQLine.Quantity;
+                        PL."Unit of Measure Code" := RFQLine."Unit of Measure Code";
+                        PL."Unit Cost" := RFQLine."Unit Cost";
+                        PL."Line Amount" := RFQLine."Line Amount";
+                        PL.Insert();
+                        LineNo := LineNo + 10000;
+                    end;
+                end;
             end;
         until RFQLine.Next() = 0;
+        Message('Purchase Orders has been created for all lines');
+
     End;
 
     var
@@ -243,5 +286,6 @@ page 50091 "RFQ Card"
         bodytext1: Text;
         CompanyInfo: Record "Company Information";
         VarRecipaints: List of [text];
+        Item_Rec: Record Item;
 
 }

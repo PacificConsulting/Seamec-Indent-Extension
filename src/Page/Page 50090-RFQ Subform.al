@@ -1,19 +1,19 @@
 page 50090 "RFQ Subform"
 {
     //--PCPL/0070/13Feb2023
+    PageType = ListPart;
+    // ApplicationArea = All;
+    //UsageCategory = Administration;
     AutoSplitKey = true;
     DelayedInsert = true;
-    DeleteAllowed = true;
-    Editable = true;
     InsertAllowed = true;
     LinksAllowed = false;
     ModifyAllowed = true;
     MultipleNewLines = true;
     SaveValues = true;
-    PageType = ListPart;
-    // ApplicationArea = All;
-    // UsageCategory = Administration;
     SourceTable = "RFQ Line";
+    Permissions = tabledata "RFQ Line" = RIMD;
+
 
     layout
     {
@@ -27,7 +27,7 @@ page 50090 "RFQ Subform"
                 }
                 field("No."; Rec."No.")
                 {
-
+                    ApplicationArea = all;
                 }
                 field(Description; Rec.Description)
                 {

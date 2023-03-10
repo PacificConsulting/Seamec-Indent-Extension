@@ -192,7 +192,7 @@ page 50067 "Indent-Purchase Order"
                         IndentLine.SetRange(Select, true);
                         if IndentLine.FindFirst() then begin
                             RFQHdr.Init();
-                            RFQHdr.Validate("Document No.", Rec."Document No.");
+                            RFQHdr.Validate("No.", Rec."Document No.");
                             RFQHdr.Validate(Date, Rec.Date);
                             RFQHdr.Validate("Location Code", Rec."Location Code");
                             RFQHdr.Validate("USER ID", Rec."USER ID");
@@ -206,7 +206,7 @@ page 50067 "Indent-Purchase Order"
                             LineNo := 10000;
                             repeat
                                 RFQLine.Init();
-                                RFQLine.Validate("Document No.", RFQHdr."Document No.");
+                                RFQLine.Validate("Document No.", RFQHdr."No.");
                                 RFQLine.Validate("Line No.", LineNo);
                                 RFQLine.Validate("No.", IndentLine."No.");
                                 RFQLine.Validate(Type, IndentLine.Type);
@@ -222,7 +222,7 @@ page 50067 "Indent-Purchase Order"
                                 IndentLine.Generate := true;
                                 IndentLine.Modify();
                             until IndentLine.Next() = 0;
-                            Message('RFQ Order %1 has been Created', RFQHdr."Document No.");
+                            Message('RFQ Order %1 has been Created', RFQHdr."No.");
                         end;
                         Page.Run(50089);
                     end else

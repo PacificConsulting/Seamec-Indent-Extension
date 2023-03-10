@@ -49,7 +49,7 @@ report 50096 "Indent Report-1"
             column(Today; FORMAT(TODAY, 0, 4))
             {
             }
-            column(Company_Address; CompInfo.Address + ' ' + CompInfo."Address 2" + ' ' + CompInfo.City + ' ' + CompInfo."Phone No." + ' ' + CompInfo."Fax No.")
+            column(Company_Address; CompInfo.Address + ' ' + CompInfo."Address 2" + ' ' + CompInfo.City + ' Tele Phone No.' + CompInfo."Phone No." + ' Fax No.' + CompInfo."Fax No.")
             {
             }
             column(PageNo; '')
@@ -70,6 +70,26 @@ report 50096 "Indent Report-1"
             column(BinQuantity; BinQuantity)
             {
             }
+            column(ROBQty; Inventory)
+            {
+
+            }
+            column(SrNo; SrNo)
+            {
+
+            }
+            column(ItemComment; ItemComment)
+            {
+
+            }
+            column(Indentcomment; IndentHead.Comments)
+            {
+
+            }
+            column(IndeDescription; IndentHead."Indent Description")
+            {
+
+            }
             column(Approved_date; "Indent Line"."Approved Date")
             {
             }
@@ -78,6 +98,22 @@ report 50096 "Indent Report-1"
             begin
                 CompInfo.GET;
                 CompInfo.CALCFIELDS(CompInfo.Picture);
+                //PCPL-25/090323
+                SrNo += 1;
+                if IndentHead.Get("Document No.", "Entry Type") then;
+                if recItem.Get("No.") then;
+                Clear(ItemComment);
+                commentLine.Reset();
+                commentLine.SetRange("No.", "No.");
+                commentLine.SetRange("Table Name", commentLine."Table Name"::Item);
+                if commentLine.FindSet() then
+                    repeat
+                        if ItemComment = '' then
+                            ItemComment := commentLine.Comment
+                        else
+                            ItemComment := ItemComment + ' ' + commentLine.Comment;
+                    until commentLine.Next() = 0;
+                //PCPL-25/090323
 
                 IF recLocation.GET("Indent Line"."Location Code") THEN;
                 BinQuantity := 0;
@@ -129,5 +165,10 @@ report 50096 "Indent Report-1"
         BinQuantity: Decimal;
         BinQuantityS: Decimal;
         BinQuantitySF: Decimal;
+        SrNo: Integer;
+        IndentHead: Record 50022;
+        recItem: Record 27;
+        commentLine: Record 97;
+        ItemComment: Text;
 }
 

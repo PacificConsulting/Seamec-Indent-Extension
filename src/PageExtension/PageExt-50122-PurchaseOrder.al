@@ -9,6 +9,13 @@ pageextension 50122 Purchase_order_Indent extends "Purchase Order"
                 ApplicationArea = All;
             }
         }
+        addafter("Posting Date")
+        {
+            field("RFQ Indent No."; Rec."RFQ Indent No.")
+            {
+                ApplicationArea = all;
+            }
+        }
     }
 
     actions
