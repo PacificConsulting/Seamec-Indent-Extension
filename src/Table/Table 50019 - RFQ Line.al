@@ -74,6 +74,11 @@ table 50019 "RFQ Line"
         {
             DataClassification = ToBeClassified;
         }
+        field(16; Price; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Price';
+        }
     }
 
     keys

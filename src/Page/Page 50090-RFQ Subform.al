@@ -13,6 +13,7 @@ page 50090 "RFQ Subform"
     SaveValues = true;
     SourceTable = "RFQ Line";
     Permissions = tabledata "RFQ Line" = RIMD;
+    RefreshOnActivate = true;
 
 
     layout
@@ -68,6 +69,10 @@ page 50090 "RFQ Subform"
                 field(Remark; Rec.Remark)
                 {
                     ApplicationArea = All;
+                }
+                field(Price; Rec.Price)
+                {
+                    ApplicationArea = all;
                 }
             }
         }

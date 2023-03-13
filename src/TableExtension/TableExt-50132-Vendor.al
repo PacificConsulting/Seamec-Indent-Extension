@@ -7,6 +7,7 @@ tableextension 50132 VendorExte extends Vendor
             DataClassification = ToBeClassified;
             Description = 'PCPL/0070 24Feb2023';
         }
+
     }
 
     var

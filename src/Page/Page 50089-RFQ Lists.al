@@ -56,20 +56,21 @@ page 50089 "RFQ List"
                     URL: Text;
                     IntValue: Integer;
                     DecrValue: Text;
+                    Item: Record 27;
                 begin
-                    /*
-                    EncryptedText := CryptographyManagement.EncryptText('36');  //Encrypt('36');
+
+                    EncryptedText := CryptographyManagement.EncryptText('RD9i1dXa13CxA&start_radio=1');  //Encrypt('36');
 
                     //Evaluate(IntValue)
-                    URL := 'https://businesscentral.dynamics.com/a9f3ea0c-8063-42f9-891d-8d81b667b2d0/SeamecSandbox?Table=%1';
-                    Message(URL + EncryptedText);
+                    URL := 'https://www.youtube.com/watch?v=9i1dXa13CxA&list=%1';
+                    //Message(URL + EncryptedText);
 
                     DecrValue := StrSubstNo(URL, EncryptedText);
-                    Message(DecrValue);
+                    //Message(DecrValue);
                     // DecrValue := CryptographyManagement.Decrypt(EncryptedText);
                     // URL := 'https://businesscentral.dynamics.com/a9f3ea0c-8063-42f9-891d-8d81b667b2d0/SeamecSandbox?Table=DecrValue';
-                    // Message(URL + DecrValue);
-                    */
+                    Message(URL + DecrValue);
+
                 end;
             }
         }

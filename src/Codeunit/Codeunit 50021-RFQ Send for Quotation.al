@@ -116,7 +116,7 @@ codeunit 50021 "RFQ-Send for Quotation"
 
     End;
 
-    procedure UpdateRFQLine(documentNo: Text; lineNo: Integer; remarks: Text[100]): text
+    procedure UpdateRFQLine(documentNo: Text; lineNo: Integer; remarks: Text[100]; price: Decimal): text
     var
         RFQLine: Record "RFQ Line";
     begin
@@ -125,9 +125,23 @@ codeunit 50021 "RFQ-Send for Quotation"
         RFQLine.SetRange("Line No.", lineNo);
         IF RFQLine.FindFirst() then begin
             RFQLine.Remark := remarks;
+            RFQLine.Price := price;
             RFQLine.Modify();
             exit('Success');
         end;
+    end;
+
+    procedure DecryptText(input: Text): Text
+    var
+        CryptographyManagement: Codeunit "Cryptography Management";
+        DecryptData: Text;
+        EncrptDate: Text;
+    begin
+        EncrptDate := CryptographyManagement.EncryptText(input);
+        Message(EncrptDate);
+        //DecryptData := CryptographyManagement.Decrypt(input);
+        DecryptData := CryptographyManagement.Decrypt(EncrptDate);
+        exit(DecryptData);
     end;
 
 

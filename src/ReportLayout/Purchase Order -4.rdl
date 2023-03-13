@@ -3031,6 +3031,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -3319,7 +3320,6 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
