@@ -65,6 +65,11 @@ codeunit 50021 "RFQ-Send for Quotation"
         RFQLine: Record "RFQ Line";
         CC: List of [Text];
         BCC: List of [Text];
+        Url: Text;
+        DecryptedValue: Text;
+        EncryptedDoc: Text;
+        EncryptedVend: Text;
+        CryptographyManagement: Codeunit "Cryptography Management";
     Begin
         RecVendor.GET(RFQ_Catalog."Vendor No.");
         RecItem.Get(RFQ_Catalog."Item No.");
@@ -72,9 +77,23 @@ codeunit 50021 "RFQ-Send for Quotation"
         RFQHdr.GET(RFQ_Catalog."Document No.");
         RFQLine.GET(RFQ_Catalog."Document No.", RFQ_Catalog."Line No.");
 
+        //'http://localhost:54939/rfqdetail.aspx?param1=value1&param2=value2';
+        URL := 'http://localhost:54939/rfqdetail.aspx?param1=%1&param2=%2';
+
+        EncryptedDoc := CryptographyManagement.EncryptText(RFQ_Catalog."Document No.");
+        EncryptedVend := CryptographyManagement.EncryptText(RecVendor."No.");
+        DecryptedValue := StrSubstNo(URL, EncryptedDoc, EncryptedVend);
+        //RFQ_Catalog."Document No."
+        //RFQ_Catalog."Vendor No."
+
         bodytext1 += ('Dear Sir/Madam');
         bodytext1 += ('<br><Br>');
         bodytext1 += ('We request you to submit your quote for our following requirement. For details click on Web Link.');
+
+        bodytext1 += ('<br><Br>');
+        bodytext1 += '<a href="Web Link" class="btn btn-primary">' + DecryptedValue + '</a>';
+        bodytext1 += ('<br><Br>');
+
         bodytext1 += ('<td style="text-align:center" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
         bodytext1 += ('<br><Br>');
         bodytext1 += ('<tr style="background-color:#507CD1; color:#fff">');
@@ -137,10 +156,10 @@ codeunit 50021 "RFQ-Send for Quotation"
         DecryptData: Text;
         EncrptDate: Text;
     begin
-        EncrptDate := CryptographyManagement.EncryptText(input);
-        Message(EncrptDate);
+        //EncrptDate := CryptographyManagement.EncryptText(input);
+        //Message(EncrptDate);
         //DecryptData := CryptographyManagement.Decrypt(input);
-        DecryptData := CryptographyManagement.Decrypt(EncrptDate);
+        DecryptData := CryptographyManagement.Decrypt(input);
         exit(DecryptData);
     end;
 

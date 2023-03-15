@@ -124,6 +124,13 @@ page 50091 "RFQ Card"
         RecItem: Record Item;
         RFQHdr: Record "RFQ Header";
         RFQLine: Record "RFQ Line";
+        DecryptedValue: Text[2048];
+        DecryptedValue1: Text[2048];
+        EncryptedDoc: Text;
+        EncryptedVend: Text;
+        CryptographyManagement: Codeunit "Cryptography Management";
+        Url: Text;
+        TypeHelper: Codeunit "Type Helper";
     Begin
         Clear(bodytext1);
         if RecVendor.GET(RFQ_Catalog."Vendor No.") then begin
@@ -132,9 +139,33 @@ page 50091 "RFQ Card"
             RFQHdr.GET(RFQ_Catalog."Document No.");
             RFQLine.GET(RFQ_Catalog."Document No.", RFQ_Catalog."Line No.");
 
+            URL := 'http://localhost:54939/rfqdetail.aspx?param1=%1&param2=%2';
+            //'http://localhost:54939/rfqdetail.aspx?param1=value1&param2=value2'
+
+            //TypeHelper.UrlEncode()
+            EncryptedDoc := CryptographyManagement.EncryptText(RFQ_Catalog."Document No.");
+            EncryptedVend := CryptographyManagement.EncryptText(RecVendor."No.");
+
+            EncryptedDoc := CryptographyManagement.EncryptText(RFQ_Catalog."Document No.").Replace('+', 'plustext');
+            EncryptedVend := CryptographyManagement.EncryptText(RecVendor."No.").Replace('+', 'plustext');
+
+            DecryptedValue1 := StrSubstNo(URL, CryptographyManagement.EncryptText(RFQ_Catalog."Document No.").Replace('+', 'plustext'), CryptographyManagement.EncryptText(RecVendor."No.").Replace('+', 'plustext'));
+            DecryptedValue := DecryptedValue1.Replace('&', '*');
+            // Message(DecryptedValue);
+            //DecryptedValue := Url.Replace('param1=', 'param1=' + EncryptedDoc);
+            //DecryptedValue := Url.Replace('param2=', 'param2=' + EncryptedVend);
+
             bodytext1 += ('Dear Sir/Madam');
             bodytext1 += ('<br><Br>');
             bodytext1 += ('We request you to submit your quote for our following requirement. For details click on Web Link.');
+
+            bodytext1 += ('<br><Br>');
+            // bodytext1 += '<a href="Web Link" class="btn btn-primary">' + StrSubstNo(URL, CryptographyManagement.EncryptText(RFQ_Catalog."Document No.").Replace('+', 'plustext'), CryptographyManagement.EncryptText(RecVendor."No.").Replace('+', 'plustext')) + '</a>';
+            bodytext1 += ('<br><Br>');
+            //bodytext1 += '<a href="Web Link New" class="btn btn-primary">' + TypeHelper.UrlEncode(URL) + '</a>';
+            bodytext1 += '<a href="Web Link New" class="btn btn-primary">' + DecryptedValue + '</a>';
+            bodytext1 += ('<br><Br>');
+
             bodytext1 += ('<td style="text-align:center" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
             bodytext1 += ('<br><Br>');
             BodyText1 += '</tr>';
@@ -173,7 +204,9 @@ page 50091 "RFQ Card"
             BodyText1 += '<br><br>';
             BodyText1 += ('<td style="text-align:left" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
             BodyText1 += '<br><br>';
-            VarRecipaints.Add('deepak.rajauria@pacificconsulting.in');
+
+
+            //VarRecipaints.Add('deepak.rajauria@pacificconsulting.in');
             VarRecipaints.Add('nirmal.wagh@pacificconsulting.in');
             EmailMessage.Create(VarRecipaints, 'Request For Quote : ' + RecItem.Description, bodytext1, true);
             Email.Send(EmailMessage, Enum::"Email Scenario"::Default);
@@ -232,6 +265,7 @@ page 50091 "RFQ Card"
                         PL.insert(True);
                         */
                         PL.Type := PL.Type::Item;
+
                         PL."No." := RFQLine."No.";
                         if Item_Rec.GET(PL."No.") then;
                         PL.Description := Item_Rec.Description;
@@ -244,36 +278,37 @@ page 50091 "RFQ Card"
                         PL.Insert();
                         LastVendorNo := PH."Buy-from Vendor No.";
                         LineNo := LineNo + 10000;
-                    end ELse begin
-                        PL.init;
-                        PL.Validate("Document No.", PH."No.");
-                        PL.Validate("Document Type", PH."Document Type");
-                        PL."Line No." := LineNo;
-                        /*
-                        PL.Validate(Type, PL.Type::Item);
-                        PL.Validate("No.", RFQLine."No.");
-                        PL.Validate("Location Code", RFQLine."Location Code");
-                        PL.Validate(Quantity, RFQLine.Quantity);
-                        PL.Validate("Unit of Measure Code", RFQLine."Unit of Measure Code");
-                        PL.Validate("Unit Cost", RFQLine."Unit Cost");
-                        PL.Validate("Line Amount", RFQLine."Line Amount");
-                        PL.insert(True);
-                        */
-                        PL.Type := PL.Type::Item;
-                        PL."No." := RFQLine."No.";
-                        if Item_Rec.GET(PL."No.") then;
-                        PL.Description := Item_Rec.Description;
-                        PL."Description 2" := Item_Rec."Description 2";
-                        PL."Location Code" := RFQLine."Location Code";
-                        PL.Quantity := RFQLine.Quantity;
-                        PL."Unit of Measure Code" := RFQLine."Unit of Measure Code";
-                        PL."Unit Cost" := RFQLine."Unit Cost";
-                        PL."Line Amount" := RFQLine."Line Amount";
-                        PL.Insert();
-                        LineNo := LineNo + 10000;
-                    end;
+                    end
+                end ELse begin
+                    PL.init;
+                    PL.Validate("Document No.", PH."No.");
+                    PL.Validate("Document Type", PH."Document Type");
+                    PL."Line No." := LineNo;
+                    /*
+                    PL.Validate(Type, PL.Type::Item);
+                    PL.Validate("No.", RFQLine."No.");
+                    PL.Validate("Location Code", RFQLine."Location Code");
+                    PL.Validate(Quantity, RFQLine.Quantity);
+                    PL.Validate("Unit of Measure Code", RFQLine."Unit of Measure Code");
+                    PL.Validate("Unit Cost", RFQLine."Unit Cost");
+                    PL.Validate("Line Amount", RFQLine."Line Amount");
+                    PL.insert(True);
+                    */
+                    PL.Type := PL.Type::Item;
+                    PL."No." := RFQLine."No.";
+                    if Item_Rec.GET(PL."No.") then;
+                    PL.Description := Item_Rec.Description;
+                    PL."Description 2" := Item_Rec."Description 2";
+                    PL."Location Code" := RFQLine."Location Code";
+                    PL.Quantity := RFQLine.Quantity;
+                    PL."Unit of Measure Code" := RFQLine."Unit of Measure Code";
+                    PL."Unit Cost" := RFQLine."Unit Cost";
+                    PL."Line Amount" := RFQLine."Line Amount";
+                    PL.Insert();
+                    LineNo := LineNo + 10000;
                 end;
             end;
+
         until RFQLine.Next() = 0;
         Message('Purchase Orders has been created for all lines');
 
