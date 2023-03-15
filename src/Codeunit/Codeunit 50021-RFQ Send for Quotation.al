@@ -47,7 +47,7 @@ codeunit 50021 "RFQ-Send for Quotation"
             RFQCatalog.SetRange("Document No.", Rec."No.");
             if RFQCatalog.FindSet() then
                 repeat
-                    SendMailForVendor(RFQCatalog);
+                //SendMailForVendor(RFQCatalog);
                 until RFQCatalog.Next() = 0;
         End Else begin
             Error('Document No Found with %1', DocNo);
@@ -70,15 +70,18 @@ codeunit 50021 "RFQ-Send for Quotation"
         EncryptedDoc: Text;
         EncryptedVend: Text;
         CryptographyManagement: Codeunit "Cryptography Management";
+        GLSetup: Record 98;
     Begin
+        GLSetup.Get();
         RecVendor.GET(RFQ_Catalog."Vendor No.");
         RecItem.Get(RFQ_Catalog."Item No.");
         CompanyInfo.GET;
         RFQHdr.GET(RFQ_Catalog."Document No.");
         RFQLine.GET(RFQ_Catalog."Document No.", RFQ_Catalog."Line No.");
 
-        //'http://localhost:54939/rfqdetail.aspx?param1=value1&param2=value2';
-        URL := 'http://localhost:54939/rfqdetail.aspx?param1=%1&param2=%2';
+        URL := GLSetup."RFQ URL" + 'rfqdetail.aspx?param1=%1&param2=%2';
+        //URL := 'http://localhost:54939/rfqdetail.aspx?param1=%1&param2=%2';
+        //http://10.20.1.99:8082/rfquat/rfqdetail.aspx?param1=%1&param2=%2'
 
         EncryptedDoc := CryptographyManagement.EncryptText(RFQ_Catalog."Document No.");
         EncryptedVend := CryptographyManagement.EncryptText(RecVendor."No.");

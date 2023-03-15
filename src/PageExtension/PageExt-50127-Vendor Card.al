@@ -4,10 +4,10 @@ pageextension 50127 VendorCardExte extends "Vendor Card"
     {
         addafter("Address 2")
         {
-            field(Password; Rec.Password)
-            {
-                ApplicationArea = All;
-            }
+            // field(Password; Rec.Password)
+            // {
+            //     ApplicationArea = All;
+            // }
 
         }
     }

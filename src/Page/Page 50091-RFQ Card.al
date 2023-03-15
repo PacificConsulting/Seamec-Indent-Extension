@@ -131,18 +131,20 @@ page 50091 "RFQ Card"
         CryptographyManagement: Codeunit "Cryptography Management";
         Url: Text;
         TypeHelper: Codeunit "Type Helper";
+        GLSetup: Record 98;
     Begin
         Clear(bodytext1);
+        GLSetup.Get();
         if RecVendor.GET(RFQ_Catalog."Vendor No.") then begin
             RecItem.Get(RFQ_Catalog."Item No.");
             CompanyInfo.GET;
             RFQHdr.GET(RFQ_Catalog."Document No.");
             RFQLine.GET(RFQ_Catalog."Document No.", RFQ_Catalog."Line No.");
 
-            URL := 'http://localhost:54939/rfqdetail.aspx?param1=%1&param2=%2';
+            URL := GLSetup."RFQ URL" + 'rfqdetail.aspx?param1=%1&param2=%2';
+            //URL := 'http://localhost:54939/rfqdetail.aspx?param1=%1&param2=%2';
             //'http://localhost:54939/rfqdetail.aspx?param1=value1&param2=value2'
 
-            //TypeHelper.UrlEncode()
             EncryptedDoc := CryptographyManagement.EncryptText(RFQ_Catalog."Document No.");
             EncryptedVend := CryptographyManagement.EncryptText(RecVendor."No.");
 
@@ -158,13 +160,9 @@ page 50091 "RFQ Card"
             bodytext1 += ('Dear Sir/Madam');
             bodytext1 += ('<br><Br>');
             bodytext1 += ('We request you to submit your quote for our following requirement. For details click on Web Link.');
+            bodytext1 += ('<br><Br>');
 
-            bodytext1 += ('<br><Br>');
-            // bodytext1 += '<a href="Web Link" class="btn btn-primary">' + StrSubstNo(URL, CryptographyManagement.EncryptText(RFQ_Catalog."Document No.").Replace('+', 'plustext'), CryptographyManagement.EncryptText(RecVendor."No.").Replace('+', 'plustext')) + '</a>';
-            bodytext1 += ('<br><Br>');
-            //bodytext1 += '<a href="Web Link New" class="btn btn-primary">' + TypeHelper.UrlEncode(URL) + '</a>';
-            bodytext1 += '<a href="Web Link New" class="btn btn-primary">' + DecryptedValue + '</a>';
-            bodytext1 += ('<br><Br>');
+            //            bodytext1 += '<a href=' + DecryptedValue + '/">Click to Web Link!</a>';
 
             bodytext1 += ('<td style="text-align:center" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
             bodytext1 += ('<br><Br>');
@@ -189,25 +187,24 @@ page 50091 "RFQ Card"
             BodyText1 += ('<td>' + Format(RFQ_Catalog."Vendor No.") + '</td>');
             BodyText1 += ('<td>' + FORMAT(RFQ_Catalog.Quantity) + '</td>');
             BodyText1 += ('<td>' + FORMAT(RFQLine."Unit of Measure Code") + '</td>');
-            BodyText1 += ('<td>' + '' + '</td>');
+            BodyText1 += ('<td>' + '<a href=' + DecryptedValue + '/">Click to web Link!</a>' + '</td>');
             BodyText1 += '</tr>';
             BodyText1 += '</table>';
             bodytext1 += ('<br><Br>');
             bodytext1 += ('<th> Vendor Name : ' + RecVendor.Name + '</th>');
             bodytext1 += ('<br><Br>');
-            bodytext1 += ('<th style="text-align:left"> Vendor User ID : ' + RecVendor."No." + '</th>');
-            bodytext1 += ('<br><Br>');
-            bodytext1 += ('<th style="text-align:left"> Vendor Password : ' + RecVendor.Password + '</th>');
-            bodytext1 += ('<br><Br>');
+            // bodytext1 += ('<th style="text-align:left"> Vendor User ID : ' + RecVendor."No." + '</th>');
+            // bodytext1 += ('<br><Br>');
+            // bodytext1 += ('<th style="text-align:left"> Vendor Password : ' + RecVendor.Password + '</th>');
+            // bodytext1 += ('<br><Br>');
             bodytext1 += ('<br><Br>');
             BodyText1 += ('<td style="text-align:left" colspan=8><b>' + 'Thanks & Regards' + '</b></td>');
             BodyText1 += '<br><br>';
             BodyText1 += ('<td style="text-align:left" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
             BodyText1 += '<br><br>';
-
-
             //VarRecipaints.Add('deepak.rajauria@pacificconsulting.in');
             VarRecipaints.Add('nirmal.wagh@pacificconsulting.in');
+            //VarRecipaints.Add(RecVendor."E-Mail");
             EmailMessage.Create(VarRecipaints, 'Request For Quote : ' + RecItem.Description, bodytext1, true);
             Email.Send(EmailMessage, Enum::"Email Scenario"::Default);
             // Message('E-mail sent successfully');
