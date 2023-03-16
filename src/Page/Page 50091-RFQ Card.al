@@ -202,8 +202,9 @@ page 50091 "RFQ Card"
             BodyText1 += '<br><br>';
             BodyText1 += ('<td style="text-align:left" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
             BodyText1 += '<br><br>';
-            //VarRecipaints.Add('deepak.rajauria@pacificconsulting.in');
-            VarRecipaints.Add('nirmal.wagh@pacificconsulting.in');
+            VarRecipaints.Add('ssarkar@seamec.in');
+            VarRecipaints.Add('anshul.jain@pacificconsulting.in');
+            //VarRecipaints.Add('nirmal.wagh@pacificconsulting.in');
             //VarRecipaints.Add(RecVendor."E-Mail");
             EmailMessage.Create(VarRecipaints, 'Request For Quote : ' + RecItem.Description, bodytext1, true);
             Email.Send(EmailMessage, Enum::"Email Scenario"::Default);

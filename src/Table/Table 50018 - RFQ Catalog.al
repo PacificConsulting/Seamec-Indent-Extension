@@ -32,6 +32,10 @@ table 50018 "RFQ Catalog"
         {
             DataClassification = ToBeClassified;
         }
+        field(8; Remarks; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
@@ -42,7 +46,7 @@ table 50018 "RFQ Catalog"
         }
         key(Key2; Price)
         {
-            // Clustered=
+
         }
     }
 

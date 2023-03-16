@@ -48,6 +48,10 @@ page 50092 "RFQ Catalogs"
                         Rec.TestField("Vendor No.");
                     end;
                 }
+                field(Remarks; Rec.Remarks)
+                {
+                    ApplicationArea = all;
+                }
             }
         }
     }

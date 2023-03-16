@@ -89,7 +89,7 @@ page 50090 "RFQ Subform"
                 Image = Quote;
                 trigger OnAction()
                 var
-                    RFQ_C: Record "RFQ Catalog";
+                    RFQ_C: Record "RFQ Catalog"; //
                 begin
                     RFQ_C.SetRange("Document No.", Rec."Document No.");
                     RFQ_C.SetRange("Item No.", Rec."No.");

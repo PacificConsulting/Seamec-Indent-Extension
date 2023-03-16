@@ -3,7 +3,7 @@ report 50096 "Indent Report-1"
     // version RSPL/INDENT/V3/001
 
     DefaultLayout = RDLC;
-    RDLCLayout = 'src\ReportLayout/Indent Report-1.rdl';
+    RDLCLayout = 'src\ReportLayout/Indent Report -2.rdl';
 
     dataset
     {
