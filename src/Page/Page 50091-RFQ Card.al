@@ -202,7 +202,7 @@ page 50091 "RFQ Card"
             BodyText1 += '<br><br>';
             BodyText1 += ('<td style="text-align:left" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
             BodyText1 += '<br><br>';
-            VarRecipaints.Add('ssarkar@seamec.in');
+            //  VarRecipaints.Add('ssarkar@seamec.in');
             VarRecipaints.Add('anshul.jain@pacificconsulting.in');
             //VarRecipaints.Add('nirmal.wagh@pacificconsulting.in');
             //VarRecipaints.Add(RecVendor."E-Mail");
@@ -224,12 +224,12 @@ page 50091 "RFQ Card"
         LineNo: Integer;
         LastVendorNo: code[20];
         PurchHdr: Record "Purchase Header";
-        RLine: record "RFQ Line";
     Begin
         PurchSetup.GET;
 
         RFQLine.reset;
         RFQLine.SetRange("Document No.", Rec."No.");
+        RFQLine.SetFilter("Vendor No.", '<>%1', '');
         if RFQLine.FindSet() then
             LineNo := 10000;
         repeat
@@ -253,59 +253,27 @@ page 50091 "RFQ Card"
                         PL."Document No." := PH."No.";
                         PL."Document Type" := PH."Document Type";
                         PL."Line No." := LineNo;
-                        /*
-                        PL.Validate(Type, PL.Type::Item);
-                        PL.Validate("No.", RFQLine."No.");
-                        PL.Validate("Location Code", RFQLine."Location Code");
-                        PL.Validate(Quantity, RFQLine.Quantity);
-                        PL.Validate("Unit of Measure Code", RFQLine."Unit of Measure Code");
-                        PL.Validate("Unit Cost", RFQLine."Unit Cost");
-                        PL.Validate("Line Amount", RFQLine."Line Amount");
-                        PL.insert(True);
-                        */
                         PL.Type := PL.Type::Item;
-
-                        RLine.reset;
-                        RLine.SetRange("Document No.", Rec."No.");
-                        RLine.SetRange("Vendor No.", PH."Buy-from Vendor No.");
-                        if RLine.FindFirst() then;
-
-                        PL."No." := RLine."No.";
+                        PL."No." := RFQLine."No.";
                         if Item_Rec.GET(PL."No.") then;
                         PL.Description := Item_Rec.Description;
                         PL."Description 2" := Item_Rec."Description 2";
-                        PL."Location Code" := RLine."Location Code";
-                        PL.Quantity := RLine.Quantity;
-                        PL."Unit of Measure Code" := RLine."Unit of Measure Code";
-                        PL."Unit Cost" := RLine."Unit Cost";
-                        PL."Line Amount" := RLine."Line Amount";
+                        PL."Location Code" := RFQLine."Location Code";
+                        PL.Quantity := RFQLine.Quantity;
+                        PL."Unit of Measure Code" := RFQLine."Unit of Measure Code";
+                        PL."Unit Cost" := RFQLine."Unit Cost";
+                        PL."Line Amount" := RFQLine."Line Amount";
                         PL.Insert();
-                        LastVendorNo := PH."Buy-from Vendor No.";
-                        LineNo := LineNo + 10000;
-                    end
+                    End;
+                    LastVendorNo := PH."Buy-from Vendor No.";
+                    LineNo := LineNo + 10000;
                 end ELse begin
                     PL.init;
                     PL.Validate("Document No.", PH."No.");
                     PL.Validate("Document Type", PH."Document Type");
                     PL."Line No." := LineNo;
-                    /*
-                    PL.Validate(Type, PL.Type::Item);
-                    PL.Validate("No.", RFQLine."No.");
-                    PL.Validate("Location Code", RFQLine."Location Code");
-                    PL.Validate(Quantity, RFQLine.Quantity);
-                    PL.Validate("Unit of Measure Code", RFQLine."Unit of Measure Code");
-                    PL.Validate("Unit Cost", RFQLine."Unit Cost");
-                    PL.Validate("Line Amount", RFQLine."Line Amount");
-                    PL.insert(True);
-                    */
                     PL.Type := PL.Type::Item;
                     PL."No." := RFQLine."No.";
-
-                    RLine.reset;
-                    RLine.SetRange("Document No.", Rec."No.");
-                    RLine.SetRange("Vendor No.", PH."Buy-from Vendor No.");
-                    if RLine.FindFirst() then;
-
                     if Item_Rec.GET(PL."No.") then;
                     PL.Description := Item_Rec.Description;
                     PL."Description 2" := Item_Rec."Description 2";
@@ -318,7 +286,6 @@ page 50091 "RFQ Card"
                     LineNo := LineNo + 10000;
                 end;
             end;
-
         until RFQLine.Next() = 0;
         Message('Purchase Orders has been created for all lines');
 
