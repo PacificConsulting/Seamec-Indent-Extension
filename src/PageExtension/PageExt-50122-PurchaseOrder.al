@@ -46,7 +46,7 @@ pageextension 50122 Purchase_order_Indent extends "Purchase Order"
             action("Purchase Order")
             {
                 Promoted = true;
-                Image = Report;
+                Image = Print;
                 ApplicationArea = all;
                 trigger OnAction()
 

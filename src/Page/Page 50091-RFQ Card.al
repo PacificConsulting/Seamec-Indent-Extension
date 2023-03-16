@@ -224,6 +224,7 @@ page 50091 "RFQ Card"
         LineNo: Integer;
         LastVendorNo: code[20];
         PurchHdr: Record "Purchase Header";
+        RLine: record "RFQ Line";
     Begin
         PurchSetup.GET;
 
@@ -264,15 +265,20 @@ page 50091 "RFQ Card"
                         */
                         PL.Type := PL.Type::Item;
 
-                        PL."No." := RFQLine."No.";
+                        RLine.reset;
+                        RLine.SetRange("Document No.", Rec."No.");
+                        RLine.SetRange("Vendor No.", PH."Buy-from Vendor No.");
+                        if RLine.FindFirst() then;
+
+                        PL."No." := RLine."No.";
                         if Item_Rec.GET(PL."No.") then;
                         PL.Description := Item_Rec.Description;
                         PL."Description 2" := Item_Rec."Description 2";
-                        PL."Location Code" := RFQLine."Location Code";
-                        PL.Quantity := RFQLine.Quantity;
-                        PL."Unit of Measure Code" := RFQLine."Unit of Measure Code";
-                        PL."Unit Cost" := RFQLine."Unit Cost";
-                        PL."Line Amount" := RFQLine."Line Amount";
+                        PL."Location Code" := RLine."Location Code";
+                        PL.Quantity := RLine.Quantity;
+                        PL."Unit of Measure Code" := RLine."Unit of Measure Code";
+                        PL."Unit Cost" := RLine."Unit Cost";
+                        PL."Line Amount" := RLine."Line Amount";
                         PL.Insert();
                         LastVendorNo := PH."Buy-from Vendor No.";
                         LineNo := LineNo + 10000;

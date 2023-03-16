@@ -9,9 +9,9 @@ pageextension 50128 Posted_Purchase_Reciept_Ext extends "Posted Purchase Receipt
     {
         addafter("&Print")
         {
-            action("Goods Received Note")
+            action("GRN Report")
             {
-                Image = Process;
+                Image = Print;
                 Promoted = true;
                 ApplicationArea = all;
                 trigger OnAction()

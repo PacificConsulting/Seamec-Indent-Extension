@@ -20,7 +20,7 @@ pageextension 50123 Req_Worksheet extends "Req. Worksheet"
         {
             action("Create Indent")
             {
-                Image = worksheet;
+                Image = Worksheet;
                 Promoted = true;
                 PromotedCategory = Process;
                 ApplicationArea = all;

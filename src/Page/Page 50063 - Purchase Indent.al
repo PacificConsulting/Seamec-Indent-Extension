@@ -109,7 +109,7 @@ page 50063
                         //VK001-Begin
                         IF USer.GET(USERID) THEN
                             IF USer."Indent Releaser" = TRUE THEN BEGIN
-                                Rec.Status := Status::Open;
+                                Rec.Status := rec.Status::Open;
                                 CurrPage.IndentLines.PAGE.EDITABLE(TRUE);
                                 Rec.MODIFY;
                             END ELSE
@@ -117,7 +117,7 @@ page 50063
 
 
                         //VK001-End
-                        IF Rec.Status = Status::Open THEN BEGIN
+                        IF Rec.Status = Rec.Status::Open THEN BEGIN
                             IndentLine.RESET;
                             IndentLine.SETRANGE(IndentLine."Document No.", Rec."No.");
                             IF IndentLine.FINDSET THEN
@@ -266,9 +266,9 @@ page 50063
                 }
             }
         }
-        area(processing)
+        area(Processing)
         {
-            action("Indent Report-1")
+            action("Requisition Report")
             {
                 Image = Print;
                 ApplicationArea = all;
@@ -280,20 +280,20 @@ page 50063
                     REPORT.RUNMODAL(50096, TRUE, TRUE, IndentLine);
                 end;
             }
-            action("Indent Requisition")
-            {
-                Image = Report;
-                ApplicationArea = all;
-                trigger OnAction();
-                var
-                    RecIndentHeader: record "Indent Header";
-                begin
-                    RecIndentHeader.Reset();
-                    RecIndentHeader.SetRange("No.", rec."No.");
-                    Report.RunModal(50098, true, true, RecIndentHeader);
-                end;
+            // action("Indent Requisition")
+            // {
+            //     Image = Report;
+            //     ApplicationArea = all;
+            //     trigger OnAction();
+            //     var
+            //         RecIndentHeader: record "Indent Header";
+            //     begin
+            //         RecIndentHeader.Reset();
+            //         RecIndentHeader.SetRange("No.", rec."No.");
+            //         Report.RunModal(50098, true, true, RecIndentHeader);
+            //     end;
 
-            }
+            // }
             action("&Schedule Detail")
             {
                 Caption = '&Schedule Detail';

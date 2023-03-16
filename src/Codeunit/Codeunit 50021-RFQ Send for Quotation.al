@@ -141,7 +141,7 @@ codeunit 50021 "RFQ-Send for Quotation"
     procedure UpdateRFQLine(documentNo: Text; lineNo: Integer; remarks: Text[100]; price: Decimal): text
     var
         RFQLine: Record "RFQ Line";
-        RFQCatelog: record 50018;
+        RFQCatelog: record "RFQ Catalog";
     begin
         RFQLine.Reset();
         RFQLine.SetRange("Document No.", documentNo);
