@@ -300,6 +300,12 @@ page 50091 "RFQ Card"
                     */
                     PL.Type := PL.Type::Item;
                     PL."No." := RFQLine."No.";
+
+                    RLine.reset;
+                    RLine.SetRange("Document No.", Rec."No.");
+                    RLine.SetRange("Vendor No.", PH."Buy-from Vendor No.");
+                    if RLine.FindFirst() then;
+
                     if Item_Rec.GET(PL."No.") then;
                     PL.Description := Item_Rec.Description;
                     PL."Description 2" := Item_Rec."Description 2";

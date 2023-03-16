@@ -25,6 +25,7 @@ pageextension 50127 VendorCardExte extends "Vendor Card"
                 PromotedCategory = Process;
 
 
+
                 trigger OnAction()
                 var
                     CryptographyManagement: Codeunit "Cryptography Management";

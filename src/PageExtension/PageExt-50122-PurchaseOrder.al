@@ -43,7 +43,7 @@ pageextension 50122 Purchase_order_Indent extends "Purchase Order"
         }
         addafter("&Print")
         {
-            action("Purchase Order")
+            action("Purchase Order Report")
             {
                 Promoted = true;
                 Image = Print;
