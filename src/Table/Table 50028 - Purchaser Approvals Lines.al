@@ -228,10 +228,9 @@ table 50028 "Purchaser Approvals Lines"
         field(50127; "Item Category Code"; Code[10])
         {
         }
-        field(50128; Category; Option)
+        field(50128; Category; Code[20])
         {
-            OptionCaption = '" ,Engineering,Raw Materials,Lab Equipment,Lab Chemicals,Packing Material,,Safety,Production,Information Technology (IT)"';
-            OptionMembers = " ",Engineering,"Raw Materials","Lab Equipment","Lab Chemicals","Packing Material",,Safety,Production,"Information Technology (IT)";
+            DataClassification = ToBeClassified;
         }
         field(50129; "Variant Code"; Code[10])
         {

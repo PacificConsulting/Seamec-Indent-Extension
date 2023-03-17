@@ -143,6 +143,7 @@ codeunit 50021 "RFQ-Send for Quotation"
         RFQLine: Record "RFQ Line";
         RFQCatelog: record "RFQ Catalog";
     begin
+        /*
         RFQLine.Reset();
         RFQLine.SetRange("Document No.", documentNo);
         RFQLine.SetRange("Line No.", lineNo);
@@ -152,7 +153,7 @@ codeunit 50021 "RFQ-Send for Quotation"
             RFQLine.Modify();
             exit('Success');
         end;
-        /*
+        
         RFQCatelog.Reset();
         RFQCatelog.SetRange("Document No.", documentNo);
         RFQCatelog.SetRange("Line No.", lineNo);
@@ -162,10 +163,11 @@ codeunit 50021 "RFQ-Send for Quotation"
             RFQCatelog.Modify();
             exit('Success');
         end;
-        
+        */
+
         RFQCatelog.Reset();
         RFQCatelog.SetRange("Document No.", documentNo);
-        RFQCatelog.SetRange("Item No.",itemno); //itemno will come from portal kamal send.
+        // RFQCatelog.SetRange("Item No.",itemno); //itemno will come from portal kamal send.
         RFQCatelog.SetCurrentKey(Price);
         IF RFQCatelog.FindFirst() then begin
             RFQLine.Reset();
@@ -183,7 +185,7 @@ codeunit 50021 "RFQ-Send for Quotation"
                 exit('Success');
             END;
         end;
-        */
+
     end;
 
     procedure DecryptText(input: Text): Text

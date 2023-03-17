@@ -72,10 +72,10 @@ table 50022 "Indent Header"
             CalcFormula = Sum("Indent Line".Quantity WHERE("Document No." = FIELD("No.")));
             FieldClass = FlowField;
         }
-        field(50112; Category; Option)
+        field(50112; Category; Code[20])
         {
-            OptionCaption = '" ,Engineering,Raw Materials,Lab Equipment,Lab Chemicals,Packing Material,Safety,Production,Information Technology,Bldg. No1,Bldg No.2,Bldg No.3,QA,Warehouse,SRP,ETP & MEE,Utility,Formulation,Stationary,API block,Warehouse Block,Administration,QC & QA,UG water Storage Tank,UG solvent storage Tank farm,Intermediate Block,Hydrogenation Block,Utility Block-1,Utility Block-2,Distillation block,Road drainages & compound wall,EHS,Transformer yard,Security Cabin"';
-            OptionMembers = " ",Engineering,"Raw Materials","Lab Equipment","Lab Chemicals","Packing Material",Safety,Production,"Information Technology","Bldg. No1","Bldg No.2","Bldg No.3",QA,Warehouse,SRP,"ETP & MEE",Utility,Formulation,Stationary,"API block","Warehouse Block",Administration,"QC & QA","UG water Storage Tank","UG solvent storage Tank farm","Intermediate Block","Hydrogenation Block","Utility Block-1","Utility Block-2","Distillation block","Road drainages & compound wall",EHS,"Transformer yard","Security Cabin";
+            DataClassification = ToBeClassified;
+            TableRelation = "Requistion Purchase Category";
         }
         // field(50113; Purpose; Option) //Indent Header Purpose Master
         // {

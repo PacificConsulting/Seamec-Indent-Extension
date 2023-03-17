@@ -236,6 +236,7 @@ page 50091 "RFQ Card"
             PurchHdr.Reset();
             PurchHdr.SetRange("RFQ Indent No.", Rec."No.");
             PurchHdr.SetRange("Create PO by Indent", false);
+            //PurchHdr.SetRange("Buy-from Vendor No.", RFQLine."Vendor No."); //It will be confirm by Anshul Sir.
             if not PurchHdr.FindFirst() then begin
                 if RFQLine."Vendor No." <> '' then begin
                     if LastVendorNo <> RFQLine."Vendor No." then begin
@@ -261,8 +262,8 @@ page 50091 "RFQ Card"
                         PL."Location Code" := RFQLine."Location Code";
                         PL.Quantity := RFQLine.Quantity;
                         PL."Unit of Measure Code" := RFQLine."Unit of Measure Code";
-                        PL."Unit Cost" := RFQLine."Unit Cost";
                         PL."Line Amount" := RFQLine."Line Amount";
+                        PL."Direct Unit Cost" := RFQLine."Unit Cost";
                         PL.Insert();
                     End;
                     LastVendorNo := PH."Buy-from Vendor No.";
@@ -280,7 +281,7 @@ page 50091 "RFQ Card"
                     PL."Location Code" := RFQLine."Location Code";
                     PL.Quantity := RFQLine.Quantity;
                     PL."Unit of Measure Code" := RFQLine."Unit of Measure Code";
-                    PL."Unit Cost" := RFQLine."Unit Cost";
+                    PL."Direct Unit Cost" := RFQLine."Unit Cost";
                     PL."Line Amount" := RFQLine."Line Amount";
                     PL.Insert();
                     LineNo := LineNo + 10000;

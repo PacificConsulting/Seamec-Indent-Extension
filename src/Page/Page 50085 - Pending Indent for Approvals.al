@@ -58,7 +58,6 @@ page 50085 "Pending Indent for Approvals"
                 field(Category; Rec.Category)
                 {
                     ApplicationArea = all;
-                    OptionCaption = '" ,Engineering,Raw Materials,Lab Equipment,Lab Chemicals,Packing Material,Safety,Production,Information Technology,Bldg. No1,Bldg No.2,Bldg No.3,QA,Warehouse,SRP,ETP & MEE,Utility,Formulation>"';
                 }
                 field(Purpose; Rec.Purpose)
                 {

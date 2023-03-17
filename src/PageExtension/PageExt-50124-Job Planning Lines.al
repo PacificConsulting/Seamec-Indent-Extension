@@ -61,7 +61,7 @@ pageextension 50124 Job_Planning_lines extends "Job Planning Lines"
                         //IndentHdr.VALIDATE("Shortcut Dimension 1 Code",
                         IndentHdr.VALIDATE("Location Code", Rec."Location Code");
                         recItem.GET(JobPlanningLine."No.");
-                        IndentHdr.Category := IndentHdr.Category::" ";
+                        IndentHdr.Category := ''; //IndentHdr.Category::" ";
                         IndentHdr."Material category" := recItem."Item Category Code";
                         JobCard.GET(JobPlanningLine."Job No.");
                         IndentHdr.Purpose := JobCard.Purpose;

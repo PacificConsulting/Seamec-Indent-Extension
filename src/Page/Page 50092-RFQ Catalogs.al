@@ -20,6 +20,11 @@ page 50092 "RFQ Catalogs"
                     ApplicationArea = All;
                     Editable = false;
                 }
+                field("Line No."; Rec."Line No.")
+                {
+                    ApplicationArea = all;
+                    Editable = false;
+                }
                 field("Item No."; Rec."Item No.")
                 {
                     ApplicationArea = All;

@@ -125,7 +125,7 @@ page 50066 "Indent Line List"
                         RecIH.RESET;
                         RecIH.SETRANGE(RecIH."No.", Rec."Document No.");
                         IF RecIH.FINDFIRST THEN BEGIN
-                            IF RecIH.Category = RecIH.Category::Engineering THEN
+                            IF RecIH.Category = 'ENGINEERING' THEN
                                 IF Rec.Approved = TRUE THEN
                                     Rec.TESTFIELD("End Use");
                         END;

@@ -6,7 +6,7 @@ page 50118 "Pending Indent Engineering"
     SourceTable = 50023;
     SourceTableView = WHERE(Close = FILTER(false),
                             "PO Qty" = FILTER(0),
-                            Category = FILTER(Engineering));
+                            Category = FILTER('Engineering'));
     ApplicationArea = all;
     UsageCategory = Lists;
 

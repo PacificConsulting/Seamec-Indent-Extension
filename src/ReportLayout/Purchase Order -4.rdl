@@ -2779,6 +2779,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                                   <Value>=Fields!Quantity.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
+                                    <Format>f2</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2885,6 +2886,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                                   <Value>=Fields!Unit_Price.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
+                                    <Format>f2</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2935,9 +2937,10 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!GSTBaseAmt.Value</Value>
+                                  <Value>=Fields!SGST.Value+Fields!CGST.Value+Fields!IGST.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
+                                    <Format>f2</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2988,7 +2991,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!TotalAmt.Value</Value>
+                                  <Value>=Fields!Amount.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <Format>f2</Format>
@@ -3155,7 +3158,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                 <TablixMember>
                   <Group Name="No_1">
                     <GroupExpressions>
-                      <GroupExpression>=Fields!No_.Value</GroupExpression>
+                      <GroupExpression>=Fields!Document_No_.Value</GroupExpression>
                       <GroupExpression>=Fields!Line_No_.Value</GroupExpression>
                     </GroupExpressions>
                   </Group>
@@ -3296,7 +3299,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=SUM(Fields!TotalAmt.Value, "DataSet_Result")</Value>
+                                  <Value />
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <Format>f2</Format>
@@ -3319,7 +3322,6 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -3392,7 +3394,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!GSTBaseAmt.Value</Value>
+                                  <Value>=Fields!SGST.Value+Fields!CGST.Value+Fields!IGST.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <Format>f2</Format>
@@ -3507,7 +3509,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!TotalAmt.Value, "DataSet_Result") + Fields!GSTBaseAmt.Value</Value>
+                                  <Value>=Fields!TotalAmt.Value+Fields!SGST.Value+Fields!CGST.Value+Fields!IGST.Value+Fields!SGST.Value+Fields!CGST.Value+Fields!IGST.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <Format>f2</Format>
@@ -3693,6 +3695,33 @@ End Function
         <Field Name="Buy_from_Contact">
           <DataField>Buy_from_Contact</DataField>
         </Field>
+        <Field Name="SGST">
+          <DataField>SGST</DataField>
+        </Field>
+        <Field Name="SGSTFormat">
+          <DataField>SGSTFormat</DataField>
+        </Field>
+        <Field Name="CGST">
+          <DataField>CGST</DataField>
+        </Field>
+        <Field Name="CGSTFormat">
+          <DataField>CGSTFormat</DataField>
+        </Field>
+        <Field Name="IGST">
+          <DataField>IGST</DataField>
+        </Field>
+        <Field Name="IGSTFormat">
+          <DataField>IGSTFormat</DataField>
+        </Field>
+        <Field Name="TotalTaxAmount">
+          <DataField>TotalTaxAmount</DataField>
+        </Field>
+        <Field Name="TotalTaxAmountFormat">
+          <DataField>TotalTaxAmountFormat</DataField>
+        </Field>
+        <Field Name="Document_No_">
+          <DataField>Document_No_</DataField>
+        </Field>
         <Field Name="Line_No_">
           <DataField>Line_No_</DataField>
         </Field>
@@ -3734,6 +3763,12 @@ End Function
         </Field>
         <Field Name="TotalPoValuesFormat">
           <DataField>TotalPoValuesFormat</DataField>
+        </Field>
+        <Field Name="Amount">
+          <DataField>Amount</DataField>
+        </Field>
+        <Field Name="AmountFormat">
+          <DataField>AmountFormat</DataField>
         </Field>
         <Field Name="Comment">
           <DataField>Comment</DataField>
