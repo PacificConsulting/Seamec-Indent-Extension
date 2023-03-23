@@ -42,6 +42,10 @@ page 50091 "RFQ Card"
                     Editable = false;
                     ApplicationArea = All;
                 }
+                field(Category; Rec.Category)
+                {
+                    ApplicationArea = All;
+                }
             }
             part(RFQLines; 50090)
             {
@@ -86,6 +90,9 @@ page 50091 "RFQ Card"
                                         RFQCatalog.Validate("Vendor No.", ItemVend."Vendor No.");
                                         RFQCatalog.Validate("Item No.", ItemVend."Vendor Item No.");
                                         RFQCatalog.Validate(Quantity, RFQLine.Quantity);
+                                        RFQCatalog.Validate(Description, RFQLine.Description);
+                                        RFQCatalog.Validate(UOM, RFQLine."Unit of Measure Code");
+                                        RFQCatalog.Validate(Comment, RFQLine.Comment);
                                         RFQCatalog.Insert();
                                     End;
                                 until ItemVend.Next() = 0;
@@ -114,9 +121,13 @@ page 50091 "RFQ Card"
                 trigger OnAction()
                 begin
                     CreatePO();
+                    Rec."Created PO" := true;
+                    Rec.Modify();
                 end;
             }
+
         }
+
     }
     procedure SendMailForVendor(RFQ_Catalog: Record "RFQ Catalog")
     var
@@ -128,6 +139,7 @@ page 50091 "RFQ Card"
         DecryptedValue1: Text[2048];
         EncryptedDoc: Text;
         EncryptedVend: Text;
+        EncryptedVendname: Text;
         CryptographyManagement: Codeunit "Cryptography Management";
         Url: Text;
         TypeHelper: Codeunit "Type Helper";
@@ -141,17 +153,21 @@ page 50091 "RFQ Card"
             RFQHdr.GET(RFQ_Catalog."Document No.");
             RFQLine.GET(RFQ_Catalog."Document No.", RFQ_Catalog."Line No.");
 
-            URL := GLSetup."RFQ URL" + 'rfqdetail.aspx?param1=%1&param2=%2';
+            URL := GLSetup."RFQ URL" + 'rfqdetail.aspx?param1=%1&param2=%2&param3=%3&param4=%4';
             //URL := 'http://localhost:54939/rfqdetail.aspx?param1=%1&param2=%2';
             //'http://localhost:54939/rfqdetail.aspx?param1=value1&param2=value2'
 
             EncryptedDoc := CryptographyManagement.EncryptText(RFQ_Catalog."Document No.");
+            EncryptedVendname := CryptographyManagement.EncryptText(RecVendor.Name);
             EncryptedVend := CryptographyManagement.EncryptText(RecVendor."No.");
+
 
             EncryptedDoc := CryptographyManagement.EncryptText(RFQ_Catalog."Document No.").Replace('+', 'plustext');
             EncryptedVend := CryptographyManagement.EncryptText(RecVendor."No.").Replace('+', 'plustext');
+            EncryptedVend := CryptographyManagement.EncryptText(RecVendor.Name).Replace('+', 'plustext');
 
-            DecryptedValue1 := StrSubstNo(URL, CryptographyManagement.EncryptText(RFQ_Catalog."Document No.").Replace('+', 'plustext'), CryptographyManagement.EncryptText(RecVendor."No.").Replace('+', 'plustext'));
+            DecryptedValue1 := StrSubstNo(URL, CryptographyManagement.EncryptText(RFQ_Catalog."Document No.").Replace('+', 'plustext'), CryptographyManagement.EncryptText(RecVendor.Name).Replace('+', 'plustext'), CryptographyManagement.EncryptText(RecVendor."No.").Replace('+', 'plustext'), CryptographyManagement.EncryptText('temp').Replace('+', 'plustext'));
+            //DecryptedValue1 := StrSubstNo(URL, CryptographyManagement.EncryptText(RFQ_Catalog."Document No."), CryptographyManagement.EncryptText(RecVendor.Name),CryptographyManagement.EncryptText(RecVendor."No."));
             DecryptedValue := DecryptedValue1.Replace('&', '*');
             // Message(DecryptedValue);
             //DecryptedValue := Url.Replace('param1=', 'param1=' + EncryptedDoc);
@@ -178,7 +194,7 @@ page 50091 "RFQ Card"
             BodyText1 += '<th> UOM </th>';
             bodytext1 += ('<th> Web Link </th>');
             BodyText1 += '</tr>';
-            /// bodytext1 += ('<tr style="background-color:#EFF3FB; color:black">');
+
             BodyText1 += '<tr>';
             BodyText1 += ('<td>' + FORMAT(RFQHdr.Date) + '</td>');
             BodyText1 += ('<td>' + FORMAT(RFQ_Catalog."Document No.") + '</td>');
@@ -203,8 +219,8 @@ page 50091 "RFQ Card"
             BodyText1 += ('<td style="text-align:left" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
             BodyText1 += '<br><br>';
             //  VarRecipaints.Add('ssarkar@seamec.in');
-            VarRecipaints.Add('anshul.jain@pacificconsulting.in');
-            //VarRecipaints.Add('nirmal.wagh@pacificconsulting.in');
+            //  VarRecipaints.Add('anshul.jain@pacificconsulting.in');
+            VarRecipaints.Add('nirmal.wagh@pacificconsulting.in');
             //VarRecipaints.Add(RecVendor."E-Mail");
             EmailMessage.Create(VarRecipaints, 'Request For Quote : ' + RecItem.Description, bodytext1, true);
             Email.Send(EmailMessage, Enum::"Email Scenario"::Default);

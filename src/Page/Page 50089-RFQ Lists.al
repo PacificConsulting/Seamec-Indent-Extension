@@ -8,6 +8,7 @@ page 50089 "RFQ List"
     SourceTable = "RFQ Header";
     Editable = false;
     CardPageId = 50091;
+    SourceTableView = where("Created PO" = const(false));
 
     layout
     {

@@ -73,6 +73,11 @@ page 50090 "RFQ Subform"
                 field(Price; Rec.Price)
                 {
                     ApplicationArea = all;
+                    Visible = false;
+                }
+                field(Comment; Rec.Comment)
+                {
+                    ApplicationArea = All;
                 }
             }
         }

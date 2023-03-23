@@ -53,6 +53,10 @@ page 50067 "Indent-Purchase Order"
                 {
                     ApplicationArea = All;
                 }
+                field(Comment; Rec.Comment)
+                {
+                    ApplicationArea = All;
+                }
                 field("No."; Rec."No.")
                 {
                     ApplicationArea = all;
@@ -196,6 +200,7 @@ page 50067 "Indent-Purchase Order"
                             RFQHdr.Validate(Date, Rec.Date);
                             RFQHdr.Validate("Location Code", Rec."Location Code");
                             RFQHdr.Validate("USER ID", Rec."USER ID");
+                            RFQHdr.Validate(Category, Rec.Category);
                             RFQHdr.Insert();
                             //Message('RFQ Hdr %1 has been created', RFQHdr."Document No.");
                         End;
@@ -217,6 +222,7 @@ page 50067 "Indent-Purchase Order"
                                 RFQLine.Validate("Description 2", IndentLine."Description 2");
                                 RFQLine.Validate("Description 3", IndentLine."Description 3");
                                 RFQLine.Validate(Remark, IndentLine.Remark);
+                                RFQLine.Validate(Comment, IndentLine.Comment);
                                 LineNo += 10000;
                                 RFQLine.Insert();
                                 IndentLine.Generate := true;
@@ -261,5 +267,15 @@ page 50067 "Indent-Purchase Order"
         //PCPL0017
         CurrPage.Editable(true);
     end;
+
+    //PCPL-0070 21Mar23 <<
+    trigger OnAfterGetRecord()
+    var
+        IndentHdr: Record "Indent Header";
+    Begin
+        IF IndentHdr.Get(Rec."Document No.") then
+            Rec.Category := IndentHdr.Category;
+    End;
+    //PCPL-0070 21Mar23 >>
 }
 

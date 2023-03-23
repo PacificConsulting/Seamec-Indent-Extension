@@ -79,6 +79,11 @@ table 50019 "RFQ Line"
             DataClassification = ToBeClassified;
             Caption = 'Price';
         }
+        field(17; Comment; Text[230])
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
     }
 
     keys

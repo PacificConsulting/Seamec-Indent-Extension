@@ -14,7 +14,7 @@ codeunit 50021 "RFQ-Send for Quotation"
         LineNo: Integer;
         Rec: Record "RFQ Header";
     Begin
-
+        /*
         if Rec.GET(DocNo) then begin
             RFQLine.Reset();
             RFQLine.SetRange("Document No.", Rec."No.");
@@ -53,8 +53,9 @@ codeunit 50021 "RFQ-Send for Quotation"
             Error('Document No Found with %1', DocNo);
             exit('Failed ' + docno);
         end;
-
+        
         exit('Success ' + docno);
+        */
     end;
 
     procedure SendMailForVendor(RFQ_Catalog: Record "RFQ Catalog")
@@ -138,55 +139,37 @@ codeunit 50021 "RFQ-Send for Quotation"
 
     End;
 
-    procedure UpdateRFQLine(documentNo: Text; lineNo: Integer; remarks: Text[100]; price: Decimal): text
+    procedure UpdateRFQLine(documentNo: Text; lineNo: Integer; remarks: Text[100]; price: Decimal; vendorno: Text[20]): text
     var
         RFQLine: Record "RFQ Line";
         RFQCatelog: record "RFQ Catalog";
     begin
-        /*
-        RFQLine.Reset();
-        RFQLine.SetRange("Document No.", documentNo);
-        RFQLine.SetRange("Line No.", lineNo);
-        IF RFQLine.FindFirst() then begin
-            RFQLine.Remark := remarks;
-            RFQLine.Price := price;
-            RFQLine.Modify();
-            exit('Success');
-        end;
-        
+
         RFQCatelog.Reset();
         RFQCatelog.SetRange("Document No.", documentNo);
         RFQCatelog.SetRange("Line No.", lineNo);
+        RFQCatelog.SetRange("Vendor No.", vendorno);
+        // RFQCatelog.SetRange("Item No.",itemno); //itemno will come from portal kamal send.
+        // RFQCatelog.SetCurrentKey(Price);
         IF RFQCatelog.FindFirst() then begin
+            // RFQLine.Reset();
+            // RFQLine.SetRange("Document No.", documentNo);
+            // RFQLine.SetRange("Line No.", lineNo);
+            // IF RFQLine.FindFirst() then begin
+            //     // RFQLine."Unit Cost" := RFQCatelog.Price;
+            //     // RFQLine.Remark := RFQCatelog.Remarks;
+            //     // RFQLine."Vendor No." := RFQCatelog."Vendor No.";
+            //     // RFQLine.Modify();
+
             RFQCatelog.Remarks := remarks;
             RFQCatelog.Price := price;
+            RFQCatelog."Total Amount" := (price * RFQCatelog.Quantity);
             RFQCatelog.Modify();
             exit('Success');
-        end;
-        */
-
-        RFQCatelog.Reset();
-        RFQCatelog.SetRange("Document No.", documentNo);
-        // RFQCatelog.SetRange("Item No.",itemno); //itemno will come from portal kamal send.
-        RFQCatelog.SetCurrentKey(Price);
-        IF RFQCatelog.FindFirst() then begin
-            RFQLine.Reset();
-            RFQLine.SetRange("Document No.", documentNo);
-            RFQLine.SetRange("Line No.", lineNo);
-            IF RFQLine.FindFirst() then begin
-                RFQLine."Unit Cost" := RFQCatelog.Price;
-                RFQLine.Remark := RFQCatelog.Remarks;
-                RFQLine."Vendor No." := RFQCatelog."Vendor No.";
-                RFQLine.Modify();
-
-                RFQCatelog.Remarks := remarks;
-                RFQCatelog.Price := price;
-                RFQCatelog.Modify();
-                exit('Success');
-            END;
-        end;
-
+        END;
     end;
+
+    //end;
 
     procedure DecryptText(input: Text): Text
     var

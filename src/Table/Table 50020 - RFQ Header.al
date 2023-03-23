@@ -41,6 +41,15 @@ table 50020 "RFQ Header"
             OptionMembers = Open,"Pending Approval",Released;
             Caption = 'Approval Status';
         }
+        field(8; Category; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Requistion Purchase Category";
+        }
+        field(9; "Created PO"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

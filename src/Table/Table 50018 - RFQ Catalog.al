@@ -36,6 +36,24 @@ table 50018 "RFQ Catalog"
         {
             DataClassification = ToBeClassified;
         }
+        field(9; Description; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(10; UOM; Code[10])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(11; Comment; Text[230])
+        {
+            DataClassification = ToBeClassified;
+            Editable = False;
+        }
+        field(12; "Total Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Editable = False;
+        }
     }
 
     keys

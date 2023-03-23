@@ -323,12 +323,15 @@ page 50063
                 var
                     UserSetup: Record 91;
                 begin
-                    UserSetup.Get(UserId);
-                    Rec.Status := Rec.Status::"Pending For Approval";
-                    Rec."First Approver" := CurrentDateTime;
-                    Rec."Approver ID" := UserSetup."User ID";
-                    Rec.Modify();
-                    Message('Your request has been send');
+                    if Rec.Status = Rec.Status::Open then begin
+                        UserSetup.Get(UserId);
+                        Rec.Status := Rec.Status::"Pending For Approval";
+                        Rec."First Approver" := CurrentDateTime;
+                        Rec."Approver ID" := UserSetup."User ID";
+                        Rec.Modify();
+                        Message('Your request has been send');
+                    end Else
+                        Error('Your status is alredy %1', Rec.Status);
                 end;
             }
 

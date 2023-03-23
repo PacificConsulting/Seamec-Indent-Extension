@@ -24,6 +24,7 @@ tableextension 50128 Purchase_Header_ext extends "Purchase Header"
             Description = 'PCPL-0070 03Mar2023';
             Editable = false;
         }
+
     }
     procedure UpdateIndent()
     var

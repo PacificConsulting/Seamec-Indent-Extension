@@ -30,6 +30,16 @@ page 50092 "RFQ Catalogs"
                     ApplicationArea = All;
                     Editable = false;
                 }
+                field(Description; Rec.Description)
+                {
+                    Editable = false;
+                    ApplicationArea = All;
+                }
+                field(UOM; Rec.UOM)
+                {
+                    Editable = false;
+                    ApplicationArea = All;
+                }
                 field(Select; Rec.Select)
                 {
                     ApplicationArea = All;
@@ -57,10 +67,17 @@ page 50092 "RFQ Catalogs"
                 {
                     ApplicationArea = all;
                 }
+                field(Comment; Rec.Comment)
+                {
+                    ApplicationArea = All;
+                }
+                field("Total Amount"; Rec."Total Amount")
+                {
+                    ApplicationArea = All;
+                }
             }
         }
     }
-
     /*
      trigger OnClosePage()
      var

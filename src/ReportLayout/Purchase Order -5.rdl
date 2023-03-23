@@ -1155,7 +1155,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox38</rd:DefaultName>
-            <Top>2.94393in</Top>
+            <Top>2.81893in</Top>
             <Height>0.1875in</Height>
             <Width>1.06944in</Width>
             <ZIndex>29</ZIndex>
@@ -1190,7 +1190,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox51</rd:DefaultName>
-            <Top>2.94393in</Top>
+            <Top>2.81893in</Top>
             <Left>1.12288in</Left>
             <Height>0.1875in</Height>
             <Width>2.00403in</Width>
@@ -1223,7 +1223,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox59</rd:DefaultName>
-            <Top>3.20435in</Top>
+            <Top>3.07935in</Top>
             <Height>0.1875in</Height>
             <Width>1.06944in</Width>
             <ZIndex>31</ZIndex>
@@ -1258,7 +1258,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox60</rd:DefaultName>
-            <Top>3.19393in</Top>
+            <Top>3.06893in</Top>
             <Left>1.12288in</Left>
             <Height>0.1875in</Height>
             <Width>2.00403in</Width>
@@ -1829,10 +1829,10 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>=First(Fields!Order_Date_PH.Value, "DataSet_Result")</Value>
+                                  <Value>=FORMAT(Fields!Order_Date_PH.Value,"dd/MM/yyyy")</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
-                                    <Format>M/d/yyyy</Format>
+                                    <Format>d/mm/yyyy</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1849,6 +1849,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
+                            <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1977,14 +1978,14 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Format>M/d/yyyy</Format>
+                                    <Format>d/m/yyyy</Format>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>=First(Fields!PurchaseOrderDue_Date_PH.Value, "DataSet_Result")</Value>
+                                  <Value>=FORMAT(Fields!PurchaseOrderDue_Date_PH.Value, "dd/MM/yyyy")</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
-                                    <Format>M/d/yyyy</Format>
+                                    <Format>d/m/yyyy</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2131,6 +2132,444 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
               </RightBorder>
             </Style>
           </Tablix>
+          <Tablix Name="Tablix5">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>2.6526cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>3.58746cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>3.21445cm</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.67497cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox124">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Total</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox106</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>2</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox138">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!TotalAmount1.Value, "DataSet_Result")</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <Format>f2</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox137</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.62393cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox146">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Tax Amount</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox144</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>2</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox147">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!TotalGSTAmountFinal.Value, "DataSet_Result")</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <Format>f2</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox145</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.70331cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox143">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Total PO Values</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox141</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>2</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox139">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!TotalAmount1.Value, "DataSet_Result")+First(Fields!TotalGSTAmountFinal.Value, "DataSet_Result")</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <Format>f2</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox137</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>DataSet_Result</DataSetName>
+            <Top>7.10741cm</Top>
+            <Left>9.68776cm</Left>
+            <Height>2.00221cm</Height>
+            <Width>9.45451cm</Width>
+            <ZIndex>35</ZIndex>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+              </Border>
+              <TopBorder>
+                <Color>Black</Color>
+                <Style>Solid</Style>
+                <Width>1pt</Width>
+              </TopBorder>
+              <BottomBorder>
+                <Color>Black</Color>
+                <Style>Solid</Style>
+                <Width>1pt</Width>
+              </BottomBorder>
+              <LeftBorder>
+                <Color>Black</Color>
+                <Style>Solid</Style>
+                <Width>1pt</Width>
+              </LeftBorder>
+              <RightBorder>
+                <Color>Black</Color>
+                <Style>Solid</Style>
+                <Width>1pt</Width>
+              </RightBorder>
+            </Style>
+          </Tablix>
+          <Textbox Name="Textbox6">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>PO Comments</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox6</rd:DefaultName>
+            <Top>8.86037cm</Top>
+            <Left>0cm</Left>
+            <Height>0.44125cm</Height>
+            <Width>2.71638cm</Width>
+            <ZIndex>36</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox9">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>:</Value>
+                    <Style>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=First(Fields!PO_Comment.Value, "DataSet_Result")</Value>
+                    <Style>
+                      <FontWeight>Normal</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox9</rd:DefaultName>
+            <Top>8.86037cm</Top>
+            <Left>2.85212cm</Left>
+            <Height>0.44125cm</Height>
+            <Width>5.09024cm</Width>
+            <ZIndex>37</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
           <Tablix Name="Tablix1">
             <TablixBody>
               <TablixColumns>
@@ -2161,7 +2600,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.69067cm</Height>
+                  <Height>0.55258cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2606,7 +3045,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.69067cm</Height>
+                  <Height>0.63196cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2930,14 +3369,14 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox47">
+                        <Textbox Name="SGSTAmount">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SGST.Value+Fields!CGST.Value+Fields!IGST.Value</Value>
+                                  <Value>=Fields!SGSTAmount.Value+Fields!CGSTAmount.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <Format>f2</Format>
@@ -2949,7 +3388,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox47</rd:DefaultName>
+                          <rd:DefaultName>SGSTAmount</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -2974,6 +3413,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                               <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
+                            <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -3039,7 +3479,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.57706cm</Height>
+                  <Height>0.65064cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -3085,7 +3525,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Comment.Value</Value>
+                                  <Value>=Fields!Purch_Comment_Line.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                   </Style>
@@ -3101,26 +3541,6 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
                             <Border>
                               <Style>Solid</Style>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -3186,378 +3606,11 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
-            <Top>5.28106cm</Top>
+            <Top>5.24578cm</Top>
             <Left>0cm</Left>
-            <Height>1.9584cm</Height>
+            <Height>1.83517cm</Height>
             <Width>19.14228cm</Width>
-            <ZIndex>35</ZIndex>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-              <TopBorder>
-                <Color>Black</Color>
-                <Style>Solid</Style>
-                <Width>1pt</Width>
-              </TopBorder>
-              <BottomBorder>
-                <Color>Black</Color>
-                <Style>Solid</Style>
-                <Width>1pt</Width>
-              </BottomBorder>
-              <LeftBorder>
-                <Color>Black</Color>
-                <Style>Solid</Style>
-                <Width>1pt</Width>
-              </LeftBorder>
-              <RightBorder>
-                <Color>Black</Color>
-                <Style>Solid</Style>
-                <Width>1pt</Width>
-              </RightBorder>
-            </Style>
-          </Tablix>
-          <Tablix Name="Tablix5">
-            <TablixBody>
-              <TablixColumns>
-                <TablixColumn>
-                  <Width>2.6526cm</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>3.58746cm</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>3.21445cm</Width>
-                </TablixColumn>
-              </TablixColumns>
-              <TablixRows>
-                <TablixRow>
-                  <Height>0.63095cm</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox124">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Total</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox106</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                        <ColSpan>2</ColSpan>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell />
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox138">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <Format>f2</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox137</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.57991cm</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox146">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Tax Amount</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox144</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                        <ColSpan>2</ColSpan>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell />
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox147">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!SGST.Value+Fields!CGST.Value+Fields!IGST.Value</Value>
-                                  <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <Format>f2</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox145</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.65929cm</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox143">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Total PO Values</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox141</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                        <ColSpan>2</ColSpan>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell />
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox139">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!TotalAmt.Value+Fields!SGST.Value+Fields!CGST.Value+Fields!IGST.Value+Fields!SGST.Value+Fields!CGST.Value+Fields!IGST.Value</Value>
-                                  <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <Format>f2</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox137</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-              </TablixRows>
-            </TablixBody>
-            <TablixColumnHierarchy>
-              <TablixMembers>
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-              </TablixMembers>
-            </TablixColumnHierarchy>
-            <TablixRowHierarchy>
-              <TablixMembers>
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-              </TablixMembers>
-            </TablixRowHierarchy>
-            <DataSetName>DataSet_Result</DataSetName>
-            <Top>7.23946cm</Top>
-            <Left>9.68776cm</Left>
-            <Height>1.87015cm</Height>
-            <Width>9.45451cm</Width>
-            <ZIndex>36</ZIndex>
+            <ZIndex>38</ZIndex>
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -3695,6 +3748,21 @@ End Function
         <Field Name="Buy_from_Contact">
           <DataField>Buy_from_Contact</DataField>
         </Field>
+        <Field Name="TotalTaxAmount">
+          <DataField>TotalTaxAmount</DataField>
+        </Field>
+        <Field Name="TotalTaxAmountFormat">
+          <DataField>TotalTaxAmountFormat</DataField>
+        </Field>
+        <Field Name="TotalAmount1">
+          <DataField>TotalAmount1</DataField>
+        </Field>
+        <Field Name="TotalAmount1Format">
+          <DataField>TotalAmount1Format</DataField>
+        </Field>
+        <Field Name="PO_Comment">
+          <DataField>PO_Comment</DataField>
+        </Field>
         <Field Name="SGSTAmount">
           <DataField>SGSTAmount</DataField>
         </Field>
@@ -3712,12 +3780,6 @@ End Function
         </Field>
         <Field Name="IGSTAmountFormat">
           <DataField>IGSTAmountFormat</DataField>
-        </Field>
-        <Field Name="TotalTaxAmount">
-          <DataField>TotalTaxAmount</DataField>
-        </Field>
-        <Field Name="TotalTaxAmountFormat">
-          <DataField>TotalTaxAmountFormat</DataField>
         </Field>
         <Field Name="Document_No_">
           <DataField>Document_No_</DataField>
@@ -3770,8 +3832,14 @@ End Function
         <Field Name="AmountFormat">
           <DataField>AmountFormat</DataField>
         </Field>
-        <Field Name="Comment">
-          <DataField>Comment</DataField>
+        <Field Name="TotalGSTAmountFinal">
+          <DataField>TotalGSTAmountFinal</DataField>
+        </Field>
+        <Field Name="TotalGSTAmountFinalFormat">
+          <DataField>TotalGSTAmountFinalFormat</DataField>
+        </Field>
+        <Field Name="Purch_Comment_Line">
+          <DataField>Purch_Comment_Line</DataField>
         </Field>
         <Field Name="Line_No_comments">
           <DataField>Line_No_comments</DataField>
