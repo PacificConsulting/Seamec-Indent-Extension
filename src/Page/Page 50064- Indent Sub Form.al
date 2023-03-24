@@ -67,6 +67,7 @@ page 50064 "Indent Sub Form"
                 field("Description 2"; Rec."Description 2")
                 {
                     ApplicationArea = all;
+                    visible = false;        //PCPL-25/240323
 
                     trigger OnValidate();
                     begin

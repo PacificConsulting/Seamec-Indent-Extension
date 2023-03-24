@@ -166,7 +166,7 @@ table 50022 "Indent Header"
             Description = 'PCPL-0064';
 
         }
-        field(50128; Comments; Text[100])
+        field(50128; Comments; Text[250])
         {
             Description = 'PCPL-0064';
         }

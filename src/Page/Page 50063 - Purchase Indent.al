@@ -205,6 +205,7 @@ page 50063
             }
             group(IncomingDocument)
             {
+                visible = false;//PCPL-25/240323
                 action(IncomingDocCard)
                 {
                     Caption = 'View Incoming Document';
@@ -299,6 +300,7 @@ page 50063
                 Promoted = true;
                 PromotedCategory = Process;
                 ApplicationArea = all;
+                Visible = false;        //PCPL-25/240323
 
                 trigger OnAction();
                 begin

@@ -23,6 +23,12 @@ table 50018 "RFQ Catalog"
         field(5; Price; Decimal)
         {
             DataClassification = ToBeClassified;
+            //PCPL-25/240323
+            trigger OnValidate()
+            begin
+                "Total Amount" := Quantity * Price;
+            end;
+            //PCPL-25/240323
         }
         field(6; Quantity; Decimal)
         {

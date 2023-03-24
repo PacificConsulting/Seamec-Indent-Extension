@@ -120,6 +120,7 @@ page 50091 "RFQ Card"
                 Description = 'PCPL-0070 28Feb2023';
                 trigger OnAction()
                 begin
+                    Rec.TestField("Approval Status", Rec."Approval Status"::Released);           //PCPL-25/240323
                     CreatePO();
                     Rec."Created PO" := true;
                     Rec.Modify();
@@ -219,7 +220,7 @@ page 50091 "RFQ Card"
             BodyText1 += ('<td style="text-align:left" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
             BodyText1 += '<br><br>';
             //  VarRecipaints.Add('ssarkar@seamec.in');
-            //  VarRecipaints.Add('anshul.jain@pacificconsulting.in');
+            VarRecipaints.Add('anshul.jain@pacificconsulting.in');
             VarRecipaints.Add('nirmal.wagh@pacificconsulting.in');
             //VarRecipaints.Add(RecVendor."E-Mail");
             EmailMessage.Create(VarRecipaints, 'Request For Quote : ' + RecItem.Description, bodytext1, true);

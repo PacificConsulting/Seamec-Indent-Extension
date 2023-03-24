@@ -1,6 +1,7 @@
 page 50092 "RFQ Catalogs"
 {
     //PCPL/0070 14Feb2023 
+    //
     Caption = 'Quotation Received';
     PageType = List;
     ApplicationArea = All;

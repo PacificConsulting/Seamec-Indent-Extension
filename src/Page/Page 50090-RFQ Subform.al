@@ -103,7 +103,8 @@ page 50090 "RFQ Subform"
                             if RFQ_C.Select = true then begin
                                 Rec."Vendor No." := RFQ_C."Vendor No.";
                                 Rec."Unit Cost" := RFQ_C.Price;
-                                Rec."Line Amount" := Rec.Quantity * rec."Unit Cost";
+                                //Rec."Line Amount" := Rec.Quantity * rec."Unit Cost";
+                                rec."Line Amount" := RFQ_C."Total Amount";      //PCPL-25/240323 above code comment
                                 Rec."Vendor No." := RFQ_C."Vendor No.";
                                 Rec.Modify();
                                 CurrPage.Update();
@@ -113,7 +114,8 @@ page 50090 "RFQ Subform"
                                     if RFQ_C.FindFirst() then begin
                                         Rec."Vendor No." := RFQ_C."Vendor No.";
                                         Rec."Unit Cost" := RFQ_C.Price;
-                                        Rec."Line Amount" := Rec.Quantity * rec."Unit Cost";
+                                        //Rec."Line Amount" := Rec.Quantity * rec."Unit Cost";
+                                        rec."Line Amount" := RFQ_C."Total Amount";      //PCPL-25/240323 above code comment
                                         Rec."Vendor No." := RFQ_C."Vendor No.";
                                         Rec.Modify();
                                         CurrPage.Update();
