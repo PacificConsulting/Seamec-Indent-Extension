@@ -15,6 +15,10 @@ report 50101 "RFQ Approval"
             {
 
             }
+            column(SumbitDate; SumbitDate)
+            {
+
+            }
             column(Item_No_; "Item No.")
             {
 
@@ -51,6 +55,10 @@ report 50101 "RFQ Approval"
             {
 
             }
+            column(Month_Text; Month_Text)
+            {
+
+            }
             trigger OnAfterGetRecord()
             var
             Begin
@@ -58,44 +66,54 @@ report 50101 "RFQ Approval"
                     if RFQ_Hdr."Location Code" <> '' then
                         Location.GET(RFQ_Hdr."Location Code");
                 end;
+
+                SumbitDate := DT2Date("Quotation Submited on");
+                Month_Text := GetNameOfMonthFromDate(SumbitDate);
             End;
 
         }
 
     }
 
-    // requestpage
-    // {
-    //     layout
-    //     {
-    //         area(Content)
-    //         {
-    //             group(GroupName)
-    //             {
-    //                 field(Name; SourceExpression)
-    //                 {
-    //                     ApplicationArea = All;
-
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     actions
-    //     {
-    //         area(processing)
-    //         {
-    //             action(ActionName)
-    //             {
-    //                 ApplicationArea = All;
-
-    //             }
-    //         }
-    //     }
-    // }
     trigger OnPreReport()
     begin
         CompanyInfo.GET;
+    end;
+
+    procedure GetNameOfMonthFromDate(var GetDate: Date): Text[10]
+    var
+        ModValue: Decimal;
+        NameOfMonth: Text[10];
+        GetMonth: Integer;
+    begin
+        GetMonth := Date2DMY(GetDate, 2);
+        Case GetMonth of
+            1:
+                NameOfMonth := 'JAN';
+            2:
+                NameOfMonth := 'FEB';
+            3:
+                NameOfMonth := 'MAR';
+            4:
+                NameOfMonth := 'APR';
+            5:
+                NameOfMonth := 'MAY';
+            6:
+                NameOfMonth := 'JUN';
+            7:
+                NameOfMonth := 'JUL';
+            8:
+                NameOfMonth := 'AUG';
+            9:
+                NameOfMonth := 'SEP';
+            10:
+                NameOfMonth := 'OCT';
+            11:
+                NameOfMonth := 'NOV';
+            12:
+                NameOfMonth := 'DEC’'
+        End;
+        EXIT(NameOfMonth);
     end;
 
     var
@@ -103,4 +121,6 @@ report 50101 "RFQ Approval"
         Location: Record Location;
         RFQ_Hdr: Record "RFQ Header";
         CompanyInfo: Record "Company Information";
+        SumbitDate: date;
+        Month_Text: Text[20];
 }
