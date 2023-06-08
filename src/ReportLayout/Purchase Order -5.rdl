@@ -3608,7 +3608,7 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
             <DataSetName>DataSet_Result</DataSetName>
             <Top>5.24578cm</Top>
             <Left>0cm</Left>
-            <Height>1.83517cm</Height>
+            <Height>1.83518cm</Height>
             <Width>19.14228cm</Width>
             <ZIndex>38</ZIndex>
             <Style>
@@ -3637,6 +3637,69 @@ iv) is rightfully disclosed to the Recipient by a third party without restrictio
               </RightBorder>
             </Style>
           </Tablix>
+          <Textbox Name="Textbox8">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value EvaluationMode="Constant">Job Maintenance No</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox6</rd:DefaultName>
+            <Top>9.62233cm</Top>
+            <Left>0cm</Left>
+            <Height>0.44125cm</Height>
+            <Width>2.71638cm</Width>
+            <ZIndex>39</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox10">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!JobMaintenanceNo.Value, "DataSet_Result")</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox9</rd:DefaultName>
+            <Top>9.62233cm</Top>
+            <Left>2.89852cm</Left>
+            <Height>0.44125cm</Height>
+            <Width>5.09024cm</Width>
+            <ZIndex>40</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
         </ReportItems>
         <Height>24.95641cm</Height>
         <Style>
@@ -3762,6 +3825,9 @@ End Function
         </Field>
         <Field Name="PO_Comment">
           <DataField>PO_Comment</DataField>
+        </Field>
+        <Field Name="JobMaintenanceNo">
+          <DataField>JobMaintenanceNo</DataField>
         </Field>
         <Field Name="SGSTAmount">
           <DataField>SGSTAmount</DataField>

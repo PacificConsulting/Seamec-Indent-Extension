@@ -4,6 +4,7 @@ table 50031 "Requistion Purchase Category"
     DrillDownPageId = "Requistion Purchase Categories";
     LookupPageId = "Requistion Purchase Categories";
 
+
     fields
     {
         field(1; Code; Code[20])

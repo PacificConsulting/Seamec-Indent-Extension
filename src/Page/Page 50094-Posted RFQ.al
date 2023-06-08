@@ -7,6 +7,7 @@ page 50094 "Archive RFQ"
     Caption = 'Archive RFQ';
     SourceTableView = where("Created PO" = const(true));
     Editable = False;
+    CardPageId = 50091;
 
 
     layout

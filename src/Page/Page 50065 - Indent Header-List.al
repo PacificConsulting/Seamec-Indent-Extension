@@ -6,7 +6,7 @@ page 50065 "Indent Header-List"
     PageType = List;
     SourceTable = 50022;
     SourceTableView = SORTING("No.", "Entry Type")
-                      WHERE(Status = FILTER(<> Closed));
+                      WHERE(Status = FILTER(<> Closed), "Po Created" = filter(false));
     ApplicationArea = all;
     UsageCategory = Lists;
 

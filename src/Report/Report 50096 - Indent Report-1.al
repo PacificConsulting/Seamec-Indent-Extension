@@ -13,6 +13,24 @@ report 50096 "Indent Report-1"
             column(IndentLine_Document_No; "Indent Line"."Document No.")
             {
             }
+            //PPCL-25/180523
+            column(Status; IndentHead.Status)
+            {
+
+            }
+            column(USER_ID; Recuser."Full Name")
+            {
+
+            }
+            column(Releaser_User_ID; releasedUser."Full Name")
+            {
+
+            }
+            column(Close_UserID; "Close UserID")
+            {
+
+            }
+            //PPCL-25/180523
             column(IndentLine_No; "Indent Line"."No.")
             {
             }
@@ -96,11 +114,21 @@ report 50096 "Indent Report-1"
 
             trigger OnAfterGetRecord();
             begin
+
+
                 CompInfo.GET;
                 CompInfo.CALCFIELDS(CompInfo.Picture);
                 //PCPL-25/090323
                 SrNo += 1;
                 if IndentHead.Get("Document No.", "Entry Type") then;
+
+                Recuser.Reset();
+                Recuser.SetRange("User Name", IndentHead."Created By");
+                if Recuser.FindFirst() then;
+
+                releasedUser.Reset();
+                releasedUser.SetRange("User Name", IndentHead."Release User ID");
+                if releasedUser.FindFirst() then;
                 if recItem.Get("No.") then;
                 Clear(ItemComment);
                 commentLine.Reset();
@@ -170,5 +198,7 @@ report 50096 "Indent Report-1"
         recItem: Record 27;
         commentLine: Record 97;
         ItemComment: Text;
+        Recuser: Record User;
+        releasedUser: Record User;
 }
 

@@ -53,6 +53,18 @@ page 50090 "RFQ Subform"
                 field("Vendor No."; Rec."Vendor No.")
                 {
                     ApplicationArea = All;
+                    trigger OnValidate()
+                    var
+                        Vend: Record Vendor;
+                    Begin
+                        if Vend.GET(Rec."Vendor No.") then
+                            Rec."Vendor Name" := Vend.Name;
+                        Rec.Modify();
+                    End;
+                }
+                field("Vendor Name"; Rec."Vendor Name")
+                {
+                    ApplicationArea = All;
                 }
                 field("Unit of Measure Code"; Rec."Unit of Measure Code")
                 {
@@ -69,6 +81,17 @@ page 50090 "RFQ Subform"
                 field(Remark; Rec.Remark)
                 {
                     ApplicationArea = All;
+                    Editable = false;
+                }
+                field(Currency; Rec.Currency)
+                {
+                    ApplicationArea = All;
+                    Editable = false;
+                }
+                field("Total Amount LCY"; Rec."Total Amount LCY")
+                {
+                    ApplicationArea = All;
+                    Editable = false;
                 }
                 field(Price; Rec.Price)
                 {
@@ -78,6 +101,11 @@ page 50090 "RFQ Subform"
                 field(Comment; Rec.Comment)
                 {
                     ApplicationArea = All;
+                }
+                field("GST Group Code"; Rec."GST Group Code")
+                {
+                    ApplicationArea = All;
+                    Editable = false;
                 }
             }
         }
@@ -105,18 +133,42 @@ page 50090 "RFQ Subform"
                                 Rec."Unit Cost" := RFQ_C.Price;
                                 //Rec."Line Amount" := Rec.Quantity * rec."Unit Cost";
                                 rec."Line Amount" := RFQ_C."Total Amount";      //PCPL-25/240323 above code comment
-                                Rec."Vendor No." := RFQ_C."Vendor No.";
+                                Rec.validate("Vendor No.", RFQ_C."Vendor No.");
+                                Rec.Currency := RFQ_C.Currency;
+                                Rec."Total Amount LCY" := RFQ_C."Total Amount LCY";
+                                Rec."GST Group Code" := RFQ_C."GST Group Code";
+                                Rec.Remark := RFQ_C.Remarks;
                                 Rec.Modify();
                                 CurrPage.Update();
                             end Else begin
                                 if RFQ_C.Select = false then begin
+                                    /* 
                                     RFQ_C.SetCurrentKey(Price);
-                                    if RFQ_C.FindFirst() then begin
-                                        Rec."Vendor No." := RFQ_C."Vendor No.";
-                                        Rec."Unit Cost" := RFQ_C.Price;
+                                     if RC.FindFirst() then begin
+                                         Rec."Vendor No." := RFQ_C."Vendor No.";
+                                         Rec."Unit Cost" := RFQ_C.Price;
+                                         //Rec."Line Amount" := Rec.Quantity * rec."Unit Cost";
+                                         rec."Line Amount" := RFQ_C."Total Amount";      //PCPL-25/240323 above code comment
+                                         Rec."Vendor No." := RFQ_C."Vendor No.";
+                                         Rec."Total Amount LCY" := RFQ_C."Total Amount LCY";
+                                         Rec.Currency := RFQ_C.Currency;
+                                         Rec.Modify();
+                                         CurrPage.Update();
+                                     end;
+                                     */
+                                    RC.Reset();
+                                    RC.SetRange("Document No.", Rec."Document No.");
+                                    RC.SetRange("Item No.", Rec."No.");
+                                    RC.SetFilter(Price, '<>%1', 0);
+                                    if RC.FindFirst() then begin
+                                        Rec."Unit Cost" := RC.Price;
                                         //Rec."Line Amount" := Rec.Quantity * rec."Unit Cost";
-                                        rec."Line Amount" := RFQ_C."Total Amount";      //PCPL-25/240323 above code comment
-                                        Rec."Vendor No." := RFQ_C."Vendor No.";
+                                        rec."Line Amount" := RC."Total Amount";      //PCPL-25/240323 above code comment
+                                        Rec.validate("Vendor No.", RFQ_C."Vendor No.");
+                                        Rec."Total Amount LCY" := RC."Total Amount LCY";
+                                        Rec.Currency := RC.Currency;
+                                        Rec."GST Group Code" := RC."GST Group Code";
+                                        Rec.Remark := RC.Remarks;
                                         Rec.Modify();
                                         CurrPage.Update();
                                     end;
@@ -165,4 +217,5 @@ page 50090 "RFQ Subform"
 
     var
         myInt: Record 38;
+        RC: Record "RFQ Catalog";
 }

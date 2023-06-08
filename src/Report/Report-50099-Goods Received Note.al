@@ -14,7 +14,11 @@ report 50099 "Goods Received Note"
             column(Receipt_No_; "No.")
             {
             }
-            column(Posting_Date; "Posting Date")
+            column(Posting_Date; Format("Posting Date", 0, '<Day,2>-<Month,2>-<Year4>'))
+            {
+
+            }
+            column(RFQ_Indent_No_; "RFQ Indent No.")
             {
 
             }
@@ -101,6 +105,7 @@ report 50099 "Goods Received Note"
                 var
                     myInt: Integer;
                 begin
+                    SrNo += 1;
 
                 end;
 
@@ -115,7 +120,6 @@ report 50099 "Goods Received Note"
             begin
                 cominfo.get();
                 cominfo.CalcFields(Picture);
-                SrNo += 1;
             end;
         }
     }

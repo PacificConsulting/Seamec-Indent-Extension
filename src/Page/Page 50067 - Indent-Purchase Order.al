@@ -189,6 +189,7 @@ page 50067 "Indent-Purchase Order"
                     RFQHdr: Record "RFQ Header";
                     RFQLine: Record "RFQ Line";
                     LineNo: Integer;
+                    IndentHdr: Record "Indent Header";
                 begin
                     if Rec.Select = true then begin
                         IndentLine.Reset();
@@ -201,6 +202,8 @@ page 50067 "Indent-Purchase Order"
                             RFQHdr.Validate("Location Code", Rec."Location Code");
                             RFQHdr.Validate("USER ID", Rec."USER ID");
                             RFQHdr.Validate(Category, Rec.Category);
+                            IF IndentHdr.Get(Rec."Document No.") then;
+                            RFQHdr."Job Maintenance No." := IndentHdr."Job Maintenance No.";
                             RFQHdr.Insert();
                             //Message('RFQ Hdr %1 has been created', RFQHdr."Document No.");
                         End;
@@ -223,6 +226,7 @@ page 50067 "Indent-Purchase Order"
                                 RFQLine.Validate("Description 3", IndentLine."Description 3");
                                 RFQLine.Validate(Remark, IndentLine.Remark);
                                 RFQLine.Validate(Comment, IndentLine.Comment);
+                                RFQLine.Validate("Location Code", RFQHdr."Location Code");
                                 LineNo += 10000;
                                 RFQLine.Insert();
                                 IndentLine.Generate := true;

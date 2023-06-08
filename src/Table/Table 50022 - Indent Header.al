@@ -115,6 +115,7 @@ table 50022 "Indent Header"
         field(50119; "Job Maintenance No."; Code[20])
         {
             Description = '//PCPL-FA-1.0';
+            TableRelation = "PMS JOB Header" where(Status = filter(Open));
         }
         field(50120; "Incoming Document Entry No."; Integer)
         {
@@ -174,6 +175,10 @@ table 50022 "Indent Header"
         {
 
             Description = 'PCPL-0064';
+        }
+        field(50130; "Po Created"; Boolean)
+        {
+            Description = 'PCPl-0070';
         }
     }
 

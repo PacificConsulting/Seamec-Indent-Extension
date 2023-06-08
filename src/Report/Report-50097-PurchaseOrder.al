@@ -49,7 +49,7 @@ report 50097 "Purchase Order"
             {
 
             }
-            column(Payment_Terms_Code; "Payment Terms Code")
+            column(Payment_Terms_Code; PayTerms.Code + ' - ' + PayTerms.Description)
             {
 
             }
@@ -90,12 +90,15 @@ report 50097 "Purchase Order"
             {
 
             }
+            column(JobMaintenanceNo; JobMaintenanceNo)
+            {
+                Description = 'PCPL-0070 05/05/23';
+            }
             // dataitem("Purch. Comment Line1"; "Purch. Comment Line")
             // {
             //     DataItemLink = "No." = field("No.");
             //     column(PO_Comment; Comment)
             //     {
-
             //     }
 
             // }
@@ -136,7 +139,7 @@ report 50097 "Purchase Order"
                 {
 
                 }
-                column(Unit_of_Measure; "Unit of Measure")
+                column(Unit_of_Measure; "Unit of Measure Code")
                 {
 
                 }
@@ -273,9 +276,12 @@ report 50097 "Purchase Order"
                 if RecPurchCom.FindFirst() then
                     Comm := RecPurchCom.Comment;
 
-
-
-
+                //PCPL-0070 050523 <<
+                IF RFQHdr.GET("RFQ Indent No.") then begin
+                    JobMaintenanceNo := RFQHdr."Job Maintenance No.";
+                end;
+                //PCPL-0070 050523 >>
+                IF PayTerms.GET("Payment Terms Code") then;
             end;
 
         }
@@ -315,6 +321,7 @@ report 50097 "Purchase Order"
 
 
     var
+        PayTerms: Record "Payment Terms";
         Cominfo: Record "Company Information";
         Recvendor: Record Vendor;
         vend_contact: Code[20];
@@ -356,10 +363,8 @@ report 50097 "Purchase Order"
         CessAmount: Decimal;
         GSTComponentCodeName: array[20] of Code[20];
         TotalGSTAmountlinewise: Decimal;
-
-
-
-
+        JobMaintenanceNo: Code[20]; //PCPL-0070 050523
+        RFQHdr: Record "RFQ Header"; //PCPL-0070 050523
     //GST calculate 16march2023
     procedure GetPurchaseStatisticsAmount(
          PurchaseHeader: Record "Purchase Header";

@@ -34,7 +34,7 @@ pageextension 50124 Job_Planning_lines extends "Job Planning Lines"
                 Image = Indent;
                 Promoted = true;
                 PromotedCategory = Process;
-
+                ApplicationArea = All;
                 trigger OnAction();
                 var
                     IndentHdr: Record 50022;

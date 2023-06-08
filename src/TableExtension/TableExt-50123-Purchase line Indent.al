@@ -39,6 +39,10 @@ tableextension 50123 Purchase_Line_indent extends "Purchase Line"
                 TestStatusOpen;
             end;
         }
+        field(50105; "RFQ Remarks"; Text[2048])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     trigger OnDelete()
     begin

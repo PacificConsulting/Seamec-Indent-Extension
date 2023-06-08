@@ -81,8 +81,10 @@ table 50023 "Indent Line"
                             Item.TESTFIELD(Blocked, FALSE);
                             IF Item."Blocked Type" = Item."Blocked Type"::Indent THEN
                                 ERROR('Blocked Type must not be Indent for this Item');
-                            if Item.Type <> Item.Type::Service then
-                                Item.TESTFIELD("Inventory Posting Group");
+                            if Item.Type <> Item.Type::Service then Begin
+                                if Item.Type <> Item.Type::"Non-Inventory" then //PCPl-0070 06June23
+                                    Item.TESTFIELD("Inventory Posting Group");
+                            End;
                             Item.TESTFIELD("Gen. Prod. Posting Group");
                             Description := Item.Description;
                             "Description 2" := Item."Description 2";
@@ -176,10 +178,10 @@ table 50023 "Indent Line"
                     "Approved Date" := WORKDATE;
             end;
         }
-        field(50112; Description; Text[60])
+        field(50112; Description; Text[100])
         {
         }
-        field(50113; "Description 2"; Text[60])
+        field(50113; "Description 2"; Text[100])
         {
         }
         field(50114; "Unit of Measure Code"; Code[10])

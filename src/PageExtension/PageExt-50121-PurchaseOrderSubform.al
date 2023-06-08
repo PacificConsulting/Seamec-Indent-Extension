@@ -2,7 +2,13 @@ pageextension 50121 Purch_order_subform_indent extends "Purchase Order Subform"
 {
     layout
     {
-        // Add changes to page layout here
+        addafter("Unit Cost (LCY)")
+        {
+            field("RFQ Remarks"; Rec."RFQ Remarks")
+            {
+                ApplicationArea = All;
+            }
+        }
     }
 
     actions

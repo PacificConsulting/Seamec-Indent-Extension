@@ -2,7 +2,7 @@
   "id": "b42afbbe-0e79-48cb-a069-79a30045806a",
   "name": "Seamec Indent Extension",
   "publisher": "Pacific",
-  "version": "1.0.0.0",
+  "version": "1.0.0.1",
   "brief": "",
   "description": "",
   "privacyStatement": "",
@@ -40,7 +40,14 @@
       "publisher": "Microsoft",
       "name": "India TCS",
       "version": "18.3.27240.27480"
+    },
+    {
+      "appId": "3354a51b-7527-4032-ab36-3c8bb8c6ba47",
+      "publisher": "Pacific",
+      "name": "Seamec_Preventive Module",
+      "version": "1.0.0.0"
     }
+    
   ],
   "screenshots": [],
   "platform": "1.0.0.0",

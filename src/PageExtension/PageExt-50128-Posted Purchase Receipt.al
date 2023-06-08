@@ -2,7 +2,14 @@ pageextension 50128 Posted_Purchase_Reciept_Ext extends "Posted Purchase Receipt
 {
     layout
     {
-        // Add changes to page layout here
+        addafter("Document Date")
+        {
+            field("RFQ Indent No."; Rec."RFQ Indent No.")
+            {
+                ApplicationArea = All;
+                Editable = False;
+            }
+        }
     }
 
     actions

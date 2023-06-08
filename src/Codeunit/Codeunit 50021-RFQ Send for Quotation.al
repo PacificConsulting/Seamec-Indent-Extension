@@ -6,57 +6,128 @@ codeunit 50021 "RFQ-Send for Quotation"
 
     end;
 
-    procedure SendForQuotation(docno: Text): Text
+    procedure SendForQuotation(docno: Text; vendorno: Text): Text
     var
         RFQLine: Record "RFQ Line";
         ItemVend: Record "Item Vendor";
         RFQCatalog: Record "RFQ Catalog";
         LineNo: Integer;
         Rec: Record "RFQ Header";
+        CC: List of [Text];
+        BCC: List of [Text];
+        R_Catalog: Record "RFQ Catalog";
+        RecItem: Record Item;
+        GLSetup: Record "General Ledger Setup";
     Begin
-        /*
-        if Rec.GET(DocNo) then begin
-            RFQLine.Reset();
-            RFQLine.SetRange("Document No.", Rec."No.");
-            if RFQLine.FindSet() then
-                repeat
-                    ItemVend.Reset();
-                    ItemVend.SetRange("Item No.", RFQLine."No.");
-                    if ItemVend.FindSet() then begin
-                        repeat
-                            RFQCatalog.Reset();
-                            RFQCatalog.SetRange("Document No.", Rec."No.");
-                            RFQCatalog.SetRange("Vendor No.", ItemVend."Vendor No.");
-                            if not RFQCatalog.FindFirst() then begin
-                                RFQCatalog.Init();
-                                RFQCatalog.Validate("Document No.", RFQLine."Document No.");
-                                RFQCatalog.Validate("Line No.", RFQLine."Line No.");
-                                RFQCatalog.Validate("Vendor No.", ItemVend."Vendor No.");
-                                RFQCatalog.Validate("Item No.", ItemVend."Vendor Item No.");
-                                RFQCatalog.Validate(Quantity, RFQLine.Quantity);
-                                RFQCatalog.Insert();
-                            End;
-                        until ItemVend.Next() = 0;
-                    End Else
-                        Error('Vendor catalog does not exist');
-                until RFQLine.Next() = 0
-            else
-                Error('Lines Does not Exist in %1 order', Rec."No.");
-            Message('Quotation Insert Successfully');
-            RFQCatalog.Reset();
-            RFQCatalog.SetRange("Document No.", Rec."No.");
-            if RFQCatalog.FindSet() then
-                repeat
-                //SendMailForVendor(RFQCatalog);
-                until RFQCatalog.Next() = 0;
-        End Else begin
-            Error('Document No Found with %1', DocNo);
-            exit('Failed ' + docno);
-        end;
-        
-        exit('Success ' + docno);
-        */
+        //28Mar2023 <<
+        CompanyInfo.GET;
+        RFQCatalog.Reset();
+        RFQCatalog.SetRange("Document No.", docno);
+        RFQCatalog.SetRange("Vendor No.", vendorno);
+        //RFQCatalog.SetCurrentKey("Sequence No.");
+        if RFQCatalog.FindSet() then
+            repeat
+                if RFQCatalog."Sequence No." <> 0 then
+                    RFQCatalog."Quotation Submited on" := CurrentDateTime;
+                RFQCatalog.Modify();
+            until RFQCatalog.Next() = 0;
+
+        bodytext1 += ('Dear Sir/Madam');
+        bodytext1 += ('<br><Br>');
+        bodytext1 += ('Updated Quotation details are given below.');
+        bodytext1 += ('<br><Br>');
+        bodytext1 += ('<td style="text-align:center" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
+        bodytext1 += ('<br><Br>');
+        BodyText1 += '</table>';
+        BodyText1 += '<table border ="1">';
+        bodytext1 += ('<tr style="background-color:#507CD1; color:#fff">');
+        bodytext1 += ('<th> Date </th>');
+        BodyText1 += '<th> Document No. </th>';
+        BodyText1 += '<th> Item No. </th>';
+        BodyText1 += '<th> Description </th>';
+        BodyText1 += '<th> Vendor No. </th>';
+        BodyText1 += '<th> Quantity </th>';
+        BodyText1 += '<th> UOM </th>';
+        bodytext1 += ('<th> Price </th>');
+        bodytext1 += ('<th> Remarks </th>');
+        BodyText1 += '</tr>';
+
+        R_Catalog.Reset();
+        R_Catalog.SetRange("Document No.", docno);
+        R_Catalog.SetRange("Vendor No.", vendorno);
+        if R_Catalog.FindSet() then
+            repeat
+                if RecItem.GET(R_Catalog."Item No.") then;
+                bodytext1 += ('<tr style="background-color:#EFF3FB; color:black">');
+                BodyText1 += ('<td>' + FORMAT(R_Catalog."Quotation Submited on") + '</td>');
+                BodyText1 += ('<td>' + FORMAT(R_Catalog."Document No.") + '</td>');
+                BodyText1 += ('<td>' + FORMAT(R_Catalog."Item No.") + '</td>');
+                BodyText1 += ('<td>' + RecItem.Description + '</td>');
+                BodyText1 += ('<td>' + Format(R_Catalog."Vendor No.") + '</td>');
+                BodyText1 += ('<td>' + FORMAT(R_Catalog.Quantity) + '</td>');
+                BodyText1 += ('<td>' + FORMAT(R_Catalog.UOM) + '</td>');
+                BodyText1 += ('<td>' + FORMAT(R_Catalog.Price) + '</td>');
+                BodyText1 += ('<td>' + FORMAT(R_Catalog.Remarks) + '</td>');
+                BodyText1 += ('<td>' + '' + '</td>');
+            until R_Catalog.Next() = 0;
+        BodyText1 += '</table>';
+        bodytext1 += ('<br><Br>');
+        bodytext1 += ('<br><Br>');
+        BodyText1 += ('<td style="text-align:left" colspan=8><b>' + 'Thanks & Regards' + '</b></td>');
+        BodyText1 += '<br><br>';
+        BodyText1 += 'Warm Regards,';
+        BodyText1 += '<br><br>';
+        BodyText1 += ('<td style="text-align:left" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
+        BodyText1 += '<br><br>';
+        GLSetup.GET;
+        VarRecipaints := GLSetup."Quotation Received Mail";
+        EmailMessage.Create(VarRecipaints, 'Request For Quote : ' /*+ RecItem.Description*/, bodytext1, true);
+        Email.Send(EmailMessage, Enum::"Email Scenario"::Default);
+        Message('E-mail sent successfully');
     end;
+    //28Mar2023 >>
+    /*
+    if Rec.GET(DocNo) then begin
+        RFQLine.Reset();
+        RFQLine.SetRange("Document No.", Rec."No.");
+        if RFQLine.FindSet() then
+            repeat
+                ItemVend.Reset();
+                ItemVend.SetRange("Item No.", RFQLine."No.");
+                if ItemVend.FindSet() then begin
+                    repeat
+                        RFQCatalog.Reset();
+                        RFQCatalog.SetRange("Document No.", Rec."No.");
+                        RFQCatalog.SetRange("Vendor No.", ItemVend."Vendor No.");
+                        if not RFQCatalog.FindFirst() then begin
+                            RFQCatalog.Init();
+                            RFQCatalog.Validate("Document No.", RFQLine."Document No.");
+                            RFQCatalog.Validate("Line No.", RFQLine."Line No.");
+                            RFQCatalog.Validate("Vendor No.", ItemVend."Vendor No.");
+                            RFQCatalog.Validate("Item No.", ItemVend."Vendor Item No.");
+                            RFQCatalog.Validate(Quantity, RFQLine.Quantity);
+                            RFQCatalog.Insert();
+                        End;
+                    until ItemVend.Next() = 0;
+                End Else
+                    Error('Vendor catalog does not exist');
+            until RFQLine.Next() = 0
+        else
+            Error('Lines Does not Exist in %1 order', Rec."No.");
+        Message('Quotation Insert Successfully');
+        RFQCatalog.Reset();
+        RFQCatalog.SetRange("Document No.", Rec."No.");
+        if RFQCatalog.FindSet() then
+            repeat
+            //SendMailForVendor(RFQCatalog);
+            until RFQCatalog.Next() = 0;
+    End Else begin
+        Error('Document No Found with %1', DocNo);
+        exit('Failed ' + docno);
+    end;
+    exit('Success ' + docno);
+    */
+    //end;
 
     procedure SendMailForVendor(RFQ_Catalog: Record "RFQ Catalog")
     var
@@ -133,18 +204,17 @@ codeunit 50021 "RFQ-Send for Quotation"
         BodyText1 += ('<td style="text-align:left" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
         BodyText1 += '<br><br>';
         VarRecipaints := 'kamalkant@pacificconsulting.in';
-        EmailMessage.Create(VarRecipaints, 'Request For Quote : ' + RecItem.Description, bodytext1, true);
+        EmailMessage.Create(VarRecipaints, 'Request For Quote : ' /*+ RecItem.Description*/, bodytext1, true);
         Email.Send(EmailMessage, Enum::"Email Scenario"::Default);
         Message('E-mail sent successfully');
-
     End;
 
-    procedure UpdateRFQLine(documentNo: Text; lineNo: Integer; remarks: Text[100]; price: Decimal; vendorno: Text[20]): text
+    procedure UpdateRFQLine(documentNo: Text; lineNo: Integer; remarks: Text[2048]; price: Decimal; vendorno: Text[20]; currencycode: Text[10]; gstgroupcode: Text[20]): text
     var
         RFQLine: Record "RFQ Line";
         RFQCatelog: record "RFQ Catalog";
+        ReturnValue: Text[100];
     begin
-
         RFQCatelog.Reset();
         RFQCatelog.SetRange("Document No.", documentNo);
         RFQCatelog.SetRange("Line No.", lineNo);
@@ -152,20 +222,56 @@ codeunit 50021 "RFQ-Send for Quotation"
         // RFQCatelog.SetRange("Item No.",itemno); //itemno will come from portal kamal send.
         // RFQCatelog.SetCurrentKey(Price);
         IF RFQCatelog.FindFirst() then begin
-            // RFQLine.Reset();
-            // RFQLine.SetRange("Document No.", documentNo);
-            // RFQLine.SetRange("Line No.", lineNo);
-            // IF RFQLine.FindFirst() then begin
-            //     // RFQLine."Unit Cost" := RFQCatelog.Price;
-            //     // RFQLine.Remark := RFQCatelog.Remarks;
-            //     // RFQLine."Vendor No." := RFQCatelog."Vendor No.";
-            //     // RFQLine.Modify();
-
+            /* 
             RFQCatelog.Remarks := remarks;
-            RFQCatelog.Price := price;
-            RFQCatelog."Total Amount" := (price * RFQCatelog.Quantity);
-            RFQCatelog.Modify();
-            exit('Success');
+             RFQCatelog.Price := price;
+             RFQCatelog."Total Amount" := (price * RFQCatelog.Quantity);
+             RFQCatelog.Modify();
+             */
+            //28Mar23 <<
+            Rcatalog.Reset();
+            Rcatalog.SetRange("Document No.", documentNo);
+            Rcatalog.SetRange("Vendor No.", vendorno);
+            Rcatalog.SetRange("Item No.", RFQCatelog."Item No.");
+            Rcatalog.SetRange("Line No.", lineNo);
+            if Rcatalog.FindLast() then begin
+                Rcatalog_1.Init();
+                Rcatalog_1."Sequence No." := Rcatalog."Sequence No." + 1;
+                Rcatalog_1."Document No." := RFQCatelog."Document No.";
+                Rcatalog_1.Validate("Vendor No.", RFQCatelog."Vendor No.");
+                Rcatalog_1.Validate("Item No.", RFQCatelog."Item No.");
+                Rcatalog_1.Quantity := RFQCatelog.Quantity;
+                Rcatalog_1."Line No." := lineNo; //Rcatalog."Line No." + 10000;
+                Rcatalog_1.UOM := RFQCatelog.UOM;
+                Rcatalog_1.Price := price;
+                Rcatalog_1.Remarks := remarks;
+                Rcatalog_1.Comment := RFQCatelog.Comment;
+                Rcatalog_1."Total Amount" := (price * Rcatalog_1.Quantity);
+                Rcatalog_1."GST Group Code" := gstgroupcode;
+                IF currencycode = '' then
+                    Rcatalog_1.Currency := ''
+                else
+                    Rcatalog_1.Currency := currencycode;
+                //PCPL-0070 29Mar2023 <<
+                CurrExRate.Reset();
+                CurrExRate.SetRange("Currency Code", currencycode);
+                CurrExRate.SetRange("Starting Date", Today);
+                if CurrExRate.FindFirst() then
+                    Rcatalog_1."Total Amount LCY" := Rcatalog_1."Total Amount" * CurrExRate."Relational Exch. Rate Amount"
+                else Begin
+                    CurrExRate.Reset();
+                    CurrExRate.SetRange("Currency Code", currencycode);
+                    IF CurrExRate.FindLast() then
+                        Rcatalog_1."Total Amount LCY" := Rcatalog_1."Total Amount" * CurrExRate."Relational Exch. Rate Amount";
+                End;
+                if Rcatalog_1."Total Amount LCY" = 0 then
+                    Rcatalog_1."Total Amount LCY" := Rcatalog_1."Total Amount";
+                //PCPL-0070 29Mar2023 >>
+                Rcatalog_1.Insert();
+                //28Mar23>>
+                ReturnValue := Format(Rcatalog_1."Line No.") + ';' + Format(Rcatalog_1."Sequence No.");
+            end;
+            exit(ReturnValue);
         END;
     end;
 
@@ -193,4 +299,9 @@ codeunit 50021 "RFQ-Send for Quotation"
         bodytext1: Text;
         CompanyInfo: Record "Company Information";
         VarRecipaints: Text[80];
+        RFQ_C: Record "RFQ Catalog";
+        RFQC: Record "RFQ Catalog";
+        Rcatalog: Record "RFQ Catalog";
+        Rcatalog_1: Record "RFQ Catalog";
+        CurrExRate: Record "Currency Exchange Rate";
 }

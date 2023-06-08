@@ -10,12 +10,18 @@ page 50092 "RFQ Catalogs"
     Editable = true;
     SourceTableView = sorting(Price) order(ascending);
 
+
     layout
     {
         area(Content)
         {
             repeater(Group)
             {
+                field("Sequence No."; Rec."Sequence No.")
+                {
+                    ApplicationArea = All;
+                    Editable = false;
+                }
                 field("Document No."; Rec."Document No.")
                 {
                     ApplicationArea = All;
@@ -44,12 +50,38 @@ page 50092 "RFQ Catalogs"
                 field(Select; Rec.Select)
                 {
                     ApplicationArea = All;
+                    trigger OnValidate()
+                    var
+                        RFQC: Record "RFQ Catalog";
+                    Begin
+                        RFQC.Reset();
+                        RFQC.SetRange("Document No.", Rec."Document No.");
+                        RFQC.SetRange("Item No.", Rec."Item No.");
+                        if RFQC.FindSet() then
+                            repeat
+                                IF (RFQC.Select = true) AND (Rec.Select = true) then
+                                    Error('You can not select multiple lines');
+                            until RFQC.Next() = 0;
+                    End;
                 }
                 field("Vendor No."; Rec."Vendor No.")
                 {
                     ApplicationArea = All;
                     // Editable = false;
                     TableRelation = Vendor;
+                    trigger OnValidate()
+                    var
+                        Vend: Record Vendor;
+                    Begin
+                        if Vend.GET(Rec."Vendor No.") then
+                            Rec."Vendor Name" := Vend.Name;
+                        Rec.Modify();
+                    End;
+                }
+                field("Vendor Name"; Rec."Vendor Name")
+                {
+                    ApplicationArea = All;
+                    Editable = False;
                 }
                 field(Quantity; Rec.Quantity)
                 {
@@ -59,10 +91,6 @@ page 50092 "RFQ Catalogs"
                 field(Price; Rec.Price)
                 {
                     ApplicationArea = All;
-                    trigger OnValidate()
-                    begin
-                        Rec.TestField("Vendor No.");
-                    end;
                 }
                 field(Remarks; Rec.Remarks)
                 {
@@ -72,7 +100,24 @@ page 50092 "RFQ Catalogs"
                 {
                     ApplicationArea = All;
                 }
+                field(Currency; Rec.Currency)
+                {
+                    ApplicationArea = All;
+                }
                 field("Total Amount"; Rec."Total Amount")
+                {
+                    ApplicationArea = All;
+                }
+                field("Total Amount LCY"; Rec."Total Amount LCY")
+                {
+                    ApplicationArea = All;
+                }
+                field("Quotation Submited on"; Rec."Quotation Submited on")
+                {
+                    ApplicationArea = All;
+                    //Editable = false;
+                }
+                field("GST Group Code"; Rec."GST Group Code")
                 {
                     ApplicationArea = All;
                 }

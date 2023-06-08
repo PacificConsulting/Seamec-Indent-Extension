@@ -74,7 +74,25 @@ page 50089 "RFQ List"
 
                 end;
             }
+            action(RFQReport)
+            {
+                Caption = 'RFQ Report';
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Process;
+                Image = Report;
+                trigger OnAction()
+                var
+                    RFQHdr: Record "RFQ Header";
+                Begin
+                    RFQHdr.Reset();
+                    RFQHdr.SetRange("No.", Rec."No.");
+                    if RFQHdr.FindFirst() then
+                        Report.RunModal(50100, true, true, RFQHdr);
+                End;
+            }
         }
+
     }
 
     var

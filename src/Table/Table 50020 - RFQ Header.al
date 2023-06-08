@@ -28,7 +28,7 @@ table 50020 "RFQ Header"
 
             Editable = false;
             FieldClass = FlowField;
-            CalcFormula = sum("RFQ Line"."Line Amount" where("Document No." = field("No.")));
+            CalcFormula = sum("RFQ Line"."Total Amount LCY" where("Document No." = field("No.")));
         }
         field(6; Status; Option)
         {
@@ -49,6 +49,23 @@ table 50020 "RFQ Header"
         field(9; "Created PO"; Boolean)
         {
             DataClassification = ToBeClassified;
+        }
+        field(10; "Shortcut Dimension 1 Code"; Code[20])
+        {
+            CaptionClass = '1,2,1';
+            Caption = 'Cost Center';
+            TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
+        }
+        field(11; "Shortcut Dimension 2 Code"; Code[20])
+        {
+            CaptionClass = '1,2,2';
+            Caption = 'Project Code';
+            TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(2));
+        }
+        field(12; "Job Maintenance No."; Code[20])
+        {
+            Description = '//PCPL-FA-1.0';
+            TableRelation = "PMS JOB Header" where(Status = filter(Open));
         }
     }
 
