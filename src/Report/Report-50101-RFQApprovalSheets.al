@@ -11,7 +11,7 @@ report 50101 "RFQ Approval"
         {
             RequestFilterFields = "Document No.";
             DataItemTableView = order(ascending) where("Sequence No." = filter(<> 0));
-            column(Document_No_; "Document No.")
+            column(Document_No_; "Document No.")//
             {
 
             }
