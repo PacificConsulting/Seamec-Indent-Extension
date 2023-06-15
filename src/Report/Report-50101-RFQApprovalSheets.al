@@ -11,7 +11,31 @@ report 50101 "RFQ Approval"
         {
             RequestFilterFields = "Document No.";
             DataItemTableView = order(ascending) where("Sequence No." = filter(<> 0));
-            column(Document_No_; "Document No.")//
+            column(Document_No_; Indent_Hdr."No." + ' - ' + Indent_Hdr."Indent Description")
+            {
+
+            }
+            column(CompanyInfo_Add; CompanyInfo.Address + CompanyInfo."Address 2" + CompanyInfo.City + ',' + CompanyInfo."State Code")
+            {
+
+            }
+            column(CompanyInfo_PhoneNo; 'Tel No. : ' + CompanyInfo."Phone No.")
+            {
+
+            }
+            column(CompanyInfo_FAX_No; 'FAX No.: ' + CompanyInfo."Fax No.")
+            {
+
+            }
+            column(CompanyInfo_Email; 'E-mail :' + CompanyInfo."E-Mail")
+            {
+
+            }
+            column(CompanyInfo_PAN; CompanyInfo."P.A.N. No.")
+            {
+
+            }
+            column(CompanyInfo_Picture; CompanyInfo.Picture)
             {
 
             }
@@ -31,7 +55,7 @@ report 50101 "RFQ Approval"
             {
 
             }
-            column(Vendor_No_; "Vendor No.")
+            column(Vendor_No_; "Vendor No." + '-' + "Vendor Name")
             {
 
             }
@@ -59,6 +83,14 @@ report 50101 "RFQ Approval"
             {
 
             }
+            column(Total_Amount; "Total Amount")
+            {
+
+            }
+            column(CostCentreCode; RFQ_Hdr."Shortcut Dimension 1 Code")
+            {
+
+            }
             trigger OnAfterGetRecord()
             var
             Begin
@@ -69,6 +101,10 @@ report 50101 "RFQ Approval"
 
                 SumbitDate := DT2Date("Quotation Submited on");
                 Month_Text := GetNameOfMonthFromDate(SumbitDate);
+
+                Indent_Hdr.Reset();
+                Indent_Hdr.SetRange("No.", "RFQ Catalog"."Document No.");
+                if Indent_Hdr.FindFirst() then;
             End;
 
         }
@@ -78,6 +114,7 @@ report 50101 "RFQ Approval"
     trigger OnPreReport()
     begin
         CompanyInfo.GET;
+        CompanyInfo.CalcFields(Picture);
     end;
 
     procedure GetNameOfMonthFromDate(var GetDate: Date): Text[10]
@@ -111,7 +148,7 @@ report 50101 "RFQ Approval"
             11:
                 NameOfMonth := 'NOV';
             12:
-                NameOfMonth := 'DEC’'
+                NameOfMonth := 'DEC';
         End;
         EXIT(NameOfMonth);
     end;
@@ -123,4 +160,5 @@ report 50101 "RFQ Approval"
         CompanyInfo: Record "Company Information";
         SumbitDate: date;
         Month_Text: Text[20];
+        Indent_Hdr: Record "Indent Header";
 }

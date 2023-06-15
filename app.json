@@ -2,7 +2,7 @@
   "id": "b42afbbe-0e79-48cb-a069-79a30045806a",
   "name": "Seamec Indent Extension",
   "publisher": "Pacific",
-  "version": "1.0.0.1",
+  "version": "1.0.0.2",
   "brief": "",
   "description": "",
   "privacyStatement": "",
@@ -63,7 +63,7 @@
     "allowDownloadingSource": true,
     "includeSourceInSymbolFile": true
   },
-  "runtime": "9.0",
+  "runtime": "10.0",
   "features": [
     "NoImplicitWith"
   ]

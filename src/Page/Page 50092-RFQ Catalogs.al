@@ -10,7 +10,6 @@ page 50092 "RFQ Catalogs"
     Editable = true;
     SourceTableView = sorting(Price) order(ascending);
 
-
     layout
     {
         area(Content)
@@ -155,5 +154,5 @@ page 50092 "RFQ Catalogs"
     End;
 
     var
-    //myInt: Record 37; 
+        myInt: Page 9060;
 }

@@ -171,6 +171,23 @@ page 50091 "RFQ Card"
                         Report.RunModal(50100, true, true, RFQHdr);
                 End;
             }
+            action(RFQApproval)
+            {
+                Caption = 'RFQ Approval';
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Process;
+                Image = Report;
+                trigger OnAction()
+                var
+                    RFQHdr: Record "RFQ Catalog";
+                Begin
+                    RFQHdr.Reset();
+                    RFQHdr.SetRange("Document No.", Rec."No.");
+                    if RFQHdr.FindFirst() then
+                        Report.RunModal(50101, true, true, RFQHdr);
+                End;
+            }
         }
         area(Creation)
         {

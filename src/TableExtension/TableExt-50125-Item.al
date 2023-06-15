@@ -14,8 +14,8 @@ tableextension 50125 Item_Indent_ext extends Item
             DataClassification = ToBeClassified;
         }
         //PCPL-25/090323
-
     }
+
     //PCPL-25/090323
     trigger OnAfterInsert()
     begin
