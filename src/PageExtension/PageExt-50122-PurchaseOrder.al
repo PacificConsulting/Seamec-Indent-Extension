@@ -9,25 +9,40 @@ pageextension 50122 Purchase_order_Indent extends "Purchase Order"
                 ApplicationArea = All;
             }
         }
-        addafter("Posting Date")
-        {
-            field("RFQ Indent No."; Rec."RFQ Indent No.")
-            {
-                ApplicationArea = all;
-            }
-        }
+
     }
 
     actions
     {
-        addafter("Remove From Job Queue")
+        //PCPL-25/080823
+        modify(Release)
         {
+            trigger OnBeforeAction()
+            var
+                PL: Record "Purchase Line";
+            begin
+                Rec.TestField("Location Code");
+                PL.Reset();
+                PL.SetRange("Document No.", Rec."No.");
+                if PL.FindSet() then
+                    repeat
+                        PL.TestField("Location Code");
+                    until PL.Next() = 0;
+            end;
+        }
+        //PCPL-25/080823
+
+        addafter("Archive Document")
+        {
+
             action("Get Indent Line")
             {
                 Image = Process;
                 Promoted = true;
                 PromotedIsBig = true;
                 ApplicationArea = all;
+                PromotedCategory = Process;
+
 
                 trigger OnAction();
                 begin
@@ -46,6 +61,7 @@ pageextension 50122 Purchase_order_Indent extends "Purchase Order"
             action("Purchase Order Report")
             {
                 Promoted = true;
+                PromotedCategory = Report;
                 Image = Print;
                 ApplicationArea = all;
                 trigger OnAction()

@@ -25,6 +25,12 @@ tableextension 50128 Purchase_Header_ext extends "Purchase Header"
             Editable = false;
         }
 
+        field(50105; "Show Vessel GRN"; Boolean)
+        {
+            Description = 'PCPL-25/180723';
+            Caption = 'PO Fully Received';
+            //Editable = false;
+        }
     }
     procedure UpdateIndent()
     var

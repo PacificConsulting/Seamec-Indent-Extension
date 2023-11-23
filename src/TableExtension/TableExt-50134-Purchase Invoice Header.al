@@ -1,4 +1,4 @@
-tableextension 50134 PurchInvHdrExt extends "Purch. Inv. Header"
+tableextension 50134 PurchInvHdrExt1 extends "Purch. Inv. Header"
 {
     fields
     {

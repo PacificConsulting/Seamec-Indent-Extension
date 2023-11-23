@@ -7,20 +7,21 @@ page 50069 "Indent History"
     // //IsFirstDocLine
     // //CreateIndentLines
     // //SetPurchHeaderIndent
-
+    Caption = 'Requisition Archive Lines';  //PCPL-25/300823
     AutoSplitKey = true;
     DelayedInsert = true;
     DeleteAllowed = true;
     Editable = false;
     InsertAllowed = true;
     ModifyAllowed = true;
-    PageType = Card;
+    PageType = List;//Card;
     SaveValues = true;
     SourceTable = 50023;
     SourceTableView = SORTING("Entry Type", "Document No.", "Line No.")
                       ORDER(Ascending)
                       WHERE("Entry Type" = FILTER(Indent),
-                            Close = FILTER(true));
+                            //Close = FILTER(true));
+                            Generate = CONST(true));   //PCPL-25/280823
     ApplicationArea = all;
     UsageCategory = History;
 
@@ -105,19 +106,19 @@ page 50069 "Indent History"
                 {
                     ApplicationArea = all;
                 }
-                field(Close; Rec.Close)
-                {
-                    ApplicationArea = all;
+                // field(Close; Rec.Close)
+                // {
+                //     ApplicationArea = all;
 
-                    trigger OnValidate();
-                    begin
-                        CloseOnPush;
-                    end;
-                }
-                field("Comment for Close"; Rec."Comment for Close")
-                {
-                    ApplicationArea = all;
-                }
+                //     trigger OnValidate();
+                //     begin
+                //         CloseOnPush;
+                //     end;
+                // }
+                // field("Comment for Close"; Rec."Comment for Close")
+                // {
+                //     ApplicationArea = all;
+                // }
                 // field("Outstanding Quantity"; Rec."Quantity - PO Qty")
                 // {
                 //     BlankNumbers = BlankZero;
@@ -198,6 +199,7 @@ page 50069 "Indent History"
     var
         TransferLine: Boolean;
         DimMgt: Codeunit 408;
+        IndentHdr: Record "Indent Header";
     begin
         WITH PurchIndentLine2 DO BEGIN
             SETFILTER(Quantity, '<>0');
@@ -243,19 +245,19 @@ page 50069 "Indent History"
         MESSAGE('%1', 'T')
     end;
 
-    local procedure CloseOnPush();
-    begin
-        IF Rec.Close = FALSE THEN
-            EXIT
-        ELSE BEGIN
-            Ok := CONFIRM('Do you want to Close?');
-            IF Ok = TRUE THEN BEGIN
-                Rec.Close := TRUE;
-            END ELSE
-                Rec.Close := FALSE;
-            Rec.MODIFY;
-        END;
-    end;
+    // local procedure CloseOnPush();
+    // begin
+    //     IF Rec.Close = FALSE THEN
+    //         EXIT
+    //     ELSE BEGIN
+    //         Ok := CONFIRM('Do you want to Close?');
+    //         IF Ok = TRUE THEN BEGIN
+    //             Rec.Close := TRUE;
+    //         END ELSE
+    //             Rec.Close := FALSE;
+    //         Rec.MODIFY;
+    //     END;
+    // end;
 
     local procedure LookupOKOnPush();
     begin

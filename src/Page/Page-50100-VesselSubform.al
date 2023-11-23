@@ -26,6 +26,16 @@ page 50100 "Vessel Subform"
                     ApplicationArea = All;
                     Editable = false;
                 }
+                field(Description; Rec.Description)
+                {
+                    ApplicationArea = all;
+                    Editable = false;
+                }
+                field("Description 2"; Rec."Description 2")
+                {
+                    ApplicationArea = all;
+                    Editable = false;
+                }
                 field(Quantity; Rec.Quantity)
                 {
                     ApplicationArea = All;
@@ -33,8 +43,17 @@ page 50100 "Vessel Subform"
                 field("Qty. to Invoice"; Rec."Qty. to Invoice")
                 {
                     ApplicationArea = All;
+                    Visible = false;
                 }
+                /*field("Quantity Invoiced"; Rec."Quantity Invoiced")
+                {
+                    ApplicationArea = All;
+                }*/
                 field("Qty. to Receive"; Rec."Qty. to Receive")
+                {
+                    ApplicationArea = All;
+                }
+                field("Quantity Received"; Rec."Quantity Received")
                 {
                     ApplicationArea = All;
                 }
@@ -46,6 +65,7 @@ page 50100 "Vessel Subform"
                 field("Direct Unit Cost"; Rec."Direct Unit Cost")
                 {
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Unit of Measure Code"; Rec."Unit of Measure Code")
                 {
@@ -55,21 +75,25 @@ page 50100 "Vessel Subform"
                 field("Unit Cost"; Rec."Unit Cost")
                 {
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("HSN/SAC Code"; Rec."HSN/SAC Code")
                 {
                     ApplicationArea = All;
                     Editable = false;
+                    Visible = false;
                 }
                 field("GST Group Code"; Rec."GST Group Code")
                 {
                     ApplicationArea = All;
                     Editable = false;
+                    Visible = false;
                 }
                 field("GST Credit"; Rec."GST Credit")
                 {
                     ApplicationArea = All;
                     Editable = false;
+                    Visible = false;
                 }
                 field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
                 {
@@ -78,6 +102,14 @@ page 50100 "Vessel Subform"
                 field("Shortcut Dimension 2 Code"; Rec."Shortcut Dimension 2 Code")
                 {
                     ApplicationArea = All;
+                }
+                field("Gen. Bus. Posting Group"; Rec."Gen. Bus. Posting Group")
+                {
+                    ApplicationArea = all;
+                }
+                field("Gen. Prod. Posting Group"; Rec."Gen. Prod. Posting Group")
+                {
+                    ApplicationArea = all;
                 }
             }
         }

@@ -8,6 +8,8 @@ page 50086 "Pending Indent for Approval"
     Editable = true;
     PageType = Card;
     SourceTable = 50022;
+    InsertAllowed = false;
+    DeleteAllowed = false;
     //SourceTableView = WHERE("Entry Type" = FILTER(Indent));
 
     layout

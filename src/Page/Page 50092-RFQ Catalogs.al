@@ -72,10 +72,13 @@ page 50092 "RFQ Catalogs"
                     var
                         Vend: Record Vendor;
                     Begin
-                        if Vend.GET(Rec."Vendor No.") then
-                            Rec."Vendor Name" := Vend.Name;
-                        Rec.Modify();
+                        /*
+                            if Vend.GET(Rec."Vendor No.") then
+                                Rec."Vendor Name" := Vend.Name;
+                            Rec.Modify();
+                            */
                     End;
+
                 }
                 field("Vendor Name"; Rec."Vendor Name")
                 {

@@ -10,6 +10,7 @@ page 50063
     PageType = Card;
     SourceTable = 50022;
     SourceTableView = WHERE("Entry Type" = FILTER(Indent));
+    DeleteAllowed = true; //PCPL-25/080823
 
     layout
     {
@@ -27,6 +28,10 @@ page 50063
                     IF Rec.AssistEdit(xRec) THEN
                         CurrPage.UPDATE;
                 end;
+            }
+            field("Indent Type"; Rec."Indent Type")
+            {
+                ApplicationArea = All;
             }
             field("Indent Description"; Rec."Indent Description")
             {
@@ -68,6 +73,7 @@ page 50063
             {
                 ApplicationArea = All;
             }
+
             field(Status; Rec.Status)
             {
                 ApplicationArea = all;
@@ -86,6 +92,19 @@ page 50063
                 SubPageLink = "Document No." = FIELD("No.");
             }
         }
+        //PCPL-25/170323
+        area(FactBoxes)
+        {
+            part("Attached Documents"; "Document Attachment Factbox")
+            {
+                ApplicationArea = All;
+                Caption = 'Attachments';
+                SubPageLink = "Table ID" = CONST(50022),
+                              "No." = FIELD("No.");
+            }
+        }
+        //PCPL-25/170323
+
     }
 
     actions
@@ -324,7 +343,26 @@ page 50063
                 trigger OnAction()
                 var
                     UserSetup: Record 91;
+                    ReqLine: Record "Indent Line";
                 begin
+                    //PCPL-25/100723
+                    ReqLine.Reset();
+                    ReqLine.SetRange("Entry Type", Rec."Entry Type");
+                    ReqLine.SetRange("Document No.", Rec."No.");
+                    //ReqLine.SetFilter(Type, '%1', ReqLine.Type::" ");
+                    ReqLine.SetFilter("No.", '%1', '');
+                    if ReqLine.FindFirst() then begin
+                        Error('Please select Type and No. in line level');
+                    end;
+
+                    ReqLine.Reset();
+                    ReqLine.SetRange("Entry Type", Rec."Entry Type");
+                    ReqLine.SetRange("Document No.", Rec."No.");
+                    if not ReqLine.FindFirst() then begin
+                        Error('Please select Type and No. in line level');
+                    end;
+                    //PCPL-25/100723
+
                     if Rec.Status = Rec.Status::Open then begin
                         UserSetup.Get(UserId);
                         Rec.Status := Rec.Status::"Pending For Approval";
@@ -355,9 +393,55 @@ page 50063
     end;
 
     trigger OnDeleteRecord(): Boolean;
+    var
+        UserSet: Record "User Setup";
+        PL: Record "Purchase Line";
+        ReqArchiH: Record "Requisition Archive Header";
+        ReqArchiveLine: Record "Requisition Archive Lines";
+        IndentLine: Record "Indent Line";
     begin
         CurrPage.SAVERECORD;
+        //PCPL-25/080823
+        //IF CONFIRM('Do you want to delete this requision') THEN BEGIN
+        if UserSet.Get(UserId) then;
+        if UserSet."Delete Requisition" = false then begin
+            Error('You do not have permission to delete this requisition.');
+        end;
+        PL.Reset();
+        PL.SetRange("Indent No.", Rec."No.");
+        if PL.FindFirst() then begin
+            Error('You can not delete this requisition, Purchase order is already created');
+        end;
+        ReqArchiH.Reset();
+        ReqArchiH.SetRange("No.", Rec."No.");
+        if not ReqArchiH.FindFirst() then begin
+            ReqArchiH.Init();
+            ReqArchiH.TransferFields(Rec);
+            ReqArchiH."Deleted By" := UserId;
+            ReqArchiH."Deleted Date" := Today;
+            ReqArchiH.Status := ReqArchiH.Status::Cancel;
+            ReqArchiH.Insert();
+        end;
+
+        IndentLine.Reset();
+        IndentLine.SetRange("Document No.", Rec."No.");
+        if IndentLine.FindSet() then
+            repeat
+                ReqArchiveLine.Reset();
+                ReqArchiveLine.SetRange("Document No.", IndentLine."Document No.");
+                ReqArchiveLine.SetRange("Line No.", IndentLine."Line No.");
+                if not ReqArchiveLine.FindFirst() then begin
+                    ReqArchiveLine.Init();
+                    ReqArchiveLine.TransferFields(IndentLine);
+                    ReqArchiveLine.Insert();
+                end;
+            until IndentLine.Next() = 0;
+        Commit();
+        CurrPage.Update();
+        CurrPage.Close();
     end;
+    //PCPL-25/080823
+    //end;
 
     trigger OnNewRecord(BelowxRec: Boolean);
     begin
@@ -377,6 +461,8 @@ page 50063
 
     trigger OnModifyRecord(): Boolean
     Begin
+        Rec.TestField(Status, Status::Open); //PCPL-25/280823
+
         if Rec.Status <> Rec.Status::Open then
             Error('You can not modify this document');
     End;
@@ -396,11 +482,16 @@ page 50063
             repeat
                 IndentLine.TestField("No.");
                 IndentLine.TestField(Quantity);
+                IF Rec."Indent Type" <> Rec."Indent Type"::" " then begin
+                    IndentLine."Indent Type" := Rec."Indent Type";
+                    IndentLine.Modify();
+                end;
             until IndentLine.Next() = 0;
     End;
     //PCPL/0070 16Feb2023 >>
 
     var
+        indentheader: Record "Indent Header";
         IndentLine: Record 50023;
         Schedule: Record 50021;
         USer: Record 91;

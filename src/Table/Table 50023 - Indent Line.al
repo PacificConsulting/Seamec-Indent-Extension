@@ -240,7 +240,7 @@ table 50023 "Indent Line"
         }
         field(50126; "Product Group Code"; Code[20])
         {
-            TableRelation = "Product Group".Code;
+            //TableRelation = "Product Group".Code;    //PCPL-25/031023 comment becuase remove Product Group table
         }
         field(50127; "Item Category Code"; Code[10])
         {
@@ -443,7 +443,6 @@ table 50023 "Indent Line"
             FieldClass = FlowField;
             CalcFormula = sum("Item Ledger Entry".Quantity where("Item No." = field("No."),
                                                                   "Location Code" = field("Location Code")));
-
         }
         field(50165; "Last Direct Cost"; Decimal)
         {
@@ -468,7 +467,12 @@ table 50023 "Indent Line"
             DataClassification = ToBeClassified;
             Editable = false;
         }
-
+        field(50169; "Indent Type"; Option)
+        {
+            OptionMembers = " ",Material,Service;
+            OptionCaption = ' ,Material,Service';
+            Description = 'PCPL-0070';
+        }
     }
 
     keys
@@ -492,10 +496,19 @@ table 50023 "Indent Line"
     trigger OnDelete();
     begin
         //TestApprove();
+        //PCPL-25/250823
+        if indentheader.Get(Rec."Document No.") then;
+        indentheader.TestField(Status, indentheader.Status::Open);
+        //PCPL-25/250823
     end;
 
     trigger OnInsert();
     begin
+        //PCPL-25/250823
+        if indentheader.Get(Rec."Document No.") then;
+        indentheader.TestField(Status, indentheader.Status::Open);
+        //PCPL-25/250823
+
         //PCPL41_05032020_S
         indentheader.RESET;
         indentheader.SETRANGE("No.", "Document No.");
@@ -528,6 +541,11 @@ table 50023 "Indent Line"
 
     trigger OnModify();
     begin
+        // //PCPL-25/250823
+        // if indentheader.Get(Rec."Document No.") then;
+        // indentheader.TestField(Status, indentheader.Status::Open);
+        // //PCPL-25/250823
+
         APPtatustpcpl := 1;//pcpl0024
         VALIDATE(Approved)
     end;
@@ -631,6 +649,7 @@ table 50023 "Indent Line"
             PurchLine.VALIDATE(PurchLine."No.", "No.");
             PurchLine.Description := Description;
             PurchLine."Description 2" := "Description 2";
+            PurchLine."Service Indent No." := "Document No."; //PCPL-0070 26June23
             //PurchLine."Description 3"        :=   "Description 3";
             //      PurchLine.VALIDATE(PurchLine."Unit of Measure Code",  "Unit of Measure Code") ;
             PurchLine."Unit of Measure Code" := "Unit of Measure Code";
@@ -684,6 +703,12 @@ table 50023 "Indent Line"
         IndentHeader.SETRANGE("No.", "Document No.");
         IF IndentHeader.FINDFIRST THEN BEGIN
             PurchInvHeader."Incoming Document Entry No." := IndentHeader."Incoming Document Entry No.";
+            IndentHeader."Po Created" := true; //PCPL-0070 26June23
+            IndentHeader.Modify();
+            //PCPL-25/270723
+            if PurchInvHeader."RFQ Indent No." = '' then
+                PurchInvHeader."RFQ Indent No." := "Document No.";
+            //PCPL-25/270723
             PurchInvHeader.MODIFY;
         END;
         //PCPL-25/INCDoc

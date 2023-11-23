@@ -5,6 +5,7 @@ page 50061 "Indent Hdr Purpose Master Card"
     UsageCategory = Administration;
     SourceTable = "Indent Header Purpose Master";
 
+
     layout
     {
         area(Content)

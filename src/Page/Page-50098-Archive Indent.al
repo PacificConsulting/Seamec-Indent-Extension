@@ -81,14 +81,14 @@ page 50098 "Archive Indent"
                 {
                     ApplicationArea = all;
                 }
-                field("Closed By"; Rec."Closed By")
-                {
-                    ApplicationArea = all;
-                }
-                field("Closed Date"; Rec."Closed Date")
-                {
-                    ApplicationArea = all;
-                }
+                // field("Closed By"; Rec."Closed By")
+                // {
+                //     ApplicationArea = all;
+                // }
+                // field("Closed Date"; Rec."Closed Date")
+                // {
+                //     ApplicationArea = all;
+                // }
             }
         }
     }

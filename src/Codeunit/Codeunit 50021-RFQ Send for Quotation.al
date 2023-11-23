@@ -151,7 +151,7 @@ codeunit 50021 "RFQ-Send for Quotation"
         RFQHdr.GET(RFQ_Catalog."Document No.");
         RFQLine.GET(RFQ_Catalog."Document No.", RFQ_Catalog."Line No.");
 
-        URL := GLSetup."RFQ URL" + 'rfqdetail.aspx?param1=%1&param2=%2';
+        URL := GLSetup."RFQ URL" + 'rfqdetail.aspx?param1=%1&param2=%2'; //For UAT
         //URL := 'http://localhost:54939/rfqdetail.aspx?param1=%1&param2=%2';
         //http://10.20.1.99:8082/rfquat/rfqdetail.aspx?param1=%1&param2=%2'
 
@@ -204,7 +204,7 @@ codeunit 50021 "RFQ-Send for Quotation"
         BodyText1 += ('<td style="text-align:left" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
         BodyText1 += '<br><br>';
         VarRecipaints := 'kamalkant@pacificconsulting.in';
-        EmailMessage.Create(VarRecipaints, 'Request For Quote : ' /*+ RecItem.Description*/, bodytext1, true);
+        EmailMessage.Create(VarRecipaints, 'Seamec Request For Quote : ' /*+ RecItem.Description*/, bodytext1, true);
         Email.Send(EmailMessage, Enum::"Email Scenario"::Default);
         Message('E-mail sent successfully');
     End;

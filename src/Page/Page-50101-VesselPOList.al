@@ -1,7 +1,7 @@
 page 50101 "Vessel PO List"
 {
     ApplicationArea = Basic, Suite;
-    Caption = 'Vessel Purchase Orders';
+    Caption = 'Vessel GRN';
     CardPageID = "Vessel PO";
     //DataCaptionFields = "Buy-from Vendor No.";
     Editable = false;
@@ -9,8 +9,11 @@ page 50101 "Vessel PO List"
     //QueryCategory = 'Vessel PO List';
     RefreshOnActivate = true;
     SourceTable = "Purchase Header";
-    SourceTableView = WHERE("Document Type" = CONST(Order));
+    //SourceTableView = WHERE("Document Type" = CONST(Order));
+    SourceTableView = WHERE("Document Type" = CONST(Order), Status = filter(Released), "Show Vessel GRN" = const(false));  //PCPL-25/180723 above code comment
     UsageCategory = Lists;
+    DeleteAllowed = false;      //PCPL-25/100723
+
     layout
     {
         area(Content)
@@ -100,4 +103,26 @@ page 50101 "Vessel PO List"
             }
         }
     }
+    trigger OnAfterGetRecord()
+    var
+        PL: Record "Purchase Line";
+        TotQty: Decimal;
+        TotRecived: Decimal;
+    begin
+        if (Rec."Show Vessel GRN" = false) then begin
+            Clear(TotQty);
+            Clear(TotRecived);
+            PL.Reset();
+            PL.SetRange("Document No.", Rec."No.");
+            if PL.FindSet() then
+                repeat
+                    TotQty += PL.Quantity;
+                    TotRecived += PL."Quantity Received";
+                until PL.Next() = 0;
+            if (TotQty = TotRecived) and (TotQty <> 0) then begin
+                Rec."Show Vessel GRN" := true;
+                Rec.Modify();
+            end;
+        end;
+    end;
 }

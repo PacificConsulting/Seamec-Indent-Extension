@@ -18,8 +18,8 @@ pageextension 50128 Posted_Purchase_Reciept_Ext extends "Posted Purchase Receipt
         {
             action("GRN Report")
             {
-                Image = Print;
-                Promoted = true;
+                Image = Report;
+                //Promoted = true;
                 ApplicationArea = all;
                 trigger OnAction()
                 var

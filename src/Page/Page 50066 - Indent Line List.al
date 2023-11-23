@@ -20,7 +20,8 @@ page 50066 "Indent Line List"
     SourceTableView = SORTING("Entry Type", "Document No.", "Line No.")
                       ORDER(Ascending)
                       WHERE("Entry Type" = FILTER(Indent),
-                            Close = CONST(False));
+                           // Close = CONST(False));
+                           Generate = CONST(false));   //PCPL-25/280823
     ApplicationArea = all;
     UsageCategory = Lists;
 
@@ -166,20 +167,20 @@ page 50066 "Indent Line List"
                     ApplicationArea = all;
                     Editable = false;
                 }
-                field(Close; Rec.Close)
-                {
+                // field(Close; Rec.Close)
+                // {
 
-                    ApplicationArea = all;
-                    trigger OnValidate();
-                    begin
-                        CloseOnPush;
-                    end;
-                }
-                field("Comment for Close"; Rec."Comment for Close")
-                {
-                    Caption = 'Comment for Close';
-                    ApplicationArea = all;
-                }
+                //     ApplicationArea = all;
+                //     trigger OnValidate();
+                //     begin
+                //         CloseOnPush;
+                //     end;
+                // }
+                // field("Comment for Close"; Rec."Comment for Close")
+                // {
+                //     Caption = 'Comment for Close';
+                //     ApplicationArea = all;
+                // }
                 field("Release Date and Time"; Rec."Release Date and Time")
                 {
                     Editable = false;
@@ -336,21 +337,21 @@ page 50066 "Indent Line List"
         MESSAGE('%1', 'T')
     end;
 
-    local procedure CloseOnPush();
-    begin
-        IF Rec.Close = FALSE THEN
-            EXIT
-        ELSE BEGIN
-            Ok := CONFIRM('Do you want to Close?');
-            IF Ok = TRUE THEN BEGIN
-                Rec.Close := TRUE;
-                Rec."Close UserID" := USERID;
-                Rec.MODIFY;
-            END ELSE
-                Rec.Close := FALSE;
-            Rec.MODIFY;
-        END;
-    end;
+    // local procedure CloseOnPush();
+    // begin
+    //     IF Rec.Close = FALSE THEN
+    //         EXIT
+    //     ELSE BEGIN
+    //         Ok := CONFIRM('Do you want to Close?');
+    //         IF Ok = TRUE THEN BEGIN
+    //             Rec.Close := TRUE;
+    //             Rec."Close UserID" := USERID;
+    //             Rec.MODIFY;
+    //         END ELSE
+    //             Rec.Close := FALSE;
+    //         Rec.MODIFY;
+    //     END;
+    // end;
 
     local procedure LookupOKOnPush();
     begin

@@ -137,9 +137,9 @@ report 50096 "Indent Report-1"
                 if commentLine.FindSet() then
                     repeat
                         if ItemComment = '' then
-                            ItemComment := commentLine.Comment
+                            ItemComment := commentLine."Comment New"
                         else
-                            ItemComment := ItemComment + ' ' + commentLine.Comment;
+                            ItemComment := ItemComment + ' ' + commentLine."Comment New";
                     until commentLine.Next() = 0;
                 //PCPL-25/090323
 

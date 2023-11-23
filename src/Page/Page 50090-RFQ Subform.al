@@ -14,7 +14,7 @@ page 50090 "RFQ Subform"
     SourceTable = "RFQ Line";
     Permissions = tabledata "RFQ Line" = RIMD;
     RefreshOnActivate = true;
-
+    DeleteAllowed = false;
 
     layout
     {
@@ -29,10 +29,12 @@ page 50090 "RFQ Subform"
                 field("No."; Rec."No.")
                 {
                     ApplicationArea = all;
+                    Editable = false;
                 }
                 field(Description; Rec.Description)
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Description 2"; Rec."Description 2")
                 {
@@ -120,6 +122,7 @@ page 50090 "RFQ Subform"
                 ApplicationArea = All;
                 Caption = 'Quotation List';
                 Image = Quote;
+                Visible = false;
                 trigger OnAction()
                 var
                     RFQ_C: Record "RFQ Catalog"; //

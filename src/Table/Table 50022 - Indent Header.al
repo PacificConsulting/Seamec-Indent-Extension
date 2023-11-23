@@ -19,7 +19,6 @@ table 50022 "Indent Header"
             // TestTableRelation = true;
             //ValidateTableRelation = true;
 
-
             trigger OnValidate();
             begin
                 IF "No." <> xRec."No." THEN BEGIN
@@ -180,6 +179,12 @@ table 50022 "Indent Header"
         {
             Description = 'PCPl-0070';
         }
+        field(50131; "Indent Type"; Option)
+        {
+            OptionMembers = " ",Material,Service;
+            OptionCaption = ' ,Material,Service';
+            Description = 'PCPL-0070';
+        }
     }
 
     keys
@@ -229,8 +234,12 @@ table 50022 "Indent Header"
         Rec."Indent Due Date" := CalcDate('6M', Date); //PCPL-0064
 
         // Message('Inserted');
+    end;
 
-
+    //PCPL-25/250823
+    trigger OnModify()
+    begin
+        // Rec.TestField(Status, Status::Open); //PCPL-064 18 oct2023
     end;
 
     local procedure TestNoSeries(): Boolean;

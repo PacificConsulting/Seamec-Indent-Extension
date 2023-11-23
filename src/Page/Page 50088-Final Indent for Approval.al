@@ -8,6 +8,8 @@ page 50088 "Final Indent for Approval"
     Editable = true;
     PageType = Card;
     SourceTable = 50022;
+    InsertAllowed = false;
+    DeleteAllowed = false;
     //SourceTableView = WHERE("Entry Type" = FILTER(Indent));
 
     layout
@@ -63,6 +65,10 @@ page 50088 "Final Indent for Approval"
                 ApplicationArea = all;
             }
             field("Release User ID"; Rec."Release User ID")
+            {
+                ApplicationArea = all;
+            }
+            field(Comments; Rec.Comments)
             {
                 ApplicationArea = all;
             }

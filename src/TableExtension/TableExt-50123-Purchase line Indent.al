@@ -43,6 +43,15 @@ tableextension 50123 Purchase_Line_indent extends "Purchase Line"
         {
             DataClassification = ToBeClassified;
         }
+        field(50106; "Service Indent No."; Code[20])
+        {
+            Description = 'PCPL-Indent';
+
+            trigger OnValidate();
+            begin
+                TestStatusOpen;
+            end;
+        }
     }
     trigger OnDelete()
     begin

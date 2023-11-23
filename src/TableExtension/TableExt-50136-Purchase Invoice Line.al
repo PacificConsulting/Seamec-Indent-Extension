@@ -1,4 +1,4 @@
-tableextension 50136 PurchInvLineExt extends "Purch. Inv. Line"
+tableextension 50136 PurchInvLineExt1 extends "Purch. Inv. Line"
 {
     fields
     {

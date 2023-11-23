@@ -9,7 +9,7 @@ page 50089 "RFQ List"
     Editable = false;
     CardPageId = 50091;
     SourceTableView = where("Created PO" = const(false));
-
+    InsertAllowed = false;
     layout
     {
         area(Content)
@@ -48,7 +48,7 @@ page 50089 "RFQ List"
                 Promoted = true;
                 PromotedIsBig = true;
                 PromotedCategory = Process;
-
+                Visible = false;
 
                 trigger OnAction()
                 var
@@ -97,4 +97,25 @@ page 50089 "RFQ List"
 
     var
         myInt: Integer;
+    //PCPL-25/050723
+    trigger OnOpenPage();
+    var
+        UserSet: Record 91;
+        TmpCostCentr: Text;
+        TmpLocCode: Text;
+    begin
+        UserSet.RESET;
+        UserSet.SETRANGE(UserSet."User ID", USERID);
+        IF UserSet.FINDFIRST THEN BEGIN
+            TmpLocCode := UserSet."Location Code";
+        END;
+
+        IF TmpLocCode <> '' THEN BEGIN
+            Rec.FILTERGROUP(2);
+            Rec.SETFILTER("Location Code", TmpLocCode);
+            Rec.FILTERGROUP(0);
+        END;
+    end;
+    //PCPL-25/050723
+
 }

@@ -7,6 +7,8 @@ page 50085 "Pending Indent for Approvals"
     CardPageId = 50086;
     Editable = false;
     SourceTableView = where(Status = filter('Pending For Approval'));
+    InsertAllowed = false;
+    DeleteAllowed = false;
 
     layout
     {
@@ -77,25 +79,44 @@ page 50085 "Pending Indent for Approvals"
                 {
                     ApplicationArea = all;
                 }
-                field("Closed By"; Rec."Closed By")
-                {
-                    ApplicationArea = all;
-                }
-                field("Closed Date"; Rec."Closed Date")
-                {
-                    ApplicationArea = all;
-                }
+                // field("Closed By"; Rec."Closed By")
+                // {
+                //     ApplicationArea = all;
+                // }
+                // field("Closed Date"; Rec."Closed Date")
+                // {
+                //     ApplicationArea = all;
+                // }
             }
         }
     }
-    trigger OnOpenPage()
+    //trigger OnOpenPage()
+    //begin
+    // UserSetup.GET;
+    // UserSetup.SetRange("User ID", Rec."Approver ID");
+    // if UserSetup.FindFirst() then;
+    // if UserId <> UserSetup."User ID" then
+    //     Error('You do not have permission,Please contact your adminstrator');
+    //end;
+
+    //PCPL-25/100723
+    trigger OnOpenPage();
+    var
+        RecUser: Record 91;
+        TmpLocCode: Code[1024];
     begin
-        // UserSetup.GET;
-        // UserSetup.SetRange("User ID", Rec."Approver ID");
-        // if UserSetup.FindFirst() then;
-        // if UserId <> UserSetup."User ID" then
-        //     Error('You do not have permission,Please contact your adminstrator');
+        RecUser.RESET;
+        RecUser.SETRANGE(RecUser."User ID", USERID);
+        IF RecUser.FINDFIRST THEN BEGIN
+            TmpLocCode := RecUser."Location Code";
+        END;
+        IF TmpLocCode <> '' THEN BEGIN
+            Rec.FILTERGROUP(2);
+            Rec.SETFILTER("Location Code", TmpLocCode);
+            Rec.FILTERGROUP(0);
+        END;
     end;
+    //PCPL-25/100723
 
     var
         UserSetup: Record "User Setup";

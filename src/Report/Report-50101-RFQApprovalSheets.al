@@ -3,7 +3,7 @@ report 50101 "RFQ Approval"
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     DefaultLayout = RDLC;
-    RDLCLayout = 'src\ReportLayout/RFQ Approval.rdl';
+    RDLCLayout = './Src/ReportLayout\RFQ Approval - 1.rdl';
 
     dataset
     {
@@ -43,7 +43,7 @@ report 50101 "RFQ Approval"
             {
 
             }
-            column(Item_No_; "Item No.")
+            column(Item_No_; "Item No." + ' - ' + Rec_Item.Description)
             {
 
             }
@@ -91,9 +91,15 @@ report 50101 "RFQ Approval"
             {
 
             }
+            column(TotalPrice; TotalPrice) { }
+            column(TotalAmt; TotalAmt) { }
+            column(TotalAmtLCY; TotalAmtLCY) { }
             trigger OnAfterGetRecord()
             var
             Begin
+                Clear(TotalPrice);
+                Clear(TotalAmt);
+                Clear(TotalAmtLCY);
                 IF RFQ_Hdr.GET("Document No.") then begin
                     if RFQ_Hdr."Location Code" <> '' then
                         Location.GET(RFQ_Hdr."Location Code");
@@ -105,6 +111,26 @@ report 50101 "RFQ Approval"
                 Indent_Hdr.Reset();
                 Indent_Hdr.SetRange("No.", "RFQ Catalog"."Document No.");
                 if Indent_Hdr.FindFirst() then;
+
+                IF Rec_Item.GET("Item No.") then;
+
+                //PCPL-0070 12July <<
+                // if VendorNo <> "Vendor No." then begin
+                RfqC.Reset();
+                RfqC.SetCurrentKey("Vendor No.");
+                RfqC.SetAscending("Vendor No.", true);
+                RfqC.SetRange("Document No.", "RFQ Catalog"."Document No.");
+                RfqC.SetRange("Vendor No.", "RFQ Catalog"."Vendor No.");
+                RfqC.SetFilter("Sequence No.", '<>%1', 0);
+                IF RfqC.FindSet() then
+                    repeat
+                        TotalPrice += RfqC.Price;
+                        TotalAmt += RfqC."Total Amount";
+                        TotalAmtLCY += RfqC."Total Amount LCY";
+                    until RfqC.Next() = 0;
+                // end;
+                VendorNo := "Vendor No.";
+                //PCPL-0070 12July >>
             End;
 
         }
@@ -161,4 +187,10 @@ report 50101 "RFQ Approval"
         SumbitDate: date;
         Month_Text: Text[20];
         Indent_Hdr: Record "Indent Header";
+        Rec_Item: Record Item;
+        RfqC: Record "RFQ Catalog";
+        TotalPrice: Decimal;
+        TotalAmt: Decimal;
+        TotalAmtLCY: Decimal;
+        VendorNo: Code[20];
 }

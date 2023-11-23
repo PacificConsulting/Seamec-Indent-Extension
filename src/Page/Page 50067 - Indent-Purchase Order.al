@@ -6,8 +6,9 @@ page 50067 "Indent-Purchase Order"
     SourceTable = 50023;
     ApplicationArea = all;
     UsageCategory = Lists;
-    SourceTableView = where("Header Status" = filter('Released'));
+    SourceTableView = where("Header Status" = filter('Released'), Generate = filter(false));
     Editable = true;
+    DeleteAllowed = false;
 
     layout
     {
@@ -33,6 +34,8 @@ page 50067 "Indent-Purchase Order"
                     begin
                         if Rec.Generate = true then
                             Error('RFQ already generated');
+                        IF Rec."Indent Type" = Rec."Indent Type"::Service then
+                            Error('User can''t select this document no. because indent type is service');
                     end;
                 }
                 field(Generate; Rec.Generate)
@@ -48,10 +51,24 @@ page 50067 "Indent-Purchase Order"
                 field("Vendor No."; Rec."Vendor No.")
                 {
                     ApplicationArea = All;
+                    trigger OnValidate()
+                    var
+                        indentheader: Record "Indent Header";
+                    begin
+                        if indentheader.Get(Rec."Document No.") then;
+                        indentheader.TestField(Status, indentheader.Status::Open);
+                    end;
                 }
                 field("Vendor Name"; Rec."Vendor Name")
                 {
                     ApplicationArea = All;
+                    trigger OnValidate()
+                    var
+                        indentheader: Record "Indent Header";
+                    begin
+                        if indentheader.Get(Rec."Document No.") then;
+                        indentheader.TestField(Status, indentheader.Status::Open);
+                    end;
                 }
                 field(Comment; Rec.Comment)
                 {
@@ -127,11 +144,11 @@ page 50067 "Indent-Purchase Order"
                     ApplicationArea = all;
                     Editable = false;
                 }
-                field(Close; Rec.Close)
-                {
-                    ApplicationArea = all;
-                    Editable = false;
-                }
+                // field(Close; Rec.Close)
+                // {
+                //     ApplicationArea = all;
+                //     Editable = false;
+                // }
                 field("Description 3"; Rec."Description 3")
                 {
                     ApplicationArea = all;
@@ -270,6 +287,20 @@ page 50067 "Indent-Purchase Order"
         //END;
         //PCPL0017
         CurrPage.Editable(true);
+
+        //PCPL-25/060723
+        RecUser.RESET;
+        RecUser.SETRANGE(RecUser."User ID", USERID);
+        IF RecUser.FINDFIRST THEN BEGIN
+            TmpLocCode := RecUser."Location Code";
+        END;
+
+        IF TmpLocCode <> '' THEN BEGIN
+            Rec.FILTERGROUP(2);
+            Rec.SETFILTER("Location Code", TmpLocCode);
+            Rec.FILTERGROUP(0);
+        END;
+        //PCPL-25/060723
     end;
 
     //PCPL-0070 21Mar23 <<

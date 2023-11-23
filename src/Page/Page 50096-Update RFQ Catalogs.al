@@ -37,6 +37,10 @@ page 50096 "RFQ Catalogs WS"
                     Editable = false;
                     ApplicationArea = All;
                 }
+                field("Item Details"; Rec."Item Details")
+                {
+                    Description = 'PCPL-25/180723';
+                }
                 field(UOM; Rec.UOM)
                 {
                     Editable = false;
@@ -111,29 +115,19 @@ page 50096 "RFQ Catalogs WS"
         }
     }
     /*
-     trigger OnClosePage()
-     var
-         RFQ: Record "RFQ Line";
-         RFQ_C: Record "RFQ Catalog";
-     begin
-         RFQ_C.Reset();
-         RFQ_C.SetRange("Document No.", Rec."Document No.");
-         RFQ_C.SetRange("Item No.", Rec."Item No.");
-         if RFQ_C.FindFirst() then;
+        //PCPL-25/180723
+        trigger OnAfterGetRecord()
+        var
+            recitem: Record Item;
+        begin
+            if recitem.Get(Rec."Item No.") then begin
+                Rec."Item Details" := recitem."Item Details";
+                Rec.Modify();
+            end;
+        end;
+        //PCPL-25/180723
+        */
 
-         RFQ.Reset();
-         RFQ.SetRange("Document No.", RFQ_C."Document No.");
-         RFQ.SetRange("No.", RFQ_C."Item No.");
-         //RFQ.SetRange("Vendor No.", RFQ_C."Vendor No.");
-         RFQ.SetRange("Line No.", RFQ_C."Line No.");
-         if RFQ.FindFirst() then begin
-             RFQ."Unit Cost" := RFQ_C.Price;
-             RFQ."Vendor No." := RFQ_C."Vendor No.";
-             RFQ."Line Amount" := RFQ.Quantity * RFQ."Unit Cost";
-             RFQ.Modify();
-         end;
-     end;
- */
     trigger OnClosePage()
     var
     Begin

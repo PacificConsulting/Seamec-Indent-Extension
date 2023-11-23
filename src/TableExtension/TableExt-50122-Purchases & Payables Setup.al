@@ -15,6 +15,10 @@ tableextension 50122 Purch_Pay_setup_ext extends "Purchases & Payables Setup"
             Description = 'INDENT';
             TableRelation = "No. Series";
         }
+        field(50105; "Gross Period Date"; DateFormula)
+        {
+            DataClassification = ToBeClassified;
+        }
 
     }
 

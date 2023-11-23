@@ -2,7 +2,7 @@ report 50097 "Purchase Order"
 {
 
     DefaultLayout = RDLC;
-    RDLCLayout = './Src/ReportLayout/Purchase Order -5.rdl';
+    RDLCLayout = './Src/ReportLayout/Purchase Order-2.rdl';
     ApplicationArea = all;
     UsageCategory = ReportsAndAnalysis;
 
@@ -29,7 +29,7 @@ report 50097 "Purchase Order"
             {
 
             }
-            column(PurchaseOrderDue_Date_PH; "Due Date")
+            column(PurchaseOrderDue_Date_PH; "Expected Receipt Date")
             {
 
             }
@@ -94,6 +94,10 @@ report 50097 "Purchase Order"
             {
                 Description = 'PCPL-0070 05/05/23';
             }
+            column(Vendphoneno; Vendphoneno)
+            {
+
+            }
             // dataitem("Purch. Comment Line1"; "Purch. Comment Line")
             // {
             //     DataItemLink = "No." = field("No.");
@@ -128,6 +132,10 @@ report 50097 "Purchase Order"
 
                 }
                 column(Item_No_; "No.")
+                {
+
+                }
+                column(ItemDetails; recitem."Item Details")
                 {
 
                 }
@@ -215,6 +223,8 @@ report 50097 "Purchase Order"
                 begin
                     Clear(TotalAmt);
                     clear(TotalTaxAmount);
+                    if recitem.GET("Purchase Line"."No.") THEN;  //PCPL-25/130723
+
 
                     TotalAmt += "Purchase Line".Quantity * "Purchase Line"."Direct Unit Cost";
 
@@ -263,7 +273,8 @@ report 50097 "Purchase Order"
                 //TotalAmount
                 recPurchLine.RESET;
                 recPurchLine.SETRANGE(recPurchLine."Document No.", "Purchase Header"."No.");
-                recPurchLine.SETRANGE(Type, recPurchLine.Type::Item);
+                //recPurchLine.SETRANGE(Type, recPurchLine.Type::Item);//PCPL-25/130723 code comment
+                //recPurchLine.SetFilter(Type, '%1|%2', recPurchLine.Type::Item, recPurchLine.Type::"G/L Account");     
                 IF recPurchLine.FINDSET THEN
                     REPEAT
                         TotalAmount1 += recPurchLine.Amount;
@@ -282,7 +293,15 @@ report 50097 "Purchase Order"
                 end;
                 //PCPL-0070 050523 >>
                 IF PayTerms.GET("Payment Terms Code") then;
+
+                //Phone //PCPL-064 18/0723
+                if vend.get(RecPH."Buy-from Vendor No.") then;
+                if vend."Mobile Phone No." <> '' then
+                    vendphoneno := vend."Phone No." + '/' + vend."Mobile Phone No."
+                else
+                    vendphoneno := vend."Phone No.";
             end;
+
 
         }
 
@@ -321,6 +340,10 @@ report 50097 "Purchase Order"
 
 
     var
+        recitem: Record Item;
+        vend: Record Vendor;
+        RecPH: Record "Purchase Header";
+        Vendphoneno: Text[30];
         PayTerms: Record "Payment Terms";
         Cominfo: Record "Company Information";
         Recvendor: Record Vendor;

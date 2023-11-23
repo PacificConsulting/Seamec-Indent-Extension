@@ -23,6 +23,20 @@ tableextension 50127 User_setup_ext extends "User Setup"
         {
             Description = 'PCPL-0070';
         }
+        field(50107; "Modify Po"; Boolean)
+        {
+            Description = 'PCPL-25/030823';
+        }
+        field(50040; "Delete Requisition"; Boolean)
+        {
+            Description = 'PCPL-25/070823';
+        }
+        field(50108; "Modify Indent"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Description = 'PCPl-064 16oct2023';
+        }
+
 
     }
 

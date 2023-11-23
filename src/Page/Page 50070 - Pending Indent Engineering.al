@@ -1,13 +1,13 @@
-page 50118 "Pending Indent Engineering"
+page 50070 "Pending Indent Engineering"
 {
     // version RSPL/INDENT/V3/001
 
     PageType = List;
     SourceTable = 50023;
-    SourceTableView = WHERE(Close = FILTER(false),
+    SourceTableView = WHERE(Generate = CONST(false),  //PCPL-25/280823
+                                                      //Close = FILTER(false),
                             "PO Qty" = FILTER(0),
                             Category = FILTER('Engineering'));
-    ApplicationArea = all;
     UsageCategory = Lists;
 
 
@@ -85,10 +85,10 @@ page 50118 "Pending Indent Engineering"
                 {
                     ApplicationArea = all;
                 }
-                field(Close; Rec.Close)
-                {
-                    ApplicationArea = all;
-                }
+                // field(Close; Rec.Close)
+                // {
+                //     ApplicationArea = all;
+                // }
                 field("Description 3"; Rec."Description 3")
                 {
                     ApplicationArea = all;

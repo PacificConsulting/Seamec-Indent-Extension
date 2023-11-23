@@ -15,6 +15,22 @@
             "enableLongRunningSqlStatements": true,
             "enableSqlInformationDebugger": true,
             "schemaUpdateMode": "ForceSync"
+        },
+        {
+            "name": "Debugg Production",
+            "type": "al",
+            "request": "attach",
+            "environmentType": "Production",
+            "environmentName": "Production",
+            "tenant": "a9f3ea0c-8063-42f9-891d-8d81b667b2d0",
+            "breakOnError": "All",
+            "breakOnRecordWrite": "None",
+            "enableSqlInformationDebugger": true,
+            "enableLongRunningSqlStatements": true,
+            "longRunningSqlStatementsThreshold": 500,
+            "numberOfSqlStatements": 10,
+            "breakOnNext": "WebClient",
+            "userId": "PCPLDEVELOPER"
         }
     ]
 }

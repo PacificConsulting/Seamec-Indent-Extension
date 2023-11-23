@@ -1,7 +1,7 @@
 table 50018 "RFQ Catalog"
 {
     DataClassification = ToBeClassified;
-    
+
 
     fields
     {
@@ -16,8 +16,10 @@ table 50018 "RFQ Catalog"
             var
                 Item_Rec: Record Item;
             begin
-                if Item_Rec.GET("Item No.") then
+                if Item_Rec.GET("Item No.") then begin
                     Description := Item_Rec.Description;
+                    "Item Details" := Item_Rec."Item Details";      //PCPL-25/180723
+                end;
 
             end;
         }
@@ -131,6 +133,11 @@ table 50018 "RFQ Catalog"
         {
             DataClassification = ToBeClassified;
             Description = '26Apr2023';
+        }
+        field(22; "Item Details"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+            Description = 'PCPL_25/180723';
         }
     }
 

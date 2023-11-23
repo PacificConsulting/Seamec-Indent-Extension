@@ -1,11 +1,12 @@
 page 50099 "Vessel PO"
 {
-    Caption = 'Vessel PO';
+    Caption = 'Vessel GRN';
     PageType = Document;
     RefreshOnActivate = true;
     SourceTable = "Purchase Header";
     InsertAllowed = false;
     SourceTableView = WHERE("Document Type" = FILTER(Order));
+    DeleteAllowed = false;  //PCPL-25/100723
 
     layout
     {
@@ -217,6 +218,7 @@ page 50099 "Vessel PO"
                     trigger OnValidate()
                     begin
                         SaveInvoiceDiscountAmount();
+
                     end;
                 }
                 field("VAT Reporting Date"; Rec."VAT Reporting Date")
@@ -237,6 +239,7 @@ page 50099 "Vessel PO"
                 field("Vendor Invoice No."; Rec."Vendor Invoice No.")
                 {
                     ApplicationArea = Suite;
+                    Visible = false;
                     ShowMandatory = VendorInvoiceNoMandatory;
                     ToolTip = 'Specifies the document number of the original document you received from the vendor. You can require the document number for posting, or let it be optional. By default, it''s required, so that this document references the original. Making document numbers optional removes a step from the posting process. For example, if you attach the original invoice as a PDF, you might not need to enter the document number. To specify whether document numbers are required, in the Purchases & Payables Setup window, select or clear the Ext. Doc. No. Mandatory field.';
                 }
@@ -335,6 +338,7 @@ page 50099 "Vessel PO"
             group("Invoice Details")
             {
                 Caption = 'Invoice Details';
+                Visible = false;
                 field("Currency Code"; Rec."Currency Code")
                 {
                     ApplicationArea = Suite;
@@ -974,14 +978,14 @@ page 50099 "Vessel PO"
         }
         area(factboxes)
         {
-            part(PurchaseDocCheckFactbox; "Purch. Doc. Check Factbox")
-            {
-                ApplicationArea = All;
-                Caption = 'Document Check';
-                Visible = PurchaseDocCheckFactboxVisible;
-                SubPageLink = "No." = FIELD("No."),
-                              "Document Type" = FIELD("Document Type");
-            }
+            /*  part(PurchaseDocCheckFactbox; "Purch. Doc. Check Factbox")
+             {
+                 ApplicationArea = All;
+                 Caption = 'Document Check';
+                 Visible = PurchaseDocCheckFactboxVisible;
+                 SubPageLink = "No." = FIELD("No."),
+                               "Document Type" = FIELD("Document Type");
+             } */
             part("Attached Documents"; "Document Attachment Factbox")
             {
                 ApplicationArea = All;
@@ -990,87 +994,87 @@ page 50099 "Vessel PO"
                 //               "No." = FIELD("No."),
                 //               "Document Type" = FIELD("Document Type");
             }
-            part(Control23; "Pending Approval FactBox")
-            {
-                ApplicationArea = Suite;
-                SubPageLink = "Table ID" = CONST(38),
-                              "Document Type" = FIELD("Document Type"),
-                              "Document No." = FIELD("No."),
-                              Status = const(Open);
-                Visible = OpenApprovalEntriesExistForCurrUser;
-            }
-            part(Control1903326807; "Item Replenishment FactBox")
-            {
-                ApplicationArea = Suite;
-                Provider = PurchLines;
-                SubPageLink = "No." = FIELD("No.");
-                Visible = false;
-            }
-            part(ApprovalFactBox; "Approval FactBox")
-            {
-                ApplicationArea = Suite;
-                Visible = false;
-            }
-            part(Control1901138007; "Vendor Details FactBox")
-            {
-                ApplicationArea = Suite;
-                SubPageLink = "No." = FIELD("Buy-from Vendor No."),
-                              "Date Filter" = field("Date Filter");
-                Visible = false;
-            }
-            part(Control1904651607; "Vendor Statistics FactBox")
-            {
-                ApplicationArea = Suite;
-                SubPageLink = "No." = FIELD("Pay-to Vendor No."),
-                              "Date Filter" = field("Date Filter");
-            }
-            part(IncomingDocAttachFactBox; "Incoming Doc. Attach. FactBox")
-            {
-                ApplicationArea = Suite;
-                ShowFilter = false;
-                Visible = false;
-            }
-            part(Control1903435607; "Vendor Hist. Buy-from FactBox")
-            {
-                ApplicationArea = Suite;
-                SubPageLink = "No." = FIELD("Buy-from Vendor No."),
-                              "Date Filter" = field("Date Filter");
-            }
-            part(Control1906949207; "Vendor Hist. Pay-to FactBox")
-            {
-                ApplicationArea = Suite;
-                SubPageLink = "No." = FIELD("Pay-to Vendor No."),
-                              "Date Filter" = field("Date Filter");
-                Visible = false;
-            }
-            part(Control3; "Purchase Line FactBox")
-            {
-                ApplicationArea = Suite;
-                Provider = PurchLines;
-                SubPageLink = "Document Type" = FIELD("Document Type"),
-                              "Document No." = FIELD("Document No."),
-                              "Line No." = FIELD("Line No.");
-            }
-            part(WorkflowStatus; "Workflow Status FactBox")
-            {
-                ApplicationArea = Suite;
-                Editable = false;
-                Enabled = false;
-                ShowFilter = false;
-                Visible = ShowWorkflowStatus;
-            }
-            systempart(Control1900383207; Links)
-            {
-                ApplicationArea = RecordLinks;
-                Visible = false;
-            }
-            systempart(Control1905767507; Notes)
-            {
-                ApplicationArea = Notes;
-            }
+            /*  part(Control23; "Pending Approval FactBox")
+             {
+                 ApplicationArea = Suite;
+                 SubPageLink = "Table ID" = CONST(38),
+                               "Document Type" = FIELD("Document Type"),
+                               "Document No." = FIELD("No."),
+                               Status = const(Open);
+                 Visible = OpenApprovalEntriesExistForCurrUser;
+             }
+             part(Control1903326807; "Item Replenishment FactBox")
+             {
+                 ApplicationArea = Suite;
+                 Provider = PurchLines;
+                 SubPageLink = "No." = FIELD("No.");
+                 Visible = false;
+             }
+             part(ApprovalFactBox; "Approval FactBox")
+             {
+                 ApplicationArea = Suite;
+                 Visible = false;
+             }
+             part(Control1901138007; "Vendor Details FactBox")
+             {
+                 ApplicationArea = Suite;
+                 SubPageLink = "No." = FIELD("Buy-from Vendor No."),
+                               "Date Filter" = field("Date Filter");
+                 Visible = false;
+             }
+             part(Control1904651607; "Vendor Statistics FactBox")
+             {
+                 ApplicationArea = Suite;
+                 SubPageLink = "No." = FIELD("Pay-to Vendor No."),
+                               "Date Filter" = field("Date Filter");
+             }
+             part(IncomingDocAttachFactBox; "Incoming Doc. Attach. FactBox")
+             {
+                 ApplicationArea = Suite;
+                 ShowFilter = false;
+                 Visible = false;
+             }
+             part(Control1903435607; "Vendor Hist. Buy-from FactBox")
+             {
+                 ApplicationArea = Suite;
+                 SubPageLink = "No." = FIELD("Buy-from Vendor No."),
+                               "Date Filter" = field("Date Filter");
+             }
+             part(Control1906949207; "Vendor Hist. Pay-to FactBox")
+             {
+                 ApplicationArea = Suite;
+                 SubPageLink = "No." = FIELD("Pay-to Vendor No."),
+                               "Date Filter" = field("Date Filter");
+                 Visible = false;
+             }
+             part(Control3; "Purchase Line FactBox")
+             {
+                 ApplicationArea = Suite;
+                 Provider = PurchLines;
+                 SubPageLink = "Document Type" = FIELD("Document Type"),
+                               "Document No." = FIELD("Document No."),
+                               "Line No." = FIELD("Line No.");
+             }
+             part(WorkflowStatus; "Workflow Status FactBox")
+             {
+                 ApplicationArea = Suite;
+                 Editable = false;
+                 Enabled = false;
+                 ShowFilter = false;
+                 Visible = ShowWorkflowStatus;
+             }
+             systempart(Control1900383207; Links)
+             {
+                 ApplicationArea = RecordLinks;
+                 Visible = false;
+             }
+             systempart(Control1905767507; Notes)
+             {
+                 ApplicationArea = Notes;
+             }
+         } */
         }
     }
-
     actions
     {
         area(navigation)
@@ -1101,6 +1105,7 @@ page 50099 "Vessel PO"
                     Caption = 'Statistics';
                     Image = Statistics;
                     ShortCutKey = 'F7';
+                    Visible = false;
                     ToolTip = 'View statistical information, such as the value of posted entries, for the record.';
 
                     trigger OnAction()
@@ -1115,6 +1120,7 @@ page 50099 "Vessel PO"
                     Caption = 'Vendor';
                     Enabled = Rec."Buy-from Vendor No." <> '';
                     Image = Vendor;
+                    Visible = false;
                     RunObject = Page "Vendor Card";
                     RunPageLink = "No." = FIELD("Buy-from Vendor No."),
                                   "Date Filter" = FIELD("Date Filter");
@@ -1169,6 +1175,7 @@ page 50099 "Vessel PO"
             {
                 Caption = 'Documents';
                 Image = Documents;
+                Visible = false;
                 action(Receipts)
                 {
                     ApplicationArea = Suite;
@@ -1214,6 +1221,7 @@ page 50099 "Vessel PO"
             {
                 Caption = 'Warehouse';
                 Image = Warehouse;
+                Visible = false;
                 action("In&vt. Put-away/Pick Lines")
                 {
                     ApplicationArea = Warehouse;
@@ -1387,6 +1395,7 @@ page 50099 "Vessel PO"
             {
                 Caption = 'F&unctions';
                 Image = "Action";
+                Visible = false;
                 action(CalculateInvoiceDiscount)
                 {
                     AccessByPermission = TableData "Vendor Invoice Disc." = R;
@@ -1467,6 +1476,7 @@ page 50099 "Vessel PO"
                 {
                     Caption = 'Dr&op Shipment';
                     Image = Delivery;
+                    Visible = false;
                     action(Functions_GetSalesOrder)
                     {
                         ApplicationArea = Suite;
@@ -1480,6 +1490,7 @@ page 50099 "Vessel PO"
                 {
                     Caption = 'Speci&al Order';
                     Image = SpecialOrder;
+                    Visible = false;
                     action(Action187)
                     {
                         AccessByPermission = TableData "Sales Shipment Header" = R;
@@ -1533,6 +1544,7 @@ page 50099 "Vessel PO"
                 {
                     Caption = 'Incoming Document';
                     Image = Documents;
+                    Visible = false;
                     action(IncomingDocCard)
                     {
                         ApplicationArea = Suite;
@@ -1620,6 +1632,7 @@ page 50099 "Vessel PO"
                             ApprovalsMgmt.OnSendPurchaseDocForApproval(Rec);
                     end;
                 }
+
                 /*
                 action(CancelApprovalRequest)
                 {
@@ -1639,10 +1652,11 @@ page 50099 "Vessel PO"
                     end;
                 }
                 */
-                group(Flow)
+                /* group(Flow)
                 {
                     Caption = 'Power Automate';
                     Image = Flow;
+                    Visible = false;
                     action(CreateFlow)
                     {
                         ApplicationArea = Basic, Suite;
@@ -1675,12 +1689,13 @@ page 50099 "Vessel PO"
                         ObsoleteTag = '21.0';
                     }
 #endif
-                }
+                } */
             }
             group(Action17)
             {
                 Caption = 'Warehouse';
                 Image = Warehouse;
+                Visible = false;
                 action("Create &Whse. Receipt")
                 {
                     AccessByPermission = TableData "Warehouse Receipt Header" = R;
@@ -1731,8 +1746,35 @@ page 50099 "Vessel PO"
                     ToolTip = 'Finalize the document or journal by posting the amounts and quantities to the related accounts in your company books.';
 
                     trigger OnAction()
+                    var
+                        PurchSetup: Record "Purchases & Payables Setup";
+                        PurchPostViaJobQueue: Codeunit "Purchase Post via Job Queue";
+                        HideDialog: Boolean;
+                        IsHandled: Boolean;
+                        DefaultOption: Integer;
+                        PurchaseHeader: Record 38;
                     begin
-                        PostDocument(CODEUNIT::"Purch.-Post (Yes/No)", "Navigate After Posting"::"Posted Document");
+                        //PostDocument(CODEUNIT::"Purch.-Post (Yes/No)", "Navigate After Posting"::"Posted Document");
+                        rec."Posting Date" := WorkDate; //pcpl-064 18 oct2023
+                        HideDialog := false;
+                        IsHandled := false;
+                        DefaultOption := 1;
+                        PurchaseHeader.Copy(Rec);
+                        if IsHandled then
+                            exit;
+
+                        if not HideDialog then
+                            if not ConfirmPostPurchaseDocument(PurchaseHeader, DefaultOption, false, false) then
+                                exit;
+
+
+                        PurchSetup.Get();
+                        if PurchSetup."Post with Job Queue" then
+                            PurchPostViaJobQueue.EnqueuePurchDoc(PurchaseHeader)
+                        else begin
+                            CODEUNIT.Run(CODEUNIT::"Purch.-Post", PurchaseHeader);
+                        end;
+
                     end;
                 }
                 action(Preview)
@@ -1740,6 +1782,7 @@ page 50099 "Vessel PO"
                     ApplicationArea = Suite;
                     Caption = 'Preview Posting';
                     Image = ViewPostedOrder;
+                    ;
                     ShortCutKey = 'Ctrl+Alt+F9';
                     ToolTip = 'Review the different types of entries that will be created when you post the document or journal.';
 
@@ -1820,6 +1863,7 @@ page 50099 "Vessel PO"
                 {
                     Caption = 'Prepa&yment';
                     Image = Prepayment;
+                    Visible = false;
                     action("Prepayment Test &Report")
                     {
                         ApplicationArea = Prepayments;
@@ -1827,7 +1871,7 @@ page 50099 "Vessel PO"
                         Ellipsis = true;
                         Image = PrepaymentSimulation;
                         ToolTip = 'Preview the prepayment transactions that will results from posting the sales document as invoiced. ';
-
+                        Visible = false;
                         trigger OnAction()
                         begin
                             ReportPrint.PrintPurchHeaderPrepmt(Rec);
@@ -1840,7 +1884,7 @@ page 50099 "Vessel PO"
                         Ellipsis = true;
                         Image = PrepaymentPost;
                         ToolTip = 'Post the specified prepayment information. ';
-
+                        Visible = false;
                         trigger OnAction()
                         var
                             ApprovalsMgmt: Codeunit "Approvals Mgmt.";
@@ -1857,7 +1901,7 @@ page 50099 "Vessel PO"
                         Ellipsis = true;
                         Image = PrepaymentPostPrint;
                         ToolTip = 'Post the specified prepayment information and print the related report. ';
-
+                        Visible = false;
                         trigger OnAction()
                         var
                             ApprovalsMgmt: Codeunit "Approvals Mgmt.";
@@ -1873,7 +1917,7 @@ page 50099 "Vessel PO"
                         Caption = 'Preview Prepmt. Invoice Posting';
                         Image = ViewPostedOrder;
                         ToolTip = 'Review the different types of entries that will be created when you post the prepayment invoice.';
-
+                        Visible = false;
                         trigger OnAction()
                         begin
                             ShowPrepmtInvoicePreview();
@@ -1886,7 +1930,7 @@ page 50099 "Vessel PO"
                         Ellipsis = true;
                         Image = PrepaymentPost;
                         ToolTip = 'Create and post a credit memo for the specified prepayment information.';
-
+                        Visible = false;
                         trigger OnAction()
                         var
                             ApprovalsMgmt: Codeunit "Approvals Mgmt.";
@@ -1903,7 +1947,7 @@ page 50099 "Vessel PO"
                         Ellipsis = true;
                         Image = PrepaymentPostPrint;
                         ToolTip = 'Create and post a credit memo for the specified prepayment information and print the related report.';
-
+                        Visible = false;
                         trigger OnAction()
                         var
                             ApprovalsMgmt: Codeunit "Approvals Mgmt.";
@@ -1919,7 +1963,7 @@ page 50099 "Vessel PO"
                         Caption = 'Preview Prepmt. Cr. Memo Posting';
                         Image = ViewPostedOrder;
                         ToolTip = 'Review the different types of entries that will be created when you post the prepayment credit memo.';
-
+                        Visible = false;
                         trigger OnAction()
                         begin
                             ShowPrepmtCrMemoPreview();
@@ -1948,6 +1992,23 @@ page 50099 "Vessel PO"
                         PurchaseHeader.PrintRecords(true);
                     end;
                 }
+                action("Purchase Order Report")
+                {
+                    //Promoted = true;
+                    Image = Print;
+                    ApplicationArea = all;
+                    trigger OnAction()
+                    var
+                        PH: Record "Purchase Header";
+                    begin
+                        Rec.TestField(Clauses);
+                        PH.Reset();
+                        PH.SetRange("No.", Rec."No.");
+                        if PH.FindFirst() then
+                            Report.RunModal(50097, true, false, PH);
+                    end;
+
+                }
                 action(SendCustom)
                 {
                     ApplicationArea = Basic, Suite;
@@ -1955,7 +2016,7 @@ page 50099 "Vessel PO"
                     Ellipsis = true;
                     Image = SendToMultiple;
                     ToolTip = 'Prepare to send the document according to the vendor''s sending profile, such as attached to an email. The Send document to window opens first so you can confirm or select a sending profile.';
-
+                    Visible = false;
                     trigger OnAction()
                     var
                         PurchaseHeader: Record "Purchase Header";
@@ -2025,21 +2086,25 @@ page 50099 "Vessel PO"
                 }
                 actionref("Create &Whse. Receipt_Promoted"; "Create &Whse. Receipt")
                 {
+                    Visible = false;
                 }
                 actionref("Create Inventor&y Put-away/Pick_Promoted"; "Create Inventor&y Put-away/Pick")
                 {
+                    Visible = false;
                 }
                 actionref("Send Intercompany Purchase Order_Promoted"; "Send Intercompany Purchase Order")
                 {
+                    Visible = false;
                 }
                 actionref("Archive Document_Promoted"; "Archive Document")
                 {
+                    Visible = false;
                 }
             }
             group(Category_Category7)
             {
                 Caption = 'Prepare', Comment = 'Generated from the PromotedActionCategories property index 6.';
-
+                Visible = false;
                 actionref(CopyDocument_Promoted; CopyDocument)
                 {
                 }
@@ -2094,7 +2159,7 @@ page 50099 "Vessel PO"
             group(Category_Category10)
             {
                 Caption = 'Print/Send', Comment = 'Generated from the PromotedActionCategories property index 9.';
-
+                Visible = false;
                 actionref("&Print_Promoted"; "&Print")
                 {
                 }
@@ -2118,22 +2183,22 @@ page 50099 "Vessel PO"
                  }
                  */
 #if not CLEAN21
-                actionref(CreateFlow_Promoted; CreateFlow)
+                /* actionref(CreateFlow_Promoted; CreateFlow)
                 {
                     Visible = false;
                     ObsoleteState = Pending;
                     ObsoleteReason = 'Action is being demoted based on overall low usage.';
                     ObsoleteTag = '21.0';
-                }
+                } */
 #endif
 #if not CLEAN21
-                actionref(SeeFlows_Promoted; SeeFlows)
-                {
-                    Visible = false;
-                    ObsoleteState = Pending;
-                    ObsoleteReason = 'This action has been moved to the tab dedicated to Power Automate';
-                    ObsoleteTag = '21.0';
-                }
+                /*  actionref(SeeFlows_Promoted; SeeFlows)
+                 {
+                     Visible = false;
+                     ObsoleteState = Pending;
+                     ObsoleteReason = 'This action has been moved to the tab dedicated to Power Automate';
+                     ObsoleteTag = '21.0';
+                 } */
 #endif
             }
             group(Category_Category8)
@@ -2145,6 +2210,7 @@ page 50099 "Vessel PO"
                 }
                 actionref(Statistics_Promoted; Statistics)
                 {
+                    Visible = false;
                 }
                 actionref("Co&mments_Promoted"; "Co&mments")
                 {
@@ -2160,18 +2226,23 @@ page 50099 "Vessel PO"
                 }
                 actionref(Invoices_Promoted; Invoices)
                 {
+                    Visible = false;
                 }
                 actionref(Vendor_Promoted; Vendor)
                 {
+                    Visible = false;
                 }
                 actionref(Receipts_Promoted; Receipts)
                 {
+                    Visible = false;
                 }
                 actionref(PostedPrepaymentInvoices_Promoted; PostedPrepaymentInvoices)
                 {
+                    Visible = false;
                 }
                 actionref(PostedPrepaymentCrMemos_Promoted; PostedPrepaymentCrMemos)
                 {
+                    Visible = false;
                 }
             }
             group(Category_Category11)
@@ -2185,14 +2256,14 @@ page 50099 "Vessel PO"
         }
     }
 
-    trigger OnAfterGetCurrRecord()
-    begin
-        SetControlAppearance();
-        CurrPage.IncomingDocAttachFactBox.PAGE.LoadDataFromRecord(Rec);
-        CurrPage.ApprovalFactBox.PAGE.UpdateApprovalEntriesFromSourceRecord(Rec.RecordId());
-        ShowWorkflowStatus := CurrPage.WorkflowStatus.PAGE.SetFilterOnWorkflowRecord(Rec.RecordId());
-        StatusStyleTxt := Rec.GetStatusStyleText();
-    end;
+    /*  trigger OnAfterGetCurrRecord()
+     begin
+         SetControlAppearance();
+         CurrPage.IncomingDocAttachFactBox.PAGE.LoadDataFromRecord(Rec);
+         CurrPage.ApprovalFactBox.PAGE.UpdateApprovalEntriesFromSourceRecord(Rec.RecordId());
+         ShowWorkflowStatus := CurrPage.WorkflowStatus.PAGE.SetFilterOnWorkflowRecord(Rec.RecordId());
+         StatusStyleTxt := Rec.GetStatusStyleText();
+     end; */
 
     trigger OnAfterGetRecord()
     begin
@@ -2489,11 +2560,11 @@ page 50099 "Vessel PO"
         OnAfterSetControlAppearance();
     end;
 
-    procedure RunBackgroundCheck()
-    begin
-        CurrPage.PurchaseDocCheckFactbox.Page.CheckErrorsInBackground(Rec);
-    end;
-
+    /*  procedure RunBackgroundCheck()
+     begin
+         CurrPage.PurchaseDocCheckFactbox.Page.CheckErrorsInBackground(Rec);
+     end;
+  */
     local procedure CheckShowBackgrValidationNotification()
     var
         DocumentErrorsMgt: Codeunit "Document Errors Mgt.";
@@ -2603,7 +2674,70 @@ page 50099 "Vessel PO"
             CurrPage.Update();
         end;
     end;
+    //PCPL-0070 17July <<
+    procedure ConfirmPostPurchaseDocument(var PurchaseHeaderToPost: Record "Purchase Header"; DefaultOption: Integer; WithPrint: Boolean; WithEmail: Boolean) Result: Boolean
+    var
+        PurchaseHeader: Record "Purchase Header";
+        UserSetupManagement: Codeunit "User Setup Management";
+        ConfirmManagement: Codeunit "Confirm Management";
+        Selection: Integer;
+        ReceiveInvoiceOptionsQst: Label '&Receive';
 
+    begin
+        //if DefaultOption > 3 then
+        //  DefaultOption := 3;
+        //if DefaultOption <= 0 then
+        DefaultOption := 1;
+
+        PurchaseHeader.Copy(PurchaseHeaderToPost);
+
+        case PurchaseHeader."Document Type" of
+            PurchaseHeader."Document Type"::Order:
+                begin
+                    UserSetupManagement.GetPurchaseInvoicePostingPolicy(PurchaseHeader.Receive, PurchaseHeader.Invoice);
+                    case true of
+                        not PurchaseHeader.Receive and not PurchaseHeader.Invoice:
+                            begin
+                                Selection := StrMenu(ReceiveInvoiceOptionsQst, DefaultOption);
+                                if Selection = 0 then
+                                    exit(false);
+                                PurchaseHeader.Receive := Selection in [1];
+                                //PurchaseHeader.Invoice := Selection in [2, 3];
+                            end;
+                        PurchaseHeader.Receive and not PurchaseHeader.Invoice:
+                            if not ConfirmManagement.GetResponseOrDefault('Do you want to post the receipt?', true) then
+                                exit(false);
+                        PurchaseHeader.Receive and PurchaseHeader.Invoice:
+                            if not ConfirmManagement.GetResponseOrDefault('Do you want to post the receipt and invoice?', true) then
+                                exit(false);
+                    end;
+                end;
+            else
+                if not ConfirmManagement.GetResponseOrDefault(
+                        GetPostConfirmationMessage(LowerCase(Format(PurchaseHeader."Document Type")), WithPrint, WithEmail), true)
+                then
+                    exit(false);
+        end;
+
+        PurchaseHeaderToPost.Copy(PurchaseHeader);
+        exit(true);
+    end;
+
+    local procedure GetPostConfirmationMessage(What: Text; WithPrint: Boolean; WithEmail: Boolean): Text
+    var
+        PostAndPrintConfirmQst: Label 'Do you want to post and print the %1?', Comment = '%1 = Document Type';
+        PostAndEmailConfirmQst: Label 'Do you want to post and email the %1?', Comment = '%1 = Document Type';
+        PostDocConfirmQst: Label 'Do you want to post the %1?', Comment = '%1 = Document Type';
+    begin
+        if WithPrint then
+            exit(StrSubstNo(PostAndPrintConfirmQst, What));
+
+        if WithEmail then
+            exit(StrSubstNo(PostAndEmailConfirmQst, What));
+
+        exit(StrSubstNo(PostDocConfirmQst, What));
+    end;
+    //PCPL--0070 17July >>
     [IntegrationEvent(false, false)]
     local procedure OnAfterCalculateCurrentShippingAndPayToOption(var ShipToOptions: Option "Default (Company Address)",Location,"Customer Address","Custom Address"; var PayToOptions: Option "Default (Vendor)","Another Vendor","Custom Address"; PurchaseHeader: Record "Purchase Header")
     begin

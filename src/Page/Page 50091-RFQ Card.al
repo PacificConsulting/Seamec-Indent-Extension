@@ -7,7 +7,8 @@ page 50091 "RFQ Card"
     SourceTable = "RFQ Header";
     Editable = true;
     Permissions = tabledata "RFQ Header" = RIMD;
-
+    InsertAllowed = false;
+    DeleteAllowed = false;
     layout
     {
         area(Content)
@@ -87,6 +88,8 @@ page 50091 "RFQ Card"
                     LineNo: Integer;
                     VendorNo: Code[20];
                     Insert_Successfully: Boolean;
+                    Rfq_Hdr_1: Record "RFQ Header";
+                    recItem: Record "Item";
                 Begin
                     Insert_Successfully := false;
                     RFQLine.Reset();
@@ -108,6 +111,11 @@ page 50091 "RFQ Card"
                                         RFQCatalog.Validate("Line No.", RFQLine."Line No.");
                                         RFQCatalog.Validate("Vendor No.", ItemVend."Vendor No.");
                                         RFQCatalog.Validate("Item No.", ItemVend."Vendor Item No.");
+                                        //>>PCPL-Sourav---Code added to flow item details--11/09/2023
+                                        ItemVend.TestField("Vendor Item No.");      //PCPl-25/261023
+                                        recitem.Get(ItemVend."Vendor Item No.");
+                                        RFQCatalog.Validate("Item Details", recItem."Item Details");
+                                        //<<PCPL-Sourav
                                         RFQCatalog.Validate(Quantity, RFQLine.Quantity);
                                         RFQCatalog.Validate(Description, RFQLine.Description);
                                         RFQCatalog.Validate(UOM, RFQLine."Unit of Measure Code");
@@ -117,8 +125,7 @@ page 50091 "RFQ Card"
                                         RFQCatalog.Insert();
                                     End;
                                 until ItemVend.Next() = 0;
-                            End Else
-                                Error('Vendor catalog does not exist');
+                            End;
                         until RFQLine.Next() = 0
                     else
                         Error('Lines Does not Exist in %1 order', Rec."No.");
@@ -128,16 +135,17 @@ page 50091 "RFQ Card"
 
                     RFQCatalog.Reset();
                     RFQCatalog.SetRange("Document No.", Rec."No.");
+                    //RFQCatalog.SetFilter("Sequence No.", '<>%1', 0);
                     RFQCatalog.SetCurrentKey("Vendor No.");
                     if RFQCatalog.FindSet() then
                         repeat
-                            //RFQCatalog.SetCurrentKey("Vendor No.");
-                            //RFQCatalog.SetAscending("Vendor No.", true); 
                             IF RFQCatalog."Vendor No." <> VendorNo then
                                 SendMailForVendor(RFQCatalog);
                             VendorNo := RFQCatalog."Vendor No.";
                         until RFQCatalog.Next() = 0;
-                    Message('E-mail sent successfully');
+                    Rec.IsQuotationSumbit := true;
+                    Rec.Modify();
+
                 End;
             }
             action(CreatePO_)
@@ -148,10 +156,13 @@ page 50091 "RFQ Card"
                 Description = 'PCPL-0070 28Feb2023';
                 trigger OnAction()
                 begin
-                    Rec.TestField("Approval Status", Rec."Approval Status"::Released);           //PCPL-25/240323
-                    CreatePO();
-                    Rec."Created PO" := true;
-                    Rec.Modify();
+                    IF Rec.IsQuotationSumbit then begin
+                        Rec.TestField("Approval Status", Rec."Approval Status"::Released);           //PCPL-25/240323
+                        CreatePO();
+                        Rec."Created PO" := true;
+                        Rec.Modify();
+                    end Else
+                        Error('Please Insert Quotation Before Create PO');
                 end;
             }
             action(RFQReport)
@@ -251,7 +262,7 @@ page 50091 "RFQ Card"
         Clear(VarRecipaints);
         GLSetup.Get();
         if RecVendor.GET(RFQ_Catalog."Vendor No.") then begin
-            RecItem.Get(RFQ_Catalog."Item No.");
+            IF RecItem.Get(RFQ_Catalog."Item No.") then;
             CompanyInfo.GET;
             RFQHdr.GET(RFQ_Catalog."Document No.");
             IF RFQLine.GET(RFQ_Catalog."Document No.", RFQ_Catalog."Line No.") then;
@@ -299,10 +310,11 @@ page 50091 "RFQ Card"
             RFQC.Reset();
             RFQC.SetRange("Document No.", RFQ_Catalog."Document No.");
             RFQC.SetRange("Vendor No.", RFQ_Catalog."Vendor No.");
+            //  RFQC.SetFilter("Sequence No.", '<>%1', 0); //PCPL-0070 29July23
             if RFQC.FindSet() then
                 repeat
                     RecItem.Reset();
-                    RecItem.Get(RFQC."Item No.");
+                    if RecItem.Get(RFQC."Item No.") then;
                     BodyText1 += '</tr>';
                     BodyText1 += '<tr>';
                     BodyText1 += ('<td>' + FORMAT(RFQHdr.Date) + '</td>');
@@ -331,16 +343,16 @@ page 50091 "RFQ Card"
             BodyText1 += '<br><br>';
             BodyText1 += ('<td style="text-align:left" colspan=8><b> ' + CompanyInfo.Name + '</b></td>');
             BodyText1 += '<br><br>';
-            //  VarRecipaints.Add('ssarkar@seamec.in');
+            //VarRecipaints.Add('deepak.rajauria@pacificconsulting.in');
             //VarRecipaints.Add('kamalkant@pacificconsulting.in');
             // VarRecipaints.Add('nirmal.wagh@pacificconsulting.in');
             VarRecipaints.Add(RecVendor."E-Mail");
             //VarRecipaints.Add(RecVendor."E-Mail");
             // EmailMessage.Create(VarRecipaints, 'Request For Quote : ' + RecItem.Description, bodytext1, true);
             VarCC.Add(GLSetup."RFQ CC Mail"); //PCPL-0070--30Mar2023
-            EmailMessage.Create(VarRecipaints, 'Request For Quote : ' /*+ RecItem.Description*/, bodytext1, true, VarCC, VarBCC); //PCPL-0070--30Mar2023
+            EmailMessage.Create(VarRecipaints, 'Seamec Request For Quote : ' /*+ RecItem.Description*/, bodytext1, true, VarCC, VarBCC); //PCPL-0070--30Mar2023
             Email.Send(EmailMessage, Enum::"Email Scenario"::Default);
-            // Message('E-mail sent successfully');
+            Message('E-mail sent successfully');
         End;
         //Clear(bodytext1);
     End;
@@ -402,6 +414,8 @@ page 50091 "RFQ Card"
                         Purch_Hdr."Create PO by Indent" := true;
                         Purch_Hdr."RFQ Indent No." := Rec."No.";
                         Purch_Hdr."Order Date" := Today;
+                        //Purch_Hdr."Currency Code" := RFQLine.Currency;
+                        Purch_Hdr.VALIDATE("Currency Code", RFQLine.Currency);
                         Purch_Hdr.Modify(true);
                         // Message('Purchase Order %1 has been created', PH."No.");
                         PL.init;
@@ -468,7 +482,7 @@ page 50091 "RFQ Card"
             PurchOrdNo := PurchOrdNo + PH."No." + '|';
         until RFQLine.Next() = 0;
         PurchOrdNo_txt := DelStr(PurchOrdNo, StrLen(PurchOrdNo), 1);
-        Message('Purchase Orders has been created for all lines');
+        Message('Purchase Orders has been created for all lines' + PurchOrdNo);
 
     End;
 

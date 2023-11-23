@@ -10,9 +10,9 @@ page 50064 "Indent Sub Form"
     Caption = 'Requisition Purchase Line';
     AutoSplitKey = true;
     DelayedInsert = true;
-    DeleteAllowed = true;
     Editable = true;
     InsertAllowed = true;
+    DeleteAllowed = true;
     LinksAllowed = false;
     ModifyAllowed = true;
     MultipleNewLines = true;
@@ -21,8 +21,9 @@ page 50064 "Indent Sub Form"
     SourceTable = 50023;
     SourceTableView = SORTING("Entry Type", "Document No.", "Line No.")
                       ORDER(Ascending)
-                      WHERE("Entry Type" = FILTER(Indent),
-                            Close = CONST(false));
+                      WHERE("Entry Type" = FILTER(Indent));
+    //Generate = CONST(false));   //PCPL-25/280823
+    //Close = CONST(false));
 
     layout
     {
@@ -279,9 +280,18 @@ page 50064 "Indent Sub Form"
         }
     }
 
+    trigger OnModifyRecord(): Boolean
+    Begin
+        //PCPL-25/280823
+        if indentheader.Get(Rec."Document No.") then;
+        indentheader.TestField(Status, indentheader.Status::Open);
+        //PCPL-25/280823
+    End;
+
 
     var
         PurchHeader: Record 38;
+        indentheader: Record "Indent Header";
         PurchRcptHeader: Record 120;
         TempIndentLine: Record 50023 temporary;
         GetReceipts: Codeunit 74;

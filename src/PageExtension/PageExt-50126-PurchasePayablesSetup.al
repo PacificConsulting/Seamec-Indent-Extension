@@ -13,7 +13,12 @@ pageextension 50126 PurchPayablesSetupExt extends "Purchases & Payables Setup"
             {
                 ApplicationArea = all;
             }
+            field("Gross Period Date"; Rec."Gross Period Date")
+            {
+                ApplicationArea = All;
+            }
         }
+
     }
 
     actions

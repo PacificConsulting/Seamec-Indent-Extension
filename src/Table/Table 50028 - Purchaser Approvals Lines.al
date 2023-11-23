@@ -223,7 +223,7 @@ table 50028 "Purchaser Approvals Lines"
         }
         field(50126; "Product Group Code"; Code[20])
         {
-            TableRelation = "Product Group".Code;
+            //TableRelation = "Product Group".Code;  //PCPL-25/031023 comment becuase remove Product Group table
         }
         field(50127; "Item Category Code"; Code[10])
         {

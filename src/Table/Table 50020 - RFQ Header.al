@@ -67,6 +67,10 @@ table 50020 "RFQ Header"
             Description = '//PCPL-FA-1.0';
             TableRelation = "PMS JOB Header" where(Status = filter(Open));
         }
+        field(13; IsQuotationSumbit; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
