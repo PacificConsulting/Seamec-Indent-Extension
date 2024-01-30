@@ -4,13 +4,17 @@ pageextension 50124 Job_Planning_lines extends "Job Planning Lines"
 
     layout
     {
-
+        /*  modify("Description 2") //pcpl-064
+         {
+             visible = true;
+         }
+  */
         addafter(Description)
         {
-            field("Description 2"; Rec."Description 2")
-            {
-                ApplicationArea = all;
-            }
+            /*  field("Description 2"; Rec."Description 2")
+             {
+                 ApplicationArea = all;
+             }  */
 
         }
         addafter(Overdue)

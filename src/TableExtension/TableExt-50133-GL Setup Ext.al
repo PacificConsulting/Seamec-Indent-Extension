@@ -14,6 +14,12 @@ tableextension 50133 "GL Setup Ext" extends "General Ledger Setup"
         field(50134; "RFQ CC Mail"; text[80])
         {
             DataClassification = ToBeClassified;
+
+        }
+        field(50135; "RFQ CC_2 Mail"; text[80])
+        {
+            DataClassification = ToBeClassified;
+            Description = 'PCPL-064 30jan2024';
         }
     }
 }

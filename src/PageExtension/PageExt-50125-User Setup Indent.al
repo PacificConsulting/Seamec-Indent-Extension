@@ -56,6 +56,21 @@ pageextension 50125 User_Setup_Indent extends "User Setup" //OriginalId
                 ApplicationArea = all;
             }
         }
+        addafter("Delete Requisition")
+        {
+            field("Manual Indent Cancellation"; Rec."Manual Indent Cancellation")
+            {
+                ApplicationArea = all;
+            }
+            field("Manual RFQ Cancellation"; Rec."Manual RFQ Cancellation")
+            {
+                ApplicationArea = all;
+            }
+            field("Manual PO Cancellation"; Rec."Manual PO Cancellation")
+            {
+                ApplicationArea = all;
+            }
+        }
 
     }
 

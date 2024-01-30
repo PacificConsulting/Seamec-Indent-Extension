@@ -1,5 +1,7 @@
 page 50098 "Archive Indent"
 {
+    DeleteAllowed = False;
+    InsertAllowed = False;
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Lists;
@@ -7,6 +9,7 @@ page 50098 "Archive Indent"
     SourceTableView = where("PO Created" = const(true));
     Editable = False;
     CardPageId = 50063;
+
     layout
     {
         area(content)
@@ -89,8 +92,21 @@ page 50098 "Archive Indent"
                 // {
                 //     ApplicationArea = all;
                 // }
+                field("PO Cancelled"; Rec."PO Cancelled")
+                {
+                    ApplicationArea = all;
+
+                }
             }
         }
+
     }
+    trigger OnDeleteRecord(): boolean
+    var
+        myInt: Integer;
+    begin
+        Error('Deletion Not Allowed');
+    end;
 
 }
+

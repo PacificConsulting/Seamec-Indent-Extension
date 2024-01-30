@@ -31,6 +31,7 @@ tableextension 50128 Purchase_Header_ext extends "Purchase Header"
             Caption = 'PO Fully Received';
             //Editable = false;
         }
+
     }
     procedure UpdateIndent()
     var

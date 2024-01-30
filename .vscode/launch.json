@@ -6,7 +6,8 @@
             "request": "launch",
             "type": "al",
             "environmentType": "Sandbox",
-            "environmentName": "SeamecSandbox",
+            //"environmentName": "SeamecSandbox",
+            "environmentName": "Test",
             "tenant": "a9f3ea0c-8063-42f9-891d-8d81b667b2d0",
             "startupObjectId": 22,
             "startupObjectType": "Page",
@@ -14,9 +15,11 @@
             "launchBrowser": true,
             "enableLongRunningSqlStatements": true,
             "enableSqlInformationDebugger": true,
-            "schemaUpdateMode": "ForceSync"
-        },
-        {
+           // "schemaUpdateMode": "ForceSync"
+        }
+       
+        
+        /* {
             "name": "Debugg Production",
             "type": "al",
             "request": "attach",
@@ -31,6 +34,6 @@
             "numberOfSqlStatements": 10,
             "breakOnNext": "WebClient",
             "userId": "PCPLDEVELOPER"
-        }
+        } */
     ]
 }

@@ -20,6 +20,11 @@ pageextension 50129 "Gen. Led Setup" extends "General Ledger Setup"
                 {
                     ApplicationArea = All;
                 }
+                field("RFQ CC_2 Mail"; Rec."RFQ CC_2 Mail")
+                {
+                    ApplicationArea = all;
+
+                }
             }
         }
     }

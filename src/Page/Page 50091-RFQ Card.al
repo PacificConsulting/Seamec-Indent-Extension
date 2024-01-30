@@ -62,6 +62,7 @@ page 50091 "RFQ Card"
                     ApplicationArea = All;
                     Editable = false;
                 }
+
             }
             part(RFQLines; 50090)
             {
@@ -198,6 +199,53 @@ page 50091 "RFQ Card"
                     if RFQHdr.FindFirst() then
                         Report.RunModal(50101, true, true, RFQHdr);
                 End;
+            }
+            action("RFQ Cancellation")//pcpl-064 13dec2023
+            {
+                Caption = 'RFQ Cancellation';
+                Image = Cancel;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                ApplicationArea = all;
+                trigger OnAction()
+                var
+                    IndHeader: Record "Indent Header";
+                    RFQHeader: Record "RFQ Header";
+                    Usersetup_1: Record "User Setup";
+                    Indentfound_RFQ: Boolean;
+                begin
+                    if Usersetup_1.Get(UserId) then begin
+                        if Usersetup_1."Manual RFQ Cancellation" = false then
+                            Error('You do not have Permission');
+                    end;
+                    if Confirm('Do you want to Cancelled this RFQ', true) then begin
+                        IndHeader.Reset();
+                        IndHeader.SetRange("Entry Type", IndHeader."Entry Type"::Indent);
+                        //IndHeader.SetFilter(Status, '<>Closed');
+                        //IndHeader.SetRange("Po Created", false);
+                        IndHeader.SetRange("No.", Rec."No.");
+                        if IndHeader.FindFirst() then begin
+                            //if IndHeader.Get(rec."No.") then begin
+                            IndHeader.Status := IndHeader.Status::Cancelled;
+                            IndHeader."Po Created" := true;
+                            IndHeader.Modify();
+                        end;
+                        RFQHeader.Reset();
+                        RFQHeader.SetRange("No.", rec."No.");
+                        RFQHeader.SetRange("Created PO", false);
+                        if RFQHeader.FindFirst() then begin
+                            RFQHeader.Status := RFQHeader.Status::Cancelled;
+                            RFQHeader."Created PO" := true;
+                            RFQHeader.Modify();
+                            //CurrPage.Update();
+                            CurrPage.Close();
+                            Message('RFQ Cancelled Successfully');
+                        end
+                    end;
+                end;
+
+
             }
         }
         area(Creation)
@@ -349,8 +397,11 @@ page 50091 "RFQ Card"
             VarRecipaints.Add(RecVendor."E-Mail");
             //VarRecipaints.Add(RecVendor."E-Mail");
             // EmailMessage.Create(VarRecipaints, 'Request For Quote : ' + RecItem.Description, bodytext1, true);
-            VarCC.Add(GLSetup."RFQ CC Mail"); //PCPL-0070--30Mar2023
-            EmailMessage.Create(VarRecipaints, 'Seamec Request For Quote : ' /*+ RecItem.Description*/, bodytext1, true, VarCC, VarBCC); //PCPL-0070--30Mar2023
+            if GLSetup."RFQ CC Mail" <> '' then
+                VarCC.Add(GLSetup."RFQ CC Mail"); //PCPL-0070--30Mar2023
+            if GLSetup."RFQ CC_2 Mail" <> '' then
+                VarCC.Add(GLSetup."RFQ CC_2 Mail");
+            EmailMessage.Create(VarRecipaints, 'Seamec Request For Quote : ' /*+ RecItem.Description*/, bodytext1, true, VarCC, VarCC_1); //PCPL-0070--30Mar2023
             Email.Send(EmailMessage, Enum::"Email Scenario"::Default);
             Message('E-mail sent successfully');
         End;
@@ -496,5 +547,5 @@ page 50091 "RFQ Card"
         Item_Rec: Record Item;
         RFQC: Record "RFQ Catalog";
         VarCC: List of [Text]; //PCPL-0070--30Mar2023
-        VarBCC: List of [Text];
+        VarCC_1: List of [Text];
 }

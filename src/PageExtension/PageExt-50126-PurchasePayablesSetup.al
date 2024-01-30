@@ -17,6 +17,10 @@ pageextension 50126 PurchPayablesSetupExt extends "Purchases & Payables Setup"
             {
                 ApplicationArea = All;
             }
+            field("Purchase Indent Deletion Date"; Rec."Purchase Indent Deletion Date")
+            {
+                ApplicationArea = all;
+            }
         }
 
     }

@@ -88,8 +88,8 @@ table 50022 "Indent Header"
         }
         field(50114; Status; Option)
         {
-            OptionMembers = Open,Released,Closed,"Pending For Approval","First Approval";//,Approved;
-            OptionCaption = 'Open,Released,Closed,Pending For Approval,First Approval';//,Approved';
+            OptionMembers = Open,Released,Closed,"Pending For Approval","First Approval",Cancelled;//,Approved;
+            OptionCaption = 'Open,Released,Closed,Pending For Approval,First Approval,Cancelled';//,Approved';
             Editable = false;
         }
         field(50115; "Release User ID"; Code[50])
@@ -184,6 +184,11 @@ table 50022 "Indent Header"
             OptionMembers = " ",Material,Service;
             OptionCaption = ' ,Material,Service';
             Description = 'PCPL-0070';
+        }
+        field(50132; "PO Cancelled"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Description = 'PCPL-064 15Dec2023';
         }
     }
 

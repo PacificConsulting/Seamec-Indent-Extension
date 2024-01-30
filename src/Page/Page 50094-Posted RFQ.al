@@ -32,6 +32,11 @@ page 50094 "Archive RFQ"
                 {
                     ApplicationArea = All;
                 }
+                field("PO Cancelled"; Rec."PO Cancelled")
+                {
+                    ApplicationArea = all;
+
+                }
 
             }
         }

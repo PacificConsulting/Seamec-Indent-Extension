@@ -17,6 +17,7 @@ pageextension 50133 PurchaseOrderListExt extends "Purchase Order List"
                 ApplicationArea = all;
             }
         }
+
     }
 
     actions

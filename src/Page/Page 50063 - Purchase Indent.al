@@ -374,6 +374,45 @@ page 50063
                         Error('Your status is alredy %1', Rec.Status);
                 end;
             }
+            action("Indent Cancellation") //pcpl-064 12dec2023
+            {
+                Caption = 'Indent Cancellation';
+                Image = Cancel;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                ApplicationArea = all;
+
+                trigger OnAction()
+                var
+                    RecIndentHeader: Record "Indent Header";
+                    Usersetup_1: Record "User Setup";
+                begin
+                    if Usersetup_1.Get(UserId) then begin
+                        if Usersetup_1."Manual Indent Cancellation" = false then
+                            Error('You do not have Permission');
+                    end;
+                    if Confirm('Do you want to Cancelled this Indent', true) then begin
+                        RecIndentHeader.Reset();
+                        RecIndentHeader.SetRange("Entry Type", RecIndentHeader."Entry Type"::Indent);
+                        RecIndentHeader.SetRange("No.", Rec."No.");
+                        RecIndentHeader.SetFilter(Status, '<>Closed');
+                        RecIndentHeader.SetRange("Po Created", false);
+                        if RecIndentHeader.FindFirst() then begin
+                            //repeat
+                            RecIndentHeader.Status := RecIndentHeader.Status::Cancelled;
+                            RecIndentHeader."Po Created" := true;
+                            RecIndentHeader.Modify();
+                            CurrPage.Close();
+                            Message('Indent Cancelled Successfully');
+                            // CurrPage.Update();
+                            // until RecIndentHeader.Next() = 0;
+
+                        end;
+
+                    end;
+                end;
+            }
 
         }
     }
@@ -508,5 +547,6 @@ page 50063
         RecUser: Record 91;
         TmpLocCode: Text;
         HasIncomingDocument: Boolean;
+
 }
 

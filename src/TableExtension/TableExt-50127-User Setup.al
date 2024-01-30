@@ -36,6 +36,22 @@ tableextension 50127 User_setup_ext extends "User Setup"
             DataClassification = ToBeClassified;
             Description = 'PCPl-064 16oct2023';
         }
+        field(50109; "Manual Indent Cancellation"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Description = 'PCPl-064 12dec2023';
+
+        }
+        field(50110; "Manual RFQ Cancellation"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Description = 'PCPl-064 12dec2023';
+        }
+        field(50111; "Manual PO Cancellation"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Description = 'PCPl-064 12dec2023';
+        }
 
 
     }

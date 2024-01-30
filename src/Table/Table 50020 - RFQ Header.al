@@ -32,8 +32,8 @@ table 50020 "RFQ Header"
         }
         field(6; Status; Option)
         {
-            OptionCaption = 'Open,Released';
-            OptionMembers = Open,Released;
+            OptionCaption = 'Open,Released,Cancelled';
+            OptionMembers = Open,Released,Cancelled;
         }
         field(7; "Approval Status"; Option)
         {
@@ -70,6 +70,11 @@ table 50020 "RFQ Header"
         field(13; IsQuotationSumbit; Boolean)
         {
             DataClassification = ToBeClassified;
+        }
+        field(14; "PO Cancelled"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Description = 'PCPL-064';
         }
     }
 

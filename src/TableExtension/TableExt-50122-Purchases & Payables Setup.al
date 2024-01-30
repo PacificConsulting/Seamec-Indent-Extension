@@ -19,6 +19,10 @@ tableextension 50122 Purch_Pay_setup_ext extends "Purchases & Payables Setup"
         {
             DataClassification = ToBeClassified;
         }
+        field(50106; "Purchase Indent Deletion Date"; DateFormula)
+        {
+            DataClassification = ToBeClassified;
+        }
 
     }
 
